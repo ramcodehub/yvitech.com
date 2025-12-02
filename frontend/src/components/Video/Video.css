@@ -1,0 +1,205 @@
+.featured-services .swiper {
+  width: 100%;
+  height: 600px;
+  padding: 0 25px;
+  position: relative;
+}
+.brochure a{
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid white;
+  font-family: Inter, 'Arial Narrow Bold', sans-serif;
+}
+
+.brochure a:hover{
+  color: black;
+  background: white;
+}
+
+@media (max-width: 1200px) {
+  .featured-services .swiper {
+    padding: 0 25px;
+    height: 600px;
+  }
+}
+
+@media (max-width: 992px) {
+  .featured-services .swiper {
+    padding: 0 20px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-services .swiper {
+    padding: 0 15px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 576px) {
+  .featured-services .swiper {
+    padding: 0 10px;
+    height: 300px;
+  }
+  .download-brochure{
+    flex-direction: column;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 400px) {
+  .featured-services .swiper {
+    padding: 0 5px;
+    height: 250px;
+  }
+}
+
+.featured-services .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.featured-services .offering-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.featured-services .offering-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  margin: 0 auto;
+}
+
+.featured-services .swiper-pagination {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.featured-services .swiper-pagination-bullet {
+  background: #fff;
+  opacity: 0.7;
+  width: 12px;
+  height: 12px;
+}
+
+.featured-services .swiper-pagination-bullet-active {
+  background: var(--color-primary);
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Navigation arrows */
+.featured-services .swiper-button-next,
+.featured-services .swiper-button-prev {
+  color: white;
+  background: var(--color-primary);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+  cursor: pointer;
+  position: absolute;
+}
+
+.featured-services .swiper-button-next:after,
+.featured-services .swiper-button-prev:after {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.featured-services .swiper-button-next:hover,
+.featured-services .swiper-button-prev:hover {
+  
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Responsive arrow adjustments */
+@media (max-width: 1200px) {
+  .featured-services .swiper-button-next,
+  .featured-services .swiper-button-prev {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .featured-services .swiper-button-next,
+  .featured-services .swiper-button-prev {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .featured-services .swiper-button-next:after,
+  .featured-services .swiper-button-prev:after {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-services .swiper-button-next,
+  .featured-services .swiper-button-prev {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 576px) {
+  .featured-services .swiper-button-next,
+  .featured-services .swiper-button-prev {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  .featured-services .swiper-button-next:after,
+  .featured-services .swiper-button-prev:after {
+    font-size: 16px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 400px) {
+  .featured-services .swiper-button-next,
+  .featured-services .swiper-button-prev {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+  
+  .featured-services .swiper-button-next:after,
+  .featured-services .swiper-button-prev:after {
+    font-size: 14px;
+  }
+}
+
+/* Ensure arrows are visible on all devices */
+@media (max-width: 768px) {
+  .featured-services .swiper-button-next,
+  .featured-services .swiper-button-prev {
+    opacity: 1;
+  }
+}

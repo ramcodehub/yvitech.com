@@ -1,0 +1,24 @@
+.sap p{
+    font-size: 1.25rem;
+    text-align: justify;
+}
+.sap li{
+  font-size: 1.25rem;
+  padding: 0.5rem 0;
+}
+
+@media (max-width:768px){
+  .sap2{
+    flex-direction: column !important;
+  }
+  .sap2{
+    display: block !important;
+  }
+}
+@media (max-width:576px) {
+  
+  .sap2 img{
+    width: 320px !important;
+  }
+  
+}
