@@ -4,7 +4,7 @@ import ContactUsImage from '../../assets/img/ContactUs.jpg'
 import OracleHCM from '../../assets/img/OracleHCM.jpeg'
 import OracleSCM from '../../assets/img/OracleSCM.jpeg'
 import OracleFinancials from '../../assets/img/Oracle-Financials.jpg'
-import OracleERp from '../../assets/img/OracleERp.png'
+import OracleERp from '../../assets/img/OracleERP.PNG'
 import DataAi from '../../assets/img/DataAI.png'
 import RPAServices from '../../assets/img/RPAServices.jpg'
 import UX from '../../assets/img/UX.jpg'
@@ -20,7 +20,7 @@ const Banner = ({ headingText, content, imageName }) => {
         'OracleHCM.jpg' : OracleHCM,
         'OracleSCM.jpeg' : OracleSCM,
         'OracleFinancials.jpg' : OracleFinancials,
-        'OracleERp.png' : OracleERp,
+        'OracleERp.PNG' : OracleERp,
         'DataAi.png' : DataAi,
         'RPAServices.jpg' : RPAServices,
         'UX.jpg' : UX,
