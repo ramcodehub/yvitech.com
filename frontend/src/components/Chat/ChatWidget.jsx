@@ -131,7 +131,7 @@ const ChatWidget = () => {
 
     try {
       // Send message to backend
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/api/chat/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
