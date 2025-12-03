@@ -2,11 +2,3 @@
   base = "frontend/"
   publish = "dist"
   command = "npm run build"
-
-[functions]
-  node_version = "20"
-
-[dev]
-  command = "npm run dev"
-  port = 5173
-  targetPort = 5173
