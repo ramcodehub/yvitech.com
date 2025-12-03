@@ -22,29 +22,29 @@ const DigitalMarketing = () => {
                    <img src={DigiBabuLogo} alt="Marketing" />
                 </div>
             </div>
-        <section id="featured-services" class="featured-services">
+        <section id="featured-services" className="featured-services">
 
-            <div class="container">
-                <div class="section-title">
+            <div className="container">
+                <div className="section-title">
                 <h2>Our Services </h2>
                 <p>Include</p>
                 </div>
 
-            <div id="values" class="values">
+            <div id="values" className="values">
 
-                <div class="container aos-init aos-animate" data-aos="fade-up">
+                <div className="container aos-init aos-animate" data-aos="fade-up">
                 
-                    <div class="row">
+                    <div className="row">
                 
-                    <div class="col-lg-12 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-                        <div class="box" style={{backgroundColor: 'lightgrey', textAlign: 'left'}}>
-                            <p class="imp_msg">	At Dizi Babu Soft Solutions, we combine strategic expertise with advanced Generative AI technology to provide a comprehensive range of digital marketing services  </p>
+                    <div className="col-lg-12 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                        <div className="box" style={{backgroundColor: 'lightgrey', textAlign: 'left'}}>
+                            <p className="imp_msg">	At Dizi Babu Soft Solutions, we combine strategic expertise with advanced Generative AI technology to provide a comprehensive range of digital marketing services  </p>
                         </div>
                     </div>
                     </div>
                 </div> 
                 </div>
-                <div class="row gy-4">
+                <div className="row gy-4">
                     <CardOne headingText='AI-Generated Content Development'
                              content="Utilizing Generative AI tools, we produce high-quality, engaging content at scale, including blog articles, social media posts, email newsletters, and advertisement copy, ensuring alignment with your brand voice across all channels."
                              image="AIGeneratedContentDevelopment.jpg"
@@ -72,14 +72,14 @@ const DigitalMarketing = () => {
                 </div>
             </div>
         </section>
-        <section id="featured-services" class="featured-services">
+        <section id="featured-services" className="featured-services">
 
-      <div class="container">
-        <div class="section-title">
+      <div className="container">
+        <div className="section-title">
             <h2>Digital Solutions </h2>
             <p>Why Choose Us?</p>
         </div>
-        <div class="row gy-4">
+        <div className="row gy-4">
             <CardOne headingText='Expertise in Generative AI'
                      content="Our team has specialized knowledge in applying Generative AI to digital marketing, providing you with a competitive edge."
                      image="ExpertiseInGenerativeAI.jpg"
@@ -108,6 +108,7 @@ const DigitalMarketing = () => {
     </div>
     
   )
+
 }
 
 export default DigitalMarketing

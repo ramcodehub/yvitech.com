@@ -31,14 +31,14 @@ const Footer = () => {
                 Address:- Unit No: 709, 7th Floor, Asian Sun City, B-Block, Kondapur, Hyderabad-500084
                 <br/>
                 <br/>
-                <strong><i class="bi bi-telephone pt-1"></i> : </strong> +91-9014986761<br/>
-                <strong><i class="bi bi-envelope"></i> : </strong> info@yvitech.com<br/>
+                <strong><i className="bi bi-telephone pt-1"></i> : </strong> +91-9014986761<br/>
+                <strong><i className="bi bi-envelope"></i> : </strong> info@yvitech.com<br/>
               </p>
               <p><img src={UAE} width='20px'/><br/>
                 Dubai, UAE   <br/>
-                Y V I TECHNOLOGIES L.L.C., 204-59, ALSAFI 1 - 204, Al Mararr, 297-0, 117-229, 29847 96749, Dubai, UAE<br/><br/>
-                <strong><i class="bi bi-whatsapp" style={{color:'green'}}></i> : </strong> +971-566381490<br/>
-                <strong><i class="bi bi-envelope"></i> : </strong> info@yvitech.com<br/>
+                Y V I TECHNOLOGIES L.L.C., 204-59, ALSAFI 1 - 204, Al Mararr, 297-0, 117-229, 29847 96749, Dubai, UAE<br/><br/>
+                <strong><i className="bi bi-whatsapp" style={{color:'green'}}></i> : </strong> +971-566381490<br/>
+                <strong><i className="bi bi-envelope"></i> : </strong> info@yvitech.com<br/>
               </p>
               </div>
             </div>

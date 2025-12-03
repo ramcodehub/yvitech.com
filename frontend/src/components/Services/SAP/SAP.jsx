@@ -55,12 +55,12 @@ const SAP = () => {
         <p>SAP Activate methodology incorporates a standardized work breakdown structure that helps project managers to define and manage project work in a deliverable-oriented, outcome focused manner. It is structured around these key project work streams:</p>
         <div className='w-100 d-flex align-items-center justify-content-start px-4 sap2' style={{gap:'5rem'}}>
           <ul className='list-unstyled'>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Project management</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Solution Design</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Solution Configuration</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Solution Walk through</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Integration Preparation</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Customer Team Enablement</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Project management</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Solution Design</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Solution Configuration</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Solution Walk through</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Integration Preparation</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Customer Team Enablement</li>
           </ul>
           <img src={image} alt="" height='360px' className='rounded-4'/>
         </div>
@@ -80,14 +80,14 @@ const SAP = () => {
         <p>SAP Activate methodology incorporates a standardized work breakdown structure that helps project managers to define and manage project work in a deliverable-oriented, outcome focused manner. It is structured around these key project work streams:</p>
         <div className=' d-flex align-items-center gap-2 justify-content-between sap2'>
           <ul className='list-unstyled'>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Application Development using Net Weaver Developer studio.</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Solutions using RFID and Bard Code Devices and integrating with ERP System.</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Workflow Implementation and related alignment of business tasks for electronic controls and approvals.</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>BW/BI Implementation</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Data Center Management</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Network Management (LAN/WAN)</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>OS Management</li>
-            <li><i class="bi bi-arrow-return-right me-2"></i>Database Admin for Sybase, SQL, Oracle, DB2, HANA</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Application Development using Net Weaver Developer studio.</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Solutions using RFID and Bard Code Devices and integrating with ERP System.</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Workflow Implementation and related alignment of business tasks for electronic controls and approvals.</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>BW/BI Implementation</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Data Center Management</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Network Management (LAN/WAN)</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>OS Management</li>
+            <li><i className="bi bi-arrow-return-right me-2"></i>Database Admin for Sybase, SQL, Oracle, DB2, HANA</li>
           </ul>
           <img src={image1} alt="" className='rounded-4'/>
         </div>

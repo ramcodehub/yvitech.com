@@ -53,7 +53,7 @@ const SAPImplementation = ({
             >
               {points.map((point, index) => (
                 <li key={index} className="mb-2">
-                  <i class="bi bi-arrow-return-right me-2"></i>{point.title}
+                  <i className="bi bi-arrow-return-right me-2"></i>{point.title}
                 </li>
               ))}
             </ul>
