@@ -1,9 +1,9 @@
 import React from 'react'
-import OracleHr from '../../../../assets/img/Oracle_hr.jpg';
-import OracleRT from '../../../../assets/img/oracle_RT.jpeg';
-import OraclePR from '../../../../assets/img/oracle_PR.jpg';
-import HRHelpDesk from '../../../../assets/img/Services-icons/hr-helpdesk.jpg';
-import RPAAll_Industries from '../../../../assets/img/RPAAll_Industries.jpeg'
+import OracleHr from '/src/assets/img/Oracle_hr.jpg';
+import OracleRT from '/src/assets/img/oracle_RT.jpeg';
+import OraclePR from '/src/assets/img/oracle_PR.jpg';
+import HRHelpDesk from '/src/assets/img/Services-icons/hr-helpdesk.jpg';
+import RPAAll_Industries from '/src/assets/img/RPAAll_Industries.jpeg'
 
 const Left = ({headingText,content,module,modules,image}) => {
   const images = {

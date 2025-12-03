@@ -1,6 +1,6 @@
 import Banner from "../Banner/Banner";
 import './About.css'
-import OurApproach from '../../assets/img/OurApproach1.png'
+import OurApproach from '/src/assets/img/OurApproach1.png'
 import './About.css'
 import Video from "../Video/Video";
 import BannerThree from "../Banner3/BannerThree";

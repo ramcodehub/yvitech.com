@@ -3,8 +3,8 @@ import './DigitalMarketing.css'
 import BannerThree from '../../Banner3/BannerThree'
 import CardOne from '../Components/Card1/CardOne'
 import ContactUs from '../Components/ContactUS/ContactUs'
-import DigitalMarketingVid from '../../../assets/Videos/Digital Marketing.mp4'
-import DigiBabuLogo from '../../../assets/img/DIZIBABU.png'
+import DigitalMarketingVid from '/src/assets/Videos/Digital Marketing.mp4'
+import DigiBabuLogo from '/src/assets/img/DIZIBABU.png'
 
 const DigitalMarketing = () => {
   return (

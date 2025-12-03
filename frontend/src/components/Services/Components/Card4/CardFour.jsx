@@ -1,13 +1,13 @@
 import React from 'react'
-import Ba from '../../../../assets/img/Services-icons/ba.svg'
-import Design from '../../../../assets/img/Services-icons/design.svg'
-import Architecture from '../../../../assets/img/Services-icons/architecture.svg'
-import FrontEnd from '../../../../assets/img/Services-icons/front-end.svg' 
-import BackEndRed from '../../../../assets/img/Services-icons/back-end-red.svg'
-import Integration from '../../../../assets/img/Services-icons/integration.svg'
-import TestingType from '../../../../assets/img/Services-icons/testing-type.svg'
-import HelpDesk from '../../../../assets/img/Services-icons/help-desk_1.svg'
-import Support from '../../../../assets/img/Services-icons/support.svg'
+import Ba from '/src/assets/img/Services-icons/ba.svg'
+import Design from '/src/assets/img/Services-icons/design.svg'
+import Architecture from '/src/assets/img/Services-icons/architecture.svg'
+import FrontEnd from '/src/assets/img/Services-icons/front-end.svg'
+import BackEndRed from '/src/assets/img/Services-icons/back-end-red.svg'
+import Integration from '/src/assets/img/Services-icons/integration.svg'
+import TestingType from '/src/assets/img/Services-icons/testing-type.svg'
+import HelpDesk from '/src/assets/img/Services-icons/help-desk_1.svg'
+import Support from '/src/assets/img/Services-icons/support.svg'
 
 const CardFour = ({headingText,content,image,dataAOS}) => {
     const images={

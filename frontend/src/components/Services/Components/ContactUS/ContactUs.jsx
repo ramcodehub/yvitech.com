@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import RequestImage from '../../../../assets/img/request-image.webp'
+import RequestImage from '/src/assets/img/request-image.webp'
 
 const ContactUs = ({headingText,content}) => {
   return (

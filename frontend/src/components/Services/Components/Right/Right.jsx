@@ -1,7 +1,7 @@
 import React from 'react'
-import OracleTM from '../../../../assets/img/Oracle_TM.jpeg';
-import OracleWM from '../../../../assets/img/Oracle_WM.jpeg';
-import OracleAny from '../../../../assets/img/oracle_Any.webp';
+import OracleTM from '/src/assets/img/Oracle_TM.jpeg';
+import OracleWM from '/src/assets/img/Oracle_WM.jpeg';
+import OracleAny from '/src/assets/img/oracle_Any.webp';
 
 const Right = ({headingText,content,module,modules,image}) => {
   const images = {

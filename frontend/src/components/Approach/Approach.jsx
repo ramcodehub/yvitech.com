@@ -1,5 +1,5 @@
 import React from 'react'
-import OurApproach from '../../assets/img/OurApproach.png';
+import OurApproach from '/src/assets/img/OurApproach.png';
 import './Approach.css'
 
 const Approach = () => {
