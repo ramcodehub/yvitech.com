@@ -3,10 +3,6 @@
   publish = "dist/"
   command = "npm run build"
 
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
-  enabled = false
-
 [functions]
   node_version = "20"
 
