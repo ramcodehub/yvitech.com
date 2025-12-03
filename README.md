@@ -112,6 +112,7 @@ The frontend is a React application built with Vite, providing a modern, respons
 The backend is a Node.js/Express server that handles:
 - Email notifications via GoDaddy SMTP
 - Contact form data processing
+- AI chat functionality with Google Gemini API integration
 - API endpoints for frontend communication
 
 ### Database ([Database/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\Database))
@@ -120,12 +121,17 @@ Contains SQL scripts for setting up the Supabase PostgreSQL database:
 - Row Level Security policies
 - Database schema updates
 
+The chat functionality uses two existing tables:
+- `chatbot_knowledge`: Stores categorized knowledge base information
+- `chatbot_logs`: Records chat conversations for analysis
+
 ## 🎨 Features
 
 - **Responsive Design**: Works on all device sizes
 - **Multi-theme Support**: 6 color themes available
 - **Contact Form**: With validation and database storage
 - **Email Notifications**: Automated email responses
+- **AI Chat Assistant**: Intelligent chatbot powered by Google Gemini with knowledge base integration for customer support
 - **Modern UI**: Smooth animations and transitions
 - **SEO Optimized**: Semantic HTML structure
 - **Performance Focused**: Vite-powered fast development

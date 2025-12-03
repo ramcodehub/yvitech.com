@@ -7,6 +7,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import chatRoutes from './routes/chat.js';
 
 // Configure dotenv
 dotenv.config();
@@ -41,6 +42,9 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
+// Enable pre-flight requests for all routes
+app.options('*', cors(corsOptions));
+
 // If FRONTEND_URL is set in environment variables, add it to allowed origins
 if (process.env.FRONTEND_URL) {
   corsOptions.origin.push(process.env.FRONTEND_URL);
@@ -56,6 +60,9 @@ app.use(cors(corsOptions));
 // Enhanced middleware to parse JSON and handle errors
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Chat routes
+app.use('/api/chat', chatRoutes);
 
 // Serve frontend build if it exists
 try {

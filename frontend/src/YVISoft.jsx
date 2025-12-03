@@ -25,6 +25,7 @@ import ManagedServices from "./components/Services/ManagedServices/ManagedServic
 import Arrow from "./components/Arrow/Arrow";
 import Preloader from "./components/Preloader/Preloader";
 import DigitalMarketing from "./components/Services/DigitalMarketing/DigitalMarketing";
+import ChatWidget from "./components/Chat/ChatWidget";
 
 
 const YVISoft = () => {
@@ -62,6 +63,7 @@ const YVISoft = () => {
             <Client/>
             <Footer/>
             <Arrow/>
+            <ChatWidget/>
         </Router>
 
     );

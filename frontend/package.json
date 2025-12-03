@@ -18,7 +18,9 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "ai": "^3.0.0",
+    "@ai-sdk/openai": "^0.0.34"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
