@@ -238,11 +238,40 @@ Environment files contain sensitive information such as:
 - Email passwords
 - Service tokens
 
-Always use `.env.example` files to document required variables without exposing actual values.
+### ⚠️ CRITICAL: Never Commit Sensitive Files!
 
-### Git Hooks
+**Never commit `.env` files to version control!** They contain sensitive credentials that can compromise your systems.
 
-This repository includes a `.gitignore` file that prevents sensitive files from being committed. Always verify that sensitive files are not tracked before pushing changes.
+### 🔐 Environment Variables Security
+
+All sensitive information should be stored in environment variables:
+
+1. Copy `.env.example` to `.env`
+2. Update `.env` with actual values
+3. **Never commit `.env` to version control**
+4. Add `.env` to `.gitignore` (already done)
+
+### 🛡️ Git Protection
+
+This repository includes comprehensive `.gitignore` files that prevent sensitive files from being committed:
+- Root level `.gitignore` protects the entire project
+- Frontend and backend `.gitignore` provide additional protection
+
+Always verify that sensitive files are not tracked before pushing changes:
+```bash
+# Check if sensitive files are tracked
+git ls-files | grep ".env"
+
+# Check git status for uncommitted files
+git status
+```
+
+### 🔍 Security Best Practices
+
+- Regularly audit your repository for sensitive information
+- Rotate API keys periodically
+- Use different API keys for development and production
+- Monitor access logs for unauthorized access attempts
 
 ## 📞 Support
 
