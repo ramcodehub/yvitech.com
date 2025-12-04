@@ -23,6 +23,80 @@ const geminiModel = genAI.getGenerativeModel({
   }
 });
 
+// Function to get dynamic suggestions from database based on response content
+async function getDynamicSuggestions(responseText) {
+  try {
+    const lowerText = responseText.toLowerCase();
+    
+    // Determine the most relevant category based on keywords in the response
+    let category = 'general';
+    
+    if (lowerText.includes('oracle') || lowerText.includes('hcm') || lowerText.includes('scm') || lowerText.includes('financials')) {
+      category = 'oracle';
+    } else if (lowerText.includes('sap') || lowerText.includes('salesforce')) {
+      category = 'sap';
+    } else if (lowerText.includes('managed') || lowerText.includes('support') || lowerText.includes('sla')) {
+      category = 'managed';
+    } else if (lowerText.includes('ai') || lowerText.includes('data') || lowerText.includes('machine learning') || lowerText.includes('analytics')) {
+      category = 'ai';
+    } else if (lowerText.includes('web') || lowerText.includes('mobile') || lowerText.includes('app') || lowerText.includes('development')) {
+      category = 'web';
+    } else if (lowerText.includes('marketing') || lowerText.includes('seo') || lowerText.includes('social')) {
+      category = 'marketing';
+    }
+    
+    // Query the database for suggestions in the determined category
+    const { data: categorySuggestions, error: categoryError } = await supabase
+      .from('chat_suggestions')
+      .select('display_text, full_question')
+      .eq('category', category)
+      .eq('is_active', true)
+      .order('priority', { ascending: false })
+      .limit(4);
+    
+    if (!categoryError && categorySuggestions && categorySuggestions.length > 0) {
+      // Transform to the format expected by the frontend
+      return categorySuggestions.map(suggestion => ({
+        display: suggestion.display_text,
+        full: suggestion.full_question
+      }));
+    }
+    
+    // Fallback to general suggestions if category-specific ones aren't found
+    const { data: generalSuggestions, error: generalError } = await supabase
+      .from('chat_suggestions')
+      .select('display_text, full_question')
+      .eq('category', 'general')
+      .eq('is_active', true)
+      .order('priority', { ascending: false })
+      .limit(4);
+    
+    if (!generalError && generalSuggestions && generalSuggestions.length > 0) {
+      return generalSuggestions.map(suggestion => ({
+        display: suggestion.display_text,
+        full: suggestion.full_question
+      }));
+    }
+    
+    // Final fallback to hardcoded suggestions
+    return [
+      {"display": "Services", "full": "What services do you offer?"},
+      {"display": "Pricing", "full": "Can you provide pricing information?"},
+      {"display": "Contact", "full": "How can I get in touch with your team?"},
+      {"display": "More", "full": "Tell me more about your company"}
+    ];
+  } catch (error) {
+    console.error('Error fetching dynamic suggestions:', error);
+    // Fallback to hardcoded suggestions in case of error
+    return [
+      {"display": "Services", "full": "What services do you offer?"},
+      {"display": "Pricing", "full": "Can you provide pricing information?"},
+      {"display": "Contact", "full": "How can I get in touch with your team?"},
+      {"display": "More", "full": "Tell me more about your company"}
+    ];
+  }
+}
+
 // Chat endpoint
 router.post('/chat', async (req, res) => {
   try {
@@ -38,9 +112,13 @@ router.post('/chat', async (req, res) => {
 
     // Mock response for testing when MOCK_CHAT is enabled
     if (process.env.MOCK_CHAT === 'true') {
+      // Get dynamic suggestions even for mock responses
+      const mockSuggestions = await getDynamicSuggestions("This is a mock response about our services.");
+      
       return res.json({ 
         success: true, 
         response: "This is a mock response for testing purposes. In a production environment, this would be a response from our AI assistant.",
+        suggestions: mockSuggestions,
         sessionId: sessionId || generateSessionId()
       });
     }
@@ -67,7 +145,17 @@ router.post('/chat', async (req, res) => {
     const fullPrompt = SYSTEM_PROMPT + knowledgeBaseInfo + '\n\nUser question: ' + message;
     
     const result = await geminiModel.generateContent(fullPrompt);
-    const aiResponse = result.response.text();
+    let aiResponse = result.response.text();
+
+    // Log the full AI response for debugging
+    console.log('Full AI Response:', aiResponse);
+
+    // Get dynamic suggestions from database based on the AI response
+    const suggestions = await getDynamicSuggestions(aiResponse);
+
+    // Log final response and suggestions
+    console.log('Final response:', aiResponse);
+    console.log('Final suggestions:', suggestions);
 
     // Save chat to Supabase using chatbot_logs table
     const { data, error } = await supabase
@@ -86,10 +174,11 @@ router.post('/chat', async (req, res) => {
       console.error('Error saving chat to Supabase:', error);
     }
 
-    // Return AI response
+    // Return AI response with suggestions
     res.json({ 
       success: true, 
       response: aiResponse,
+      suggestions: suggestions,
       sessionId: sessionId || generateSessionId()
     });
   } catch (error) {

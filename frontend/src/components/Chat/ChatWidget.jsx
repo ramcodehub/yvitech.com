@@ -114,6 +114,12 @@ const ChatWidget = () => {
     }
   };
 
+  // Simple function to convert markdown bold to HTML bold
+  const renderMarkdown = (text) => {
+    // Convert **text** to <strong>text</strong>
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  };
+
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
@@ -150,15 +156,38 @@ const ChatWidget = () => {
           setSessionId(data.sessionId);
         }
 
-        // Add bot response to chat
+        // Add bot response with typing effect
         const botMessage = {
           id: Date.now() + 1,
-          text: data.response,
+          text: '',
+          fullText: data.response,
           isBot: true,
           timestamp: new Date()
         };
 
         setMessages(prev => [...prev, botMessage]);
+        
+        // Simulate typing effect
+        let i = 0;
+        const intervalId = setInterval(() => {
+          if (i < data.response.length) {
+            setMessages(prevMessages => {
+              const updatedMessages = [...prevMessages];
+              const lastMessage = updatedMessages[updatedMessages.length - 1];
+              if (lastMessage.isBot) {
+                updatedMessages[updatedMessages.length - 1] = {
+                  ...lastMessage,
+                  text: data.response.slice(0, i + 1)
+                };
+              }
+              return updatedMessages;
+            });
+            i++;
+          } else {
+            clearInterval(intervalId);
+            setIsLoading(false);
+          }
+        }, 20); // Adjust typing speed here (lower = faster)
       } else {
         throw new Error(data.error || 'Failed to get response');
       }
@@ -174,9 +203,61 @@ const ChatWidget = () => {
       };
       
       setMessages(prev => [...prev, errorMessage]);
-    } finally {
       setIsLoading(false);
     }
+  };
+
+  // Common suggestions based on YVI Tech services (shortened for horizontal display)
+  const commonSuggestions = [
+    { display: "Oracle", full: "Tell me about your Oracle services" },
+    { display: "SAP", full: "What SAP solutions do you offer?" },
+    { display: "AI", full: "What AI solutions do you provide?" },
+    { display: "Web", full: "What web development services do you offer?" }
+  ];
+
+  const handleSuggestionClick = (suggestion) => {
+    setInputValue(suggestion.full);
+    // Auto-focus the input and send the message
+    setTimeout(() => {
+      const sendButton = document.querySelector('.send-button');
+      if (sendButton) {
+        sendButton.click();
+      }
+    }, 100);
+  };
+
+  const getRelevantSuggestions = (lastMessage) => {
+    // Use AI-generated suggestions if available
+    if (lastMessage && lastMessage.isBot && lastMessage.suggestions && lastMessage.suggestions.length > 0) {
+      return lastMessage.suggestions;
+    }
+    
+    // Fallback to static suggestions if no AI suggestions
+    return commonSuggestions;
+  };
+
+  const renderSuggestions = () => {
+    // Only show suggestions when not loading and there are messages
+    if (isLoading || messages.length === 0) return null;
+    
+    // Get the last message to determine context
+    const lastMessage = messages[messages.length - 1];
+    const suggestions = getRelevantSuggestions(lastMessage);
+    
+    return (
+      <div className="suggestions-container">
+        {suggestions.slice(0, 4).map((suggestion, index) => (
+          <button
+            key={index}
+            className="suggestion-button"
+            onClick={() => handleSuggestionClick(suggestion)}
+            disabled={isLoading}
+          >
+            {suggestion.display}
+          </button>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -234,14 +315,18 @@ const ChatWidget = () => {
                 className={`message ${message.isBot ? 'bot' : 'user'}`}
               >
                 <div className="message-content">
-                  {message.text}
+                  {message.isBot ? (
+                    <div dangerouslySetInnerHTML={{ __html: renderMarkdown(message.text) }} />
+                  ) : (
+                    message.text
+                  )}
                 </div>
                 <div className="message-time">
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
             ))}
-            {isLoading && (
+            {isLoading && !(messages.length > 0 && messages[messages.length - 1].isBot) && (
               <div className="message bot">
                 <div className="message-content typing-indicator">
                   <span></span>
@@ -252,6 +337,9 @@ const ChatWidget = () => {
             )}
             <div ref={messagesEndRef} />
           </div>
+          
+          {/* Suggestions Container */}
+          {renderSuggestions()}
           
           <div className="chat-input-container">
             <textarea

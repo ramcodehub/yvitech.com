@@ -145,6 +145,7 @@
   line-height: 1.4;
   white-space: pre-wrap;
   word-break: break-word;
+  transition: all 0.2s ease;
 }
 
 .message-time {
@@ -158,6 +159,7 @@
   display: flex;
   align-items: center;
   padding: 5px 0;
+  min-height: 20px;
 }
 
 .typing-indicator span {
@@ -181,6 +183,47 @@
 @keyframes typing {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
+}
+
+.suggestions-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 0 20px 15px;
+  max-height: 60px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+
+.suggestions-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.suggestion-button {
+  background: transparent; /* Transparent background as requested */
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #555;
+  white-space: nowrap;
+  min-width: fit-content;
+  flex-shrink: 0;
+}
+
+.suggestion-button:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05); /* Light hover effect */
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .chat-input-container {
@@ -250,6 +293,16 @@
     height: 60px;
     z-index: 9999; /* Ensure it's above scroll to top button */
   }
+  
+  .suggestions-container {
+    padding: 0 15px 10px;
+    max-height: 50px;
+  }
+  
+  .suggestion-button {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
 }
 
 /* Mobile-specific adjustments */
@@ -295,6 +348,16 @@
     height: 36px;
     font-size: 14px;
   }
+  
+  .suggestions-container {
+    padding: 0 10px 8px;
+    max-height: 45px;
+  }
+  
+  .suggestion-button {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
 }
 
 /* Large screen adjustments */
@@ -308,6 +371,15 @@
     width: 70px;
     height: 70px;
   }
+  
+  .suggestions-container {
+    max-height: 60px;
+  }
+  
+  .suggestion-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }
 
 /* Tablet landscape mode */
@@ -315,6 +387,10 @@
   .chat-window {
     width: 350px;
     height: 500px;
+  }
+  
+  .suggestions-container {
+    max-height: 55px;
   }
 }
 
@@ -366,6 +442,16 @@
     width: 32px;
     height: 32px;
     font-size: 12px;
+  }
+  
+  .suggestions-container {
+    padding: 0 8px 6px;
+    max-height: 40px;
+  }
+  
+  .suggestion-button {
+    padding: 3px 6px;
+    font-size: 9px;
   }
 }
 
