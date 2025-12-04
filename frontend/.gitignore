@@ -32,6 +32,9 @@ Thumbs.db
 .env.test.local
 .env.production.local
 .env.*.local
+.env.example
+.env.email
+.htaccess
 
 # Temporary files
 *.tmp
