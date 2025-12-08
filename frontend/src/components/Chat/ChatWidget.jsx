@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './ChatWidget.css';
 import chatIcon from '../../assets/img/aiassistant.png';
+import './ChatWidget.css';
+import { CATEGORIES, MORE_CATEGORIES } from '../../data/promptCategories';
+import PromptList from './PromptList'; // Add this import
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,9 +10,65 @@ const ChatWidget = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null); // This will track if we're showing a prompt list
+  const [showMore, setShowMore] = useState(false);
+  const [isListening, setIsListening] = useState(false); // Voice typing state
+  const recognitionRef = useRef(null); // Speech recognition reference
   const messagesEndRef = useRef(null);
 
-  // Scroll to bottom of messages
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(result => result[0])
+          .map(result => result.transcript)
+          .join('');
+        setInputValue(transcript);
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error', event.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
+
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+    // Reset category selection when closing
+    if (isOpen) {
+      setSelectedCategory(null);
+      setShowMore(false);
+    }
+  };
+
+  const resetChat = () => {
+    setMessages([]);
+    setInputValue('');
+    setSessionId(null);
+    setSelectedCategory(null);
+    setShowMore(false);
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -18,90 +76,6 @@ const ChatWidget = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  // Handle window resize and mobile-specific behaviors
-  useEffect(() => {
-    const handleResize = () => {
-      // On mobile devices, close chat when resizing to prevent UI issues
-      if (window.innerWidth < 768 && isOpen) {
-        // Optionally close chat on resize for better mobile experience
-        // setIsOpen(false);
-      }
-      
-      // Adjust chat window size based on screen dimensions
-      const chatWindow = document.querySelector('.chat-window');
-      if (chatWindow && isOpen) {
-        // Ensure chat window fits within viewport
-        const maxHeight = window.innerHeight * 0.8;
-        chatWindow.style.maxHeight = `${maxHeight}px`;
-      }
-    };
-
-    // Handle virtual keyboard on mobile devices
-    const handleFocusIn = () => {
-      if (isOpen && window.innerWidth < 768) {
-        // Scroll chat window to bottom when input is focused
-        setTimeout(() => {
-          scrollToBottom();
-        }, 300);
-      }
-    };
-
-    // Handle escape key to close chat
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        toggleChat();
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('focusin', handleFocusIn);
-    window.addEventListener('keydown', handleKeyDown);
-    
-    // Initial setup
-    handleResize();
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('focusin', handleFocusIn);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen]);
-
-  // Initialize chat with welcome message
-  useEffect(() => {
-    setMessages([
-      {
-        id: 1,
-        text: "Hello! I'm your AI assistant. How can I help you today?",
-        isBot: true,
-        timestamp: new Date()
-      }
-    ]);
-  }, []);
-
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-    
-    // Focus management for accessibility
-    if (!isOpen) {
-      // Chat is opening, focus on input
-      setTimeout(() => {
-        const input = document.querySelector('.chat-input-container textarea');
-        if (input) {
-          input.focus();
-        }
-      }, 100);
-    } else {
-      // Chat is closing, focus back on toggle button
-      setTimeout(() => {
-        const toggleButton = document.querySelector('.chat-toggle-button');
-        if (toggleButton) {
-          toggleButton.focus();
-        }
-      }, 100);
-    }
-  };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -156,12 +130,13 @@ const ChatWidget = () => {
           setSessionId(data.sessionId);
         }
 
-        // Add bot response with typing effect
+        // Add bot response with typing effect and suggestions
         const botMessage = {
           id: Date.now() + 1,
           text: '',
           fullText: data.response,
           isBot: true,
+          suggestions: data.suggestions || [], // Include suggestions with the message
           timestamp: new Date()
         };
 
@@ -204,6 +179,33 @@ const ChatWidget = () => {
       
       setMessages(prev => [...prev, errorMessage]);
       setIsLoading(false);
+    }
+  };
+
+  // Handler for when a prompt is selected from the list
+  const handlePromptSelect = (prompt) => {
+    setInputValue(prompt);
+    setSelectedCategory(null); // Hide the prompt list
+    // Auto-focus the input and send the message
+    setTimeout(() => {
+      const sendButton = document.querySelector('.send-button');
+      if (sendButton) {
+        sendButton.click();
+      }
+    }, 100);
+  };  // Toggle voice typing
+  const toggleVoiceTyping = () => {
+    if (!recognitionRef.current) {
+      alert('Speech recognition is not supported in your browser.');
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
     }
   };
 
@@ -292,78 +294,173 @@ const ChatWidget = () => {
         >
           <div className="chat-header" id="chat-header">
             <h3>YVI Tech Assistant</h3>
-            <button 
-              className="close-button" 
-              onClick={toggleChat}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  toggleChat();
-                }
-              }}
-              aria-label="Close chat"
-              tabIndex={0}
-            >
-              <span aria-hidden="true">✕</span>
-            </button>
-          </div>
-          
-          <div className="chat-messages">
-            {messages.map((message) => (
-              <div 
-                key={message.id} 
-                className={`message ${message.isBot ? 'bot' : 'user'}`}
+            {/* Refresh and Close Buttons - COMPACT HEADER - SIDE BY SIDE */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+              <button 
+                className="refresh-button" 
+                onClick={resetChat}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    resetChat();
+                  }
+                }}
+                aria-label="Refresh chat"
+                tabIndex={0}
               >
-                <div className="message-content">
-                  {message.isBot ? (
-                    <div dangerouslySetInnerHTML={{ __html: renderMarkdown(message.text) }} />
-                  ) : (
-                    message.text
-                  )}
-                </div>
-                <div className="message-time">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </div>
-              </div>
-            ))}
-            {isLoading && !(messages.length > 0 && messages[messages.length - 1].isBot) && (
-              <div className="message bot">
-                <div className="message-content typing-indicator">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
+                <span aria-hidden="true">↻</span>
+              </button>
+              <button 
+                className="close-button" 
+                onClick={toggleChat}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleChat();
+                  }
+                }}
+                aria-label="Close chat"
+                tabIndex={0}
+              >
+                <span aria-hidden="true">✕</span>
+              </button>
+            </div>
           </div>
           
-          {/* Suggestions Container */}
-          {renderSuggestions()}
+          {/* Render InitialScreen when there are no messages and not loading, outside the scrolling container */}
+          {messages.length === 0 && !isLoading ? (
+            <div className="initial-screen-wrapper">
+              {/* Show prompt list if a category is selected, otherwise show initial screen */}
+              {selectedCategory ? (
+                <PromptList 
+                  category={selectedCategory}
+                  onPromptSelect={handlePromptSelect}
+                  onBack={() => setSelectedCategory(null)}
+                />
+              ) : (
+                <>
+                  {/* Radial background - COMPACT HEIGHT */}
+                  <div className="initial-bg"></div>
+                  
+                  {/* Heading + Subtitle - COMPACT SPACING */}
+                  <h1 className="initial-title">Welcome to YVI Assistant</h1>
+                  
+                  <p className="initial-subtitle">
+                    I'm your intelligent assistant for everything about YVI Technologies.
+                    Ask me anything.
+                  </p>
+                  
+                  {/* Category grid - CHATGPT STYLE COMPACT GRID */}
+                  <div className="initial-grid">
+                    {CATEGORIES.map((category) => (
+                      <button
+                        key={category.id}
+                        onClick={() => setSelectedCategory(category)} // Changed from sending prompt directly
+                        className="initial-btn"
+                      >
+                        <span>{category.icon}</span>
+                        <span>{category.title}</span>
+                      </button>
+                    ))}
+                    
+                    {/* More button */}
+                    <button
+                      onClick={() => setShowMore(!showMore)}
+                      className="initial-btn"
+                    >
+                      <span>➕</span>
+                      <span>More</span>
+                    </button>
+                  </div>
+                  
+                  {/* More categories grid - CHATGPT STYLE EXPANSION */}
+                  {showMore && (
+                    <div className="initial-grid fade-up">
+                      {MORE_CATEGORIES.map((category) => (
+                        <button
+                          key={category.id}
+                          onClick={() => setSelectedCategory(category)} // Changed from sending prompt directly
+                          className="initial-btn"
+                        >
+                          <span>{category.icon}</span>
+                          <span>{category.title}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          ) : (            <>
+              <div className="chat-messages">
+                {/* Render messages when there are messages or loading */}
+                {messages.map((message) => (
+                  <div 
+                    key={message.id} 
+                    className={`message ${message.isBot ? 'bot' : 'user'}`}
+                  >
+                    <div className="message-content">
+                      {message.isBot ? (
+                        <div dangerouslySetInnerHTML={{ __html: renderMarkdown(message.text) }} />
+                      ) : (
+                        message.text
+                      )}
+                    </div>
+                    <div className="message-time">
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </div>
+                ))}
+                {isLoading && !(messages.length > 0 && messages[messages.length - 1].isBot) && (
+                  <div className="message bot">
+                    <div className="message-content typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+              
+              {/* Suggestions Container */}
+              {messages.length > 0 && renderSuggestions()}
+            </>
+          )}
           
           <div className="chat-input-container">
             <textarea
               value={inputValue}
               onChange={handleInputChange}
               onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
+              placeholder="Ask me anything about YVI Tech"
               disabled={isLoading}
               rows="1"
-              aria-label="Type your message"
+              aria-label="Ask me anything about YVI Tech"
               // Mobile-friendly attributes
               inputMode="text"
               enterKeyHint="send"
             />
-            <button 
-              onClick={sendMessage} 
-              disabled={isLoading || !inputValue.trim()}
-              className="send-button"
-              aria-label="Send message"
-              // Prevent form submission on Enter in button
-              type="button"
-            >
-              <i className="bi bi-send"></i>
-            </button>
+            <div className="input-buttons-container">
+              <button 
+                className={`voice-button ${isListening ? 'listening' : ''}`}
+                onClick={toggleVoiceTyping}
+                aria-label={isListening ? "Stop voice input" : "Voice input"}
+                type="button"
+              >
+                <i className={`bi ${isListening ? 'bi-mic-fill' : 'bi-mic'}`}></i>
+              </button>
+              <button 
+                onClick={sendMessage} 
+                disabled={isLoading || !inputValue.trim()}
+                className="send-button"
+                aria-label="Send message"
+                // Prevent form submission on Enter in button
+                type="button"
+              >
+                <i className="bi bi-send"></i>
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -23,6 +23,20 @@ const geminiModel = genAI.getGenerativeModel({
   }
 });
 
+// Initialize embedding model for query embeddings
+const embeddingModel = genAI.getGenerativeModel({ model: "embedding-001" });
+
+// Function to generate embedding for text
+async function generateEmbedding(text) {
+  try {
+    const result = await embeddingModel.embedContent(text);
+    return result.embedding.values;
+  } catch (error) {
+    console.error('Error generating embedding:', error);
+    throw error;
+  }
+}
+
 // Function to get dynamic suggestions from database based on response content
 async function getDynamicSuggestions(responseText) {
   try {
@@ -37,26 +51,31 @@ async function getDynamicSuggestions(responseText) {
       category = 'sap';
     } else if (lowerText.includes('managed') || lowerText.includes('support') || lowerText.includes('sla')) {
       category = 'managed';
-    } else if (lowerText.includes('ai') || lowerText.includes('data') || lowerText.includes('machine learning') || lowerText.includes('analytics')) {
+    } else if (lowerText.includes('ai') || lowerText.includes('data') || lowerText.includes('machine learning') || lowerText.includes('analytics') || lowerText.includes('artificial intelligence')) {
       category = 'ai';
-    } else if (lowerText.includes('web') || lowerText.includes('mobile') || lowerText.includes('app') || lowerText.includes('development')) {
+    } else if (lowerText.includes('web') || lowerText.includes('mobile') || lowerText.includes('app') || lowerText.includes('development') || lowerText.includes('website')) {
       category = 'web';
-    } else if (lowerText.includes('marketing') || lowerText.includes('seo') || lowerText.includes('social')) {
+    } else if (lowerText.includes('marketing') || lowerText.includes('seo') || lowerText.includes('social') || lowerText.includes('digital')) {
       category = 'marketing';
     }
     
     // Query the database for suggestions in the determined category
+    // Get more suggestions than needed so we can randomize selection
     const { data: categorySuggestions, error: categoryError } = await supabase
       .from('chat_suggestions')
       .select('display_text, full_question')
       .eq('category', category)
       .eq('is_active', true)
       .order('priority', { ascending: false })
-      .limit(4);
+      .limit(10); // Get more suggestions to allow for randomization
     
     if (!categoryError && categorySuggestions && categorySuggestions.length > 0) {
+      // Randomize the selection of suggestions
+      const shuffled = categorySuggestions.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 4);
+      
       // Transform to the format expected by the frontend
-      return categorySuggestions.map(suggestion => ({
+      return selected.map(suggestion => ({
         display: suggestion.display_text,
         full: suggestion.full_question
       }));
@@ -69,10 +88,14 @@ async function getDynamicSuggestions(responseText) {
       .eq('category', 'general')
       .eq('is_active', true)
       .order('priority', { ascending: false })
-      .limit(4);
+      .limit(10); // Get more suggestions to allow for randomization
     
     if (!generalError && generalSuggestions && generalSuggestions.length > 0) {
-      return generalSuggestions.map(suggestion => ({
+      // Randomize the selection of suggestions
+      const shuffled = generalSuggestions.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 4);
+      
+      return selected.map(suggestion => ({
         display: suggestion.display_text,
         full: suggestion.full_question
       }));
@@ -119,36 +142,95 @@ router.post('/chat', async (req, res) => {
         success: true, 
         response: "This is a mock response for testing purposes. In a production environment, this would be a response from our AI assistant.",
         suggestions: mockSuggestions,
+        responseSource: "gemini", // Default to gemini for mock
         sessionId: sessionId || generateSessionId()
       });
     }
 
-    // Query knowledge base for relevant information
-    let knowledgeBaseInfo = '';
+    // Generate embedding for the user query
+    let queryEmbedding;
     try {
-      const { data: knowledgeData, error: knowledgeError } = await supabase
-        .from('chatbot_knowledge')
-        .select('category, title, description')
-        .limit(3);
-
-      if (!knowledgeError && knowledgeData && knowledgeData.length > 0) {
-        knowledgeBaseInfo = '\n\nRelevant information from our knowledge base:\n';
-        knowledgeData.forEach(item => {
-          knowledgeBaseInfo += `- ${item.title}: ${item.description}\n`;
-        });
-      }
-    } catch (kbError) {
-      console.log('Knowledge base query error (non-fatal):', kbError.message);
+      queryEmbedding = await generateEmbedding(message);
+    } catch (embeddingError) {
+      console.error('Error generating query embedding:', embeddingError);
+      // Fallback to LLM if embedding fails
+      queryEmbedding = null;
     }
 
-    // Generate AI response with system prompt and knowledge base info using Gemini
-    const fullPrompt = SYSTEM_PROMPT + knowledgeBaseInfo + '\n\nUser question: ' + message;
-    
-    const result = await geminiModel.generateContent(fullPrompt);
-    let aiResponse = result.response.text();
+    let responseSource = "gemini";
+    let aiResponse = "";
+    let matchScore = 0;
+
+    // If we successfully generated an embedding, perform vector similarity search
+    if (queryEmbedding) {
+      try {
+        // Perform vector similarity search against chatbot_knowledge
+        const { data: similarityResults, error: similarityError } = await supabase
+          .rpc('match_documents', {
+            query_embedding: queryEmbedding,
+            match_threshold: 0.80, // 80% similarity threshold
+            match_count: 1
+          });
+
+        if (!similarityError && similarityResults && similarityResults.length > 0) {
+          const bestMatch = similarityResults[0];
+          matchScore = bestMatch.similarity;
+          
+          // If score > 0.80, return DB answer
+          if (matchScore > 0.80) {
+            aiResponse = bestMatch.description || bestMatch.content || "No detailed information available.";
+            responseSource = "database";
+          }
+        }
+      } catch (similarityError) {
+        console.log('Vector similarity search error (non-fatal):', similarityError.message);
+        // If RPC function doesn't exist, we'll fall back to LLM
+        if (similarityError.message && similarityError.message.includes('function')) {
+          console.log('Vector similarity function not found, falling back to LLM');
+        }
+      }
+    }
+
+    // If we didn't get a high-confidence match from the database, fallback to Gemini LLM
+    if (responseSource === "gemini") {
+      // Query knowledge base for relevant information (fallback method)
+      let knowledgeBaseInfo = '';
+      try {
+        const { data: knowledgeData, error: knowledgeError } = await supabase
+          .from('chatbot_knowledge')
+          .select('category, title, description')
+          .limit(3);
+
+        if (!knowledgeError && knowledgeData && knowledgeData.length > 0) {
+          knowledgeBaseInfo = '\n\nRelevant information from our knowledge base:\n';
+          knowledgeData.forEach(item => {
+            knowledgeBaseInfo += `- ${item.title}: ${item.description}\n`;
+          });
+        }
+      } catch (kbError) {
+        console.log('Knowledge base query error (non-fatal):', kbError.message);
+      }
+
+      // Generate AI response with system prompt and knowledge base info using Gemini
+      const fullPrompt = SYSTEM_PROMPT + knowledgeBaseInfo + '\n\nUser question: ' + message;
+      
+      const result = await geminiModel.generateContent(fullPrompt);
+      aiResponse = result.response.text();
+    }
 
     // Log the full AI response for debugging
     console.log('Full AI Response:', aiResponse);
+
+    // Remove any JSON suggestions that might be at the end of the response
+    try {
+      // Simple pattern to match the JSON suggestions format
+      const suggestionsIndex = aiResponse.lastIndexOf('{"suggestions"');
+      if (suggestionsIndex !== -1) {
+        aiResponse = aiResponse.substring(0, suggestionsIndex).trim();
+      }
+    } catch (error) {
+      console.log('Could not remove potential JSON suggestions from AI response');
+    }
 
     // Get dynamic suggestions from database based on the AI response
     const suggestions = await getDynamicSuggestions(aiResponse);
@@ -166,6 +248,8 @@ router.post('/chat', async (req, res) => {
           bot_response: aiResponse,
           matched_category: 'general',
           source: 'web_widget',
+          match_score: matchScore,
+          response_source: responseSource,
           created_at: new Date().toISOString()
         }
       ]);
@@ -174,11 +258,12 @@ router.post('/chat', async (req, res) => {
       console.error('Error saving chat to Supabase:', error);
     }
 
-    // Return AI response with suggestions
+    // Return AI response with suggestions and metadata
     res.json({ 
       success: true, 
       response: aiResponse,
       suggestions: suggestions,
+      responseSource: responseSource,
       sessionId: sessionId || generateSessionId()
     });
   } catch (error) {

@@ -3,7 +3,7 @@
 
 export const API_CONFIG = {
   // 🔧 IMPORTANT: Replace with your actual deployed backend URL
-  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || 'https://your-backend-url.onrender.com',
+  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || 'https://yvi-soft-email-server.onrender.com',
 
   getApiUrl: function(endpoint = '/api/send-email') {
     // For production, use the Node.js endpoint

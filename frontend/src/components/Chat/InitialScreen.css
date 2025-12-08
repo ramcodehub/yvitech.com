@@ -1,0 +1,399 @@
+.initial-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.initial-screen-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* Logo Section */
+.logo-container {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-circle {
+  background: white;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.logo-circle:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.logo-gradient {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Headline */
+.headline {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+/* Subheading */
+.subheading {
+  color: #4b5563;
+  text-align: center;
+  margin-bottom: 1rem;
+  max-width: 100%;
+  line-height: 1.4;
+  font-size: 0.875rem;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Suggestions Grid */
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 0.25rem;
+}
+
+.suggestion-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0.75rem;
+  text-align: left;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-width: 0;
+}
+
+.suggestion-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9fafb;
+}
+
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.suggestion-icon {
+  font-size: 1.25rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suggestion-title {
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+
+.suggestion-prompt {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0;
+  flex-grow: 1;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.15s ease-out forwards;
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.15s ease-out forwards;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .initial-screen {
+    padding: 0.25rem;
+  }
+  
+  .initial-screen-container {
+    padding: 0 0.5rem;
+  }
+  
+  .headline {
+    font-size: 1.125rem;
+  }
+  
+  .subheading {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0 0.25rem;
+  }
+  
+  .suggestions-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0;
+  }
+  
+  .suggestion-card {
+    padding: 0.5rem;
+    border-radius: 12px;
+  }
+  
+  .logo-container {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .logo-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .logo-gradient {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .logo-text {
+    font-size: 0.875rem;
+  }
+  
+  .suggestion-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    font-size: 0.8125rem;
+  }
+  
+  .suggestion-icon {
+    font-size: 1rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .initial-screen {
+    padding: 0.125rem;
+  }
+  
+  .headline {
+    font-size: 1rem;
+  }
+  
+  .subheading {
+    font-size: 0.6875rem;
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+  
+  .suggestions-grid {
+    gap: 0.25rem;
+  }
+  
+  .suggestion-card {
+    padding: 0.5rem;
+    border-radius: 12px;
+  }
+  
+  .suggestion-title {
+    font-size: 0.75rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  
+  .suggestion-prompt {
+    font-size: 0.6875rem;
+  }
+  
+  .logo-container {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .logo-circle {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .logo-gradient {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .logo-text {
+    font-size: 0.75rem;
+  }
+  
+  .suggestion-icon {
+    font-size: 1rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1024px) {
+  .initial-screen-container {
+    max-width: 100%;
+  }
+  
+  .suggestions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .headline {
+    font-size: 1.5rem;
+  }
+  
+  .subheading {
+    font-size: 1rem;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1280px) {
+  .initial-screen-container {
+    max-width: 100%;
+  }
+  
+  .suggestions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .headline {
+    font-size: 1.75rem;
+  }
+  
+  .subheading {
+    font-size: 1.125rem;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .headline {
+    font-size: 0.875rem;
+  }
+  
+  .subheading {
+    font-size: 0.625rem;
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+  
+  .suggestion-title {
+    font-size: 0.75rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  
+  .suggestion-prompt {
+    font-size: 0.625rem;
+  }
+  
+  .logo-container {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .logo-circle {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .logo-gradient {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .logo-text {
+    font-size: 0.75rem;
+  }
+  
+  .suggestion-icon {
+    font-size: 0.875rem;
+  }
+}

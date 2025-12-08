@@ -15,10 +15,28 @@
   transition: all 0.4s;
 }
 
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .scroll-top {
+    left: 10px;
+    bottom: 10px;
+    width: 36px;
+    height: 36px;
+    z-index: 998; /* Ensure visibility on mobile */
+  }
+}
+
 .scroll-top i {
   font-size: 24px;
   color: var(--color-white);
   line-height: 0;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .scroll-top i {
+    font-size: 20px;
+  }
 }
 
 .scroll-top:hover {
@@ -29,4 +47,26 @@
 .scroll-top.active {
   visibility: visible;
   opacity: 1;
+}
+
+/* Ensure scroll to top button is visible when chat widget is open on mobile */
+@media (max-width: 768px) {
+  .chat-window ~ .scroll-top {
+    z-index: 997; /* Between chat widget and other elements */
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .scroll-top {
+    left: 8px;
+    bottom: 8px;
+    width: 32px;
+    height: 32px;
+    z-index: 998;
+  }
+  
+  .scroll-top i {
+    font-size: 18px;
+  }
 }

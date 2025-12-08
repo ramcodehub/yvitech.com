@@ -12,16 +12,26 @@
     "deploy:backend": "node deploy-backend.js",
     "deploy:frontend": "node deploy-frontend.js",
     "deploy": "npm run build:frontend && npm run deploy:frontend",
-    "deploy:full": "node deploy-full.js"
+    "deploy:full": "node deploy-full.js",
+    "import-knowledge": "npx ts-node scripts/importKnowledgeToSupabase.ts",
+    "generate-embeddings": "npx ts-node scripts/generateEmbeddings.ts",
+    "check-embeddings": "npx ts-node scripts/checkEmbeddings.ts",
+    "check-table": "npx ts-node scripts/checkTableStructure.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.1.3",
     "@supabase/supabase-js": "^2.56.1",
     "cors": "^2.8.5",
+    "csv-parse": "^6.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.16"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   },
   "keywords": [
     "react",
