@@ -5,16 +5,31 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { createClient } from '@supabase/supabase-js';
 import { SYSTEM_PROMPT, AI_CONFIG } from '../config/ai-config.js';
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || 'your-service-role-key'
-);
+// Load environment variables
+dotenv.config();
+
+// Initialize Supabase client with better error handling
+let supabase;
+try {
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('⚠️  WARNING: Supabase configuration missing!');
+    console.error('SUPABASE_URL:', !!supabaseUrl);
+    console.error('SUPABASE_SERVICE_ROLE_KEY:', !!supabaseKey);
+  }
+  
+  supabase = createClient(supabaseUrl || 'https://your-project.supabase.co', supabaseKey || 'your-service-role-key');
+} catch (error) {
+  console.error('❌ Failed to initialize Supabase client:', error);
+  supabase = null;
+}
 
 const router = express.Router();
 
 // Initialize Google Generative AI client
-const genAI = new GoogleGenerativeAI(AI_CONFIG.gemini.apiKey || 'your-gemini-api-key-here');
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || AI_CONFIG.gemini.apiKey || 'your-gemini-api-key-here');
 const geminiModel = genAI.getGenerativeModel({ 
   model: AI_CONFIG.gemini.model || 'gemini-2.5-flash',
   generationConfig: {
@@ -126,9 +141,8 @@ router.post('/chat', async (req, res) => {
   console.log('Request body:', req.body);
   console.log('Environment variables check:');
   console.log('- GEMINI_API_KEY exists:', !!process.env.GEMINI_API_KEY);
-  console.log('- SUPABASE URL exists:', !!process.env.VITE_SUPABASE_URL);
-  console.log('- SUPABASE SERVICE KEY exists:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);
-  try {
+  console.log('- SUPABASE URL exists:', !!(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL));
+  console.log('- SUPABASE SERVICE KEY exists:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);  try {
     const { message, sessionId, userId } = req.body;
 
     // Validate input
