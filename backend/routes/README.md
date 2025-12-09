@@ -116,7 +116,7 @@ To test the route:
 
 Example test request:
 ```bash
-curl -X POST http://localhost:3001/api/chat/chat \
+curl -X POST https://yvitech-com.onrender.com/api/chat/chat \
   -H "Content-Type: application/json" \
   -d '{"message": "What services do you offer?", "sessionId": "test-123"}'
 ```

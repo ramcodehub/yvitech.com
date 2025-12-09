@@ -99,6 +99,10 @@ Or start each component separately:
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3001
 
+### Production URLs
+- **Frontend**: https://yvitech.com
+- **Backend API**: https://yvitech-com.onrender.com
+
 ## 📁 Component Details
 
 ### Frontend ([frontend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\frontend))

@@ -122,6 +122,12 @@ async function getDynamicSuggestions(responseText) {
 
 // Chat endpoint
 router.post('/chat', async (req, res) => {
+  console.log('=== CHAT REQUEST RECEIVED ===');
+  console.log('Request body:', req.body);
+  console.log('Environment variables check:');
+  console.log('- GEMINI_API_KEY exists:', !!process.env.GEMINI_API_KEY);
+  console.log('- SUPABASE URL exists:', !!process.env.VITE_SUPABASE_URL);
+  console.log('- SUPABASE SERVICE KEY exists:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);
   try {
     const { message, sessionId, userId } = req.body;
 
@@ -267,7 +273,20 @@ router.post('/chat', async (req, res) => {
       sessionId: sessionId || generateSessionId()
     });
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error('=== DETAILED ERROR ===');
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    console.error('Error status:', error.status);
+    
+    // Check for specific error types
+    if (error.name === 'GoogleGenerativeAIError' || error.message.includes('API key')) {
+      console.error('This is likely an API key or Google AI configuration issue');
+    }
+    
+    if (error.message.includes('Supabase') || error.message.includes('supabase')) {
+      console.error('This is likely a Supabase connection or query issue');
+    }
     
     // Provide more specific error messages based on error type
     let errorMessage = 'Failed to process chat message';

@@ -87,6 +87,22 @@
   padding: 0;
 }
 
+/* Maximized state - Fixed to cover entire viewport using inset for edge-to-edge coverage */
+.chat-window.maximized {
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: fixed !important;
+  bottom: unset !important;
+  right: unset !important;
+  left: 0 !important;
+  top: 0 !important;
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .chat-window {
@@ -95,6 +111,22 @@
     width: calc(100% - 30px);
     height: 70vh;
     max-width: calc(100% - 30px);
+  }
+  
+  /* Maximized state on mobile */
+  .chat-window.maximized {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    bottom: unset !important;
+    right: unset !important;
+    left: 0 !important;
+    top: 0 !important;
   }
 }
 
@@ -118,7 +150,9 @@
   text-overflow: ellipsis;
 }
 
-.close-button {
+.close-button,
+.refresh-button,
+.maximize-button {
   background: none;
   border: none;
   color: white;
@@ -134,27 +168,9 @@
   flex-shrink: 0;
 }
 
-.close-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.refresh-button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 1.75rem;
-  height: 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background 0.2s;
-  flex-shrink: 0;
-}
-
-.refresh-button:hover {
+.close-button:hover,
+.refresh-button:hover,
+.maximize-button:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -410,6 +426,21 @@
     max-width: 400px;
   }
   
+  .chat-window.maximized {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    bottom: unset !important;
+    right: unset !important;
+    left: 0 !important;
+    top: 0 !important;
+  }
+  
   .chat-toggle-button {
     width: 60px;
     height: 60px;
@@ -442,7 +473,8 @@
   }
   
   .close-button,
-  .refresh-button {
+  .refresh-button,
+  .maximize-button {
     width: 20px;
     height: 20px;
     font-size: 14px;
@@ -459,6 +491,21 @@
     left: 10px;
     /* Reduce padding on small screens */
     max-height: 60vh; /* Reduced max height */
+  }
+  
+  .chat-window.maximized {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    bottom: unset !important;
+    right: unset !important;
+    left: 0 !important;
+    top: 0 !important;
   }
   
   .chat-toggle-button {
@@ -501,7 +548,8 @@
   }
   
   .close-button,
-  .refresh-button {
+  .refresh-button,
+  .maximize-button {
     width: 18px;
     height: 18px;
     font-size: 12px;
@@ -523,6 +571,21 @@
   .chat-window {
     width: 400px;
     height: 600px;
+  }
+  
+  .chat-window.maximized {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    bottom: unset !important;
+    right: unset !important;
+    left: 0 !important;
+    top: 0 !important;
   }
   
   .chat-toggle-button {
@@ -552,7 +615,8 @@
   }
   
   .close-button,
-  .refresh-button {
+  .refresh-button,
+  .maximize-button {
     width: 28px;
     height: 28px;
     font-size: 18px;
@@ -564,6 +628,21 @@
   .chat-window {
     width: 350px;
     height: 500px;
+  }
+  
+  .chat-window.maximized {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    bottom: unset !important;
+    right: unset !important;
+    left: 0 !important;
+    top: 0 !important;
   }
   
   .suggestions-container {
@@ -588,7 +667,8 @@
   }
   
   .close-button,
-  .refresh-button {
+  .refresh-button,
+  .maximize-button {
     width: 22px;
     height: 22px;
     font-size: 16px;
@@ -603,6 +683,21 @@
     right: 5px;
     bottom: calc(45px + 10px - 3px);
     height: 65vh; /* Reduced height for very small screens */
+  }
+  
+  .chat-window.maximized {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    bottom: unset !important;
+    right: unset !important;
+    left: 0 !important;
+    top: 0 !important;
   }
   
   .chat-toggle-button {
@@ -628,6 +723,14 @@
     height: 22px;
     font-size: 10px;
     margin-right: 4px;
+  }
+  
+  .close-button,
+  .refresh-button,
+  .maximize-button {
+    width: 22px;
+    height: 22px;
+    font-size: 16px;
   }
 }
 
@@ -810,13 +913,56 @@
   @media (max-width: 480px) {
     .chat-window {
       padding-bottom: env(safe-area-inset-bottom);
-      top: calc(80px + env(safe-area-inset-top));
+      top: calc(80px + env(safe-area-inset-top)) !important;
+    }
+    
+    .chat-window.maximized {
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0 !important;
+      max-width: 100vw !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      position: fixed !important;
+      bottom: unset !important;
+      right: unset !important;
+      left: 0 !important;
+      top: 0 !important;
+      /* Override any mobile Safari specific styles */
+      padding-bottom: 0 !important;
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
     }
     
     .chat-toggle-button {
       bottom: calc(15px + env(safe-area-inset-bottom));
       right: calc(15px + env(safe-area-inset-right));
       z-index: 9999; /* Ensure it's above scroll to top button */
+    }
+  }
+  
+  /* Also handle mobile Safari for larger mobile screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    .chat-window.maximized {
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0 !important;
+      max-width: 100vw !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      position: fixed !important;
+      bottom: unset !important;
+      right: unset !important;
+      left: 0 !important;
+      top: 0 !important;
+      /* Override any mobile Safari specific styles */
+      padding-bottom: 0 !important;
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
     }
   }
 }

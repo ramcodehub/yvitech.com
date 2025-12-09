@@ -94,6 +94,7 @@ async function main() {
   console.log('\n✅ Development environment started successfully!');
   console.log('📝 Frontend available at: http://localhost:5173');
   console.log('📝 Backend API available at: http://localhost:3000');
+  console.log('📝 Production API available at: https://yvitech-com.onrender.com');
   console.log('\nPress Ctrl+C to stop both servers.\n');
 }
 

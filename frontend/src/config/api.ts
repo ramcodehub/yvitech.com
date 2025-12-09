@@ -5,7 +5,7 @@ export const API_BASE = "https://yvitech-com.onrender.com/api";
 
 export const API_CONFIG = {
   // 🔧 IMPORTANT: Replace with your actual deployed backend URL
-  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || 'https://yvitech-com.onrender.com',
+  BACKEND_URL: (import.meta as any).env?.VITE_BACKEND_URL || 'https://yvitech-com.onrender.com',
 
   getApiUrl: function(endpoint = '/api/send-email') {
     // For production, use the Node.js endpoint
@@ -18,7 +18,7 @@ export const API_CONFIG = {
 };
 
 // Safe fetch wrapper to handle JSON parsing errors
-export const safeFetch = async (url, options) => {
+export const safeFetch = async (url: string, options: RequestInit) => {
   try {
     console.log('🔍 Fetching URL:', url);
     const response = await fetch(url, options);

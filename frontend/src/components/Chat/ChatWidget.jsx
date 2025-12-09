@@ -3,9 +3,11 @@ import chatIcon from '../../assets/img/aiassistant.png';
 import './ChatWidget.css';
 import { CATEGORIES, MORE_CATEGORIES } from '../../data/promptCategories';
 import PromptList from './PromptList'; // Add this import
+import API_CONFIG, { API_BASE } from '../../config/api';
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false); // New state for maximize/minimize
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -61,12 +63,18 @@ const ChatWidget = () => {
     }
   };
 
+  // New function to toggle maximize/minimize
+  const toggleMaximize = () => {
+    setIsMaximized(!isMaximized);
+  };
+
   const resetChat = () => {
     setMessages([]);
     setInputValue('');
     setSessionId(null);
     setSelectedCategory(null);
     setShowMore(false);
+    setIsMaximized(false); // Reset to normal size on refresh
   };
 
   const scrollToBottom = () => {
@@ -111,7 +119,7 @@ const ChatWidget = () => {
 
     try {
       // Send message to backend
-      const response = await fetch('/api/chat/chat', {
+      const response = await fetch(`${API_BASE}/chat/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -286,7 +294,7 @@ const ChatWidget = () => {
       {/* Chat Window */}
       {isOpen && (
         <div 
-          className="chat-window" 
+          className={`chat-window ${isMaximized ? 'maximized' : ''}`} 
           role="dialog" 
           aria-labelledby="chat-header"
           aria-modal="true"
@@ -294,7 +302,7 @@ const ChatWidget = () => {
         >
           <div className="chat-header" id="chat-header">
             <h3>YVI Tech Assistant</h3>
-            {/* Refresh and Close Buttons - COMPACT HEADER - SIDE BY SIDE */}
+            {/* Refresh, Maximize/Minimize and Close Buttons - COMPACT HEADER - SIDE BY SIDE */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
               <button 
                 className="refresh-button" 
@@ -309,6 +317,20 @@ const ChatWidget = () => {
                 tabIndex={0}
               >
                 <span aria-hidden="true">↻</span>
+              </button>
+              <button 
+                className="maximize-button" 
+                onClick={toggleMaximize}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleMaximize();
+                  }
+                }}
+                aria-label={isMaximized ? "Minimize chat" : "Maximize chat"}
+                tabIndex={0}
+              >
+                <span aria-hidden="true">{isMaximized ? '−' : '+'}</span>
               </button>
               <button 
                 className="close-button" 

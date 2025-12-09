@@ -6,10 +6,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
+      // Proxy all requests starting with /api to the backend
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'https://yvitech-com.onrender.com',
         changeOrigin: true,
-        secure: false
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       }
     }
   },

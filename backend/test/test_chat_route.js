@@ -7,7 +7,7 @@ async function testChatRoute() {
   try {
     console.log('Testing chat route...');
     
-    const response = await fetch('http://localhost:3001/api/chat/chat', {
+    const response = await fetch('https://yvitech-com.onrender.com/api/chat/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

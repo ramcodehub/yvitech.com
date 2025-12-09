@@ -137,7 +137,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # Backend API URL
 # Update this to your deployed backend URL in production
-VITE_BACKEND_URL=http://localhost:3001
+VITE_BACKEND_URL=https://yvitech-com.onrender.com
 ```
 
 You can use the `.env.example` file as a template:

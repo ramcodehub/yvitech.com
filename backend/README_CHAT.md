@@ -32,10 +32,10 @@ EMAIL_PASS=your_email_password
 EMAIL_TO=contact@yvisoft.com
 
 # Frontend URL (for CORS)
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=https://yvitech.com
 
 # Node Environment
-NODE_ENV=development
+NODE_ENV=production
 PORT=3001
 ```
 
@@ -64,6 +64,3 @@ node test-chat.js
 - Modify the system prompt in `backend/config/ai-config.js` to change the AI's personality and knowledge
 - Adjust the UI styling in `frontend/src/components/Chat/ChatWidget.css`
 - Update the chat widget position or behavior in `frontend/src/components/Chat/ChatWidget.jsx`
-
-## Deployment
-The chat feature will be automatically deployed with the rest of the application when you run the deployment scripts.
