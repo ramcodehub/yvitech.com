@@ -105,21 +105,21 @@ Or start each component separately:
 
 ## 📁 Component Details
 
-### Frontend ([frontend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\frontend))
+### Frontend ([frontend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\yvitech\yvitech\frontend))
 The frontend is a React application built with Vite, providing a modern, responsive user interface with:
 - 6 customizable color themes
 - Interactive components and animations
 - Responsive design for all device sizes
 - Contact form with real-time validation
 
-### Backend ([backend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\backend))
+### Backend ([backend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\yvitech\yvitech\backend))
 The backend is a Node.js/Express server that handles:
 - Email notifications via GoDaddy SMTP
 - Contact form data processing
 - AI chat functionality with Google Gemini API integration
 - API endpoints for frontend communication
 
-### Database ([Database/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\Database))
+### Database ([Database/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\yvitech\yvitech\Database))
 Contains SQL scripts for setting up the Supabase PostgreSQL database:
 - Table creation scripts
 - Row Level Security policies
@@ -280,5 +280,5 @@ git status
 ## 📞 Support
 
 For support, contact:
-- Email: info@yvisoft.com
+- Email: info@yvitech.com
 - Phone: +91-8317622417
