@@ -28,21 +28,48 @@ try {
 
 const router = express.Router();
 
-// Initialize Google Generative AI client
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || AI_CONFIG.gemini.apiKey || 'your-gemini-api-key-here');
-const geminiModel = genAI.getGenerativeModel({ 
-  model: AI_CONFIG.gemini.model || 'gemini-2.5-flash',
-  generationConfig: {
-    temperature: AI_CONFIG.gemini.temperature || 0.7,
-    maxOutputTokens: AI_CONFIG.gemini.maxTokens || 1000
+// Initialize Google Generative AI client with error handling
+let genAI;
+let geminiModel;
+try {
+  const geminiApiKey = process.env.GEMINI_API_KEY || AI_CONFIG.gemini.apiKey;
+  if (!geminiApiKey) {
+    console.error('⚠️  WARNING: Gemini API key not configured!');
   }
-});
+  
+  genAI = new GoogleGenerativeAI(geminiApiKey || 'your-gemini-api-key-here');
+  geminiModel = genAI.getGenerativeModel({ 
+    model: AI_CONFIG.gemini.model || 'gemini-2.5-flash',
+    generationConfig: {
+      temperature: AI_CONFIG.gemini.temperature || 0.7,
+      maxOutputTokens: AI_CONFIG.gemini.maxTokens || 1000
+    }
+  });
+  console.log('✅ Gemini AI client initialized successfully');
+} catch (error) {
+  console.error('❌ Failed to initialize Gemini AI client:', error);
+  genAI = null;
+  geminiModel = null;
+}
 
 // Initialize embedding model for query embeddings
-const embeddingModel = genAI.getGenerativeModel({ model: "embedding-001" });
+let embeddingModel;
+try {
+  embeddingModel = genAI?.getGenerativeModel({ model: "embedding-001" });
+  console.log('✅ Embedding model initialized successfully');
+} catch (error) {
+  console.error('❌ Failed to initialize embedding model:', error);
+  embeddingModel = null;
+}
 
 // Function to generate embedding for text
 async function generateEmbedding(text) {
+  // Check if embedding model is available
+  if (!embeddingModel) {
+    console.log('Embedding model not available, skipping embedding generation');
+    throw new Error('Embedding model not initialized');
+  }
+  
   try {
     const result = await embeddingModel.embedContent(text);
     return result.embedding.values;
@@ -142,14 +169,44 @@ router.post('/chat', async (req, res) => {
   console.log('Environment variables check:');
   console.log('- GEMINI_API_KEY exists:', !!process.env.GEMINI_API_KEY);
   console.log('- SUPABASE URL exists:', !!(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL));
-  console.log('- SUPABASE SERVICE KEY exists:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);  try {
+  console.log('- SUPABASE SERVICE KEY exists:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+  
+  // Log the actual values (masked for security)
+  if (process.env.GEMINI_API_KEY) {
+    console.log('- GEMINI_API_KEY length:', process.env.GEMINI_API_KEY.length);
+  }
+  if (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL) {
+    console.log('- SUPABASE_URL:', process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL);
+  }
+  
+  try {
     const { message, sessionId, userId } = req.body;
+    console.log('Processing message:', message);
 
     // Validate input
     if (!message) {
+      console.log('Validation failed: Message is required');
       return res.status(400).json({ 
         success: false, 
         error: 'Message is required' 
+      });
+    }
+
+    // Check if Supabase is initialized
+    if (!supabase) {
+      console.error('❌ Supabase client not initialized');
+      return res.status(500).json({ 
+        success: false, 
+        error: 'Database service unavailable' 
+      });
+    }
+
+    // Check if AI service is configured
+    if (!(process.env.GEMINI_API_KEY || AI_CONFIG.gemini.apiKey)) {
+      console.error('❌ AI service not configured');
+      return res.status(500).json({ 
+        success: false, 
+        error: 'AI service not configured' 
       });
     }
 
@@ -213,6 +270,15 @@ router.post('/chat', async (req, res) => {
 
     // If we didn't get a high-confidence match from the database, fallback to Gemini LLM
     if (responseSource === "gemini") {
+      // Check if AI models are initialized
+      if (!genAI || !geminiModel) {
+        console.error('❌ AI models not initialized');
+        return res.status(500).json({ 
+          success: false, 
+          error: 'AI service not available' 
+        });
+      }
+      
       // Query knowledge base for relevant information (fallback method)
       let knowledgeBaseInfo = '';
       try {
@@ -233,9 +299,21 @@ router.post('/chat', async (req, res) => {
 
       // Generate AI response with system prompt and knowledge base info using Gemini
       const fullPrompt = SYSTEM_PROMPT + knowledgeBaseInfo + '\n\nUser question: ' + message;
+      console.log('Sending prompt to Gemini:', fullPrompt.substring(0, 100) + '...');
       
-      const result = await geminiModel.generateContent(fullPrompt);
-      aiResponse = result.response.text();
+      try {
+        const result = await geminiModel.generateContent(fullPrompt);
+        aiResponse = result.response.text();
+        console.log('Received response from Gemini, length:', aiResponse.length);
+      } catch (aiError) {
+        console.error('❌ Error generating AI response:', aiError);
+        console.error('Error name:', aiError.name);
+        console.error('Error message:', aiError.message);
+        if (aiError.response) {
+          console.error('Error response:', aiError.response);
+        }
+        throw aiError; // Re-throw to be caught by outer try/catch
+      }
     }
 
     // Log the full AI response for debugging
