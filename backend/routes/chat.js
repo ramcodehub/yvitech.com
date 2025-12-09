@@ -273,46 +273,65 @@ router.post('/chat', async (req, res) => {
       // Check if AI models are initialized
       if (!genAI || !geminiModel) {
         console.error('❌ AI models not initialized');
-        return res.status(500).json({ 
-          success: false, 
-          error: 'AI service not available' 
-        });
-      }
-      
-      // Query knowledge base for relevant information (fallback method)
-      let knowledgeBaseInfo = '';
-      try {
-        const { data: knowledgeData, error: knowledgeError } = await supabase
-          .from('chatbot_knowledge')
-          .select('category, title, description')
-          .limit(3);
+        // Provide a fallback response
+        aiResponse = "Thank you for your message. Our AI assistant is currently unavailable. A team member will get back to you soon. In the meantime, you can explore our services on the website or contact us directly at sanjeevirr@yvisoft.com.";
+        responseSource = "fallback";
+      } else {
+        // Query knowledge base for relevant information (fallback method)
+        let knowledgeBaseInfo = '';
+        try {
+          const { data: knowledgeData, error: knowledgeError } = await supabase
+            .from('chatbot_knowledge')
+            .select('category, title, description')
+            .limit(3);
 
-        if (!knowledgeError && knowledgeData && knowledgeData.length > 0) {
-          knowledgeBaseInfo = '\n\nRelevant information from our knowledge base:\n';
-          knowledgeData.forEach(item => {
-            knowledgeBaseInfo += `- ${item.title}: ${item.description}\n`;
-          });
+          if (!knowledgeError && knowledgeData && knowledgeData.length > 0) {
+            knowledgeBaseInfo = '\n\nRelevant information from our knowledge base:\n';
+            knowledgeData.forEach(item => {
+              knowledgeBaseInfo += `- ${item.title}: ${item.description}\n`;
+            });
+          }
+        } catch (kbError) {
+          console.log('Knowledge base query error (non-fatal):', kbError.message);
         }
-      } catch (kbError) {
-        console.log('Knowledge base query error (non-fatal):', kbError.message);
-      }
 
-      // Generate AI response with system prompt and knowledge base info using Gemini
-      const fullPrompt = SYSTEM_PROMPT + knowledgeBaseInfo + '\n\nUser question: ' + message;
-      console.log('Sending prompt to Gemini:', fullPrompt.substring(0, 100) + '...');
-      
-      try {
-        const result = await geminiModel.generateContent(fullPrompt);
-        aiResponse = result.response.text();
-        console.log('Received response from Gemini, length:', aiResponse.length);
-      } catch (aiError) {
-        console.error('❌ Error generating AI response:', aiError);
-        console.error('Error name:', aiError.name);
-        console.error('Error message:', aiError.message);
-        if (aiError.response) {
-          console.error('Error response:', aiError.response);
+        // Generate AI response with system prompt and knowledge base info using Gemini
+        const fullPrompt = SYSTEM_PROMPT + knowledgeBaseInfo + '\n\nUser question: ' + message;
+        console.log('Sending prompt to Gemini:', fullPrompt.substring(0, 100) + '...');
+        
+        try {
+          const result = await geminiModel.generateContent(fullPrompt);
+          aiResponse = result.response.text();
+          console.log('Received response from Gemini, length:', aiResponse.length);
+        } catch (aiError) {
+          console.error('❌ Error generating AI response:', aiError);
+          console.error('Error name:', aiError.name);
+          console.error('Error message:', aiError.message);
+          if (aiError.response) {
+            console.error('Error response:', aiError.response);
+          }
+          
+          // Handle specific error types
+          if (aiError.status === 429) {
+            // Rate limiting error - provide a friendly message
+            console.log('⚠️  Gemini API quota exceeded');
+            return res.status(429).json({ 
+              success: false, 
+              error: 'Our AI assistant is currently busy. Please try again in a minute.',
+              details: 'Rate limit exceeded'
+            });
+          } else if (aiError.message && aiError.message.includes('API key')) {
+            // API key error
+            console.log('⚠️  Invalid or missing API key');
+            return res.status(500).json({ 
+              success: false, 
+              error: 'AI service configuration error. Please contact support.',
+              details: 'Invalid API key'
+            });
+          }
+          
+          throw aiError; // Re-throw to be caught by outer try/catch
         }
-        throw aiError; // Re-throw to be caught by outer try/catch
       }
     }
 
