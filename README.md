@@ -1,15 +1,15 @@
-# YVI Soft Solutions - Modern Business Website
+# YVI Technologies - Modern Business Website
 
 [![React](https://img.shields.io/badge/React-19.1.0-blue.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.0.0-brightgreen.svg)](https://vitejs.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A modern, responsive business website for YVI Soft Solutions - delivering innovative technology solutions across AI, Web Development, Mobile Apps, Oracle, RPA, and UI/UX design.
+A modern, responsive business website for YVI Technologies - delivering innovative technology solutions across AI, Web Development, Mobile Apps, Oracle, RPA, and UI/UX design.
 
-## 🏢 About YVI Soft Solutions
+## 🏢 About YVI Technologies
 
-YVI Soft Solutions is a technology consulting firm specializing in providing cutting-edge solutions to businesses worldwide. Our expertise spans across multiple domains including Artificial Intelligence, Web Development, Mobile Applications, Oracle Financials, Robotic Process Automation, and UI/UX Design.
+YVI Technologies is a technology consulting firm specializing in providing cutting-edge solutions to businesses worldwide. Our expertise spans across multiple domains including Artificial Intelligence, Web Development, Mobile Applications, Oracle Financials, Robotic Process Automation, and UI/UX Design.
 
 ## 🚀 Project Overview
 
