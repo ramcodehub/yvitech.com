@@ -32,7 +32,7 @@ app.get("/health", (req, res) => {
 // Allow requests only from your frontend domain
 const corsOptions = {
   origin: [
-    'https://yvisoft.com',        // Production frontend domain
+    'https://yvitech.com',        // Main domain
     'http://localhost:5173',      // Local development frontend
     'http://localhost:3000',      // Alternative local development port
     'http://127.0.0.1:5173',      // Alternative localhost format

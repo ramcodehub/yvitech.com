@@ -177,16 +177,42 @@ const ChatWidget = () => {
     } catch (error) {
       console.error('Error sending message:', error);
       
-      // Add error message to chat
+      // Add error message to chat with typing effect
+      const errorText = error.message && error.message.includes('429') 
+        ? "I'm receiving too many requests right now. Please try again in a moment."
+        : "Sorry, I encountered an error. Please try again.";
+      
       const errorMessage = {
         id: Date.now() + 1,
-        text: "Sorry, I encountered an error. Please try again.",
+        text: '',
+        fullText: errorText,
         isBot: true,
         timestamp: new Date()
       };
       
       setMessages(prev => [...prev, errorMessage]);
-      setIsLoading(false);
+      
+      // Apply typing effect to error message
+      let i = 0;
+      const intervalId = setInterval(() => {
+        if (i < errorText.length) {
+          setMessages(prevMessages => {
+            const updatedMessages = [...prevMessages];
+            const lastMessage = updatedMessages[updatedMessages.length - 1];
+            if (lastMessage.isBot) {
+              updatedMessages[updatedMessages.length - 1] = {
+                ...lastMessage,
+                text: errorText.slice(0, i + 1)
+              };
+            }
+            return updatedMessages;
+          });
+          i++;
+        } else {
+          clearInterval(intervalId);
+          setIsLoading(false);
+        }
+      }, 20);
     }
   };
 

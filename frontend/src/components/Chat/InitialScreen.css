@@ -332,6 +332,59 @@
   }
 }
 
+/* Laptop screens (common sizes: 1366x768, 1440x900, 1536x864) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .initial-screen-container {
+    max-width: 100%;
+  }
+  
+  .suggestions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .headline {
+    font-size: 1.4rem;
+  }
+  
+  .subheading {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .suggestion-card {
+    padding: 0.75rem;
+    border-radius: 16px;
+  }
+  
+  .suggestion-title {
+    font-size: 0.95rem;
+  }
+  
+  .suggestion-prompt {
+    font-size: 0.85rem;
+  }
+  
+  .logo-container {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .logo-circle {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .logo-gradient {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .logo-text {
+    font-size: 1rem;
+  }
+}
+
 /* Extra large screens */
 @media (min-width: 1280px) {
   .initial-screen-container {
@@ -348,6 +401,59 @@
   
   .subheading {
     font-size: 1.125rem;
+  }
+}
+
+/* Desktop screens between 1200px and 1279px */
+@media (min-width: 1200px) and (max-width: 1279px) {
+  .initial-screen-container {
+    max-width: 100%;
+  }
+  
+  .suggestions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .headline {
+    font-size: 1.6rem;
+  }
+  
+  .subheading {
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .suggestion-card {
+    padding: 0.875rem;
+    border-radius: 16px;
+  }
+  
+  .suggestion-title {
+    font-size: 1rem;
+  }
+  
+  .suggestion-prompt {
+    font-size: 0.9rem;
+  }
+  
+  .logo-container {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .logo-circle {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .logo-gradient {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
   }
 }
 

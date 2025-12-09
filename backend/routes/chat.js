@@ -39,7 +39,7 @@ try {
   
   genAI = new GoogleGenerativeAI(geminiApiKey || 'your-gemini-api-key-here');
   geminiModel = genAI.getGenerativeModel({ 
-    model: AI_CONFIG.gemini.model || 'gemini-2.5-flash',
+    model: AI_CONFIG.gemini.model || 'models/gemini-1.5-flash',
     generationConfig: {
       temperature: AI_CONFIG.gemini.temperature || 0.7,
       maxOutputTokens: AI_CONFIG.gemini.maxTokens || 1000
@@ -76,6 +76,39 @@ async function generateEmbedding(text) {
   } catch (error) {
     console.error('Error generating embedding:', error);
     throw error;
+  }
+}
+
+// Function to generate AI response with retry logic and exponential backoff
+async function generateAIResponseWithRetry(prompt, maxRetries = 3) {
+  const delays = [500, 1000, 2000]; // Delay times in milliseconds
+  
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const result = await geminiModel.generateContent(prompt);
+      return result.response.text();
+    } catch (error) {
+      console.error(`Attempt ${attempt + 1} failed:`, error.message);
+      
+      // If this was the last attempt, re-throw the error
+      if (attempt === maxRetries) {
+        throw error;
+      }
+      
+      // Check if it's a retryable error
+      const isRetryable = error.status === 429 || error.status === 500 || 
+                         error.message.includes('429') || error.message.includes('500') ||
+                         error.message.includes('network') || error.message.includes('Network');
+      
+      if (!isRetryable) {
+        throw error;
+      }
+      
+      // Wait before retrying with exponential backoff
+      const delay = delays[attempt] || delays[delays.length - 1];
+      console.log(`Waiting ${delay}ms before retrying...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
   }
 }
 
@@ -300,37 +333,19 @@ router.post('/chat', async (req, res) => {
         console.log('Sending prompt to Gemini:', fullPrompt.substring(0, 100) + '...');
         
         try {
-          const result = await geminiModel.generateContent(fullPrompt);
-          aiResponse = result.response.text();
+          aiResponse = await generateAIResponseWithRetry(fullPrompt);
           console.log('Received response from Gemini, length:', aiResponse.length);
         } catch (aiError) {
-          console.error('❌ Error generating AI response:', aiError);
+          console.error('❌ Error generating AI response after retries:', aiError);
           console.error('Error name:', aiError.name);
           console.error('Error message:', aiError.message);
           if (aiError.response) {
             console.error('Error response:', aiError.response);
           }
           
-          // Handle specific error types
-          if (aiError.status === 429) {
-            // Rate limiting error - provide a friendly message
-            console.log('⚠️  Gemini API quota exceeded');
-            return res.status(429).json({ 
-              success: false, 
-              error: 'Our AI assistant is currently busy. Please try again in a minute.',
-              details: 'Rate limit exceeded'
-            }); 
-          } else if (aiError.message && aiError.message.includes('API key')) {
-            // API key error
-            console.log('⚠️  Invalid or missing API key');
-            return res.status(500).json({ 
-              success: false, 
-              error: 'AI service configuration error. Please contact support.',
-              details: 'Invalid API key'
-            });
-          }
-          
-          throw aiError; // Re-throw to be caught by outer try/catch
+          // Provide fallback response when all retries fail
+          aiResponse = "I'm unable to reach the AI service right now. Please try again, or visit https://yvitech.com for details.";
+          responseSource = "fallback";
         }
       }
     }
