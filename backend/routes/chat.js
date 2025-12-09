@@ -319,7 +319,7 @@ router.post('/chat', async (req, res) => {
               success: false, 
               error: 'Our AI assistant is currently busy. Please try again in a minute.',
               details: 'Rate limit exceeded'
-            });
+            }); 
           } else if (aiError.message && aiError.message.includes('API key')) {
             // API key error
             console.log('⚠️  Invalid or missing API key');
