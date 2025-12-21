@@ -1,11 +1,11 @@
 // API Configuration for Production with Node.js Backend
 // This file configures API calls to your deployed backend
 
-export const API_BASE = (import.meta.env.VITE_BACKEND_URL ? `${import.meta.env.VITE_BACKEND_URL}/api` : "http://localhost:3001/api");
+export const API_BASE = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
 export const API_CONFIG = {
   // 🔧 IMPORTANT: Replace with your actual deployed backend URL
-  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001',
+  BACKEND_URL: import.meta.env.VITE_BACKEND_URL,
 
   getApiUrl: function(endpoint = '/api/send-email') {
     // For production, use the Node.js endpoint

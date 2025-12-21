@@ -357,7 +357,7 @@ router.post('/chat', async (req, res) => {
       
       return res.json({
         success: true,
-        response: `${randomGreeting}\n\n📘 From Database`,
+        response: `${randomGreeting}`,
         suggestions: [
           { display: "Services", full: "What services do you offer?" },
           { display: "About", full: "Tell me about YVI Tech" },
@@ -373,7 +373,7 @@ router.post('/chat', async (req, res) => {
     if (msgNormalized.includes('thank') || msgNormalized.includes('thanks') || msgNormalized === 'ty') {
       return res.json({
         success: true,
-        response: "You're welcome! Is there anything else I can help you with?\n\n📘 From Database",
+        response: "You're welcome! Is there anything else I can help you with?",
         suggestions: [
           { display: "Services", full: "What services do you offer?" },
           { display: "Contact", full: "How can I contact you?" },
@@ -389,7 +389,7 @@ router.post('/chat', async (req, res) => {
     if (msgNormalized.includes('help') || msgNormalized === 'help me' || msgNormalized.includes('assist')) {
       return res.json({
         success: true,
-        response: "I'm here to help you learn about YVI Technologies. You can ask me about our services, company information, or anything else related to YVI Tech.\n\n📘 From Database",
+        response: "I'm here to help you learn about YVI Technologies. You can ask me about our services, company information, or anything else related to YVI Tech.",
         suggestions: [
           { display: "Services", full: "What services do you offer?" },
           { display: "About", full: "Tell me about YVI Tech" },
@@ -406,7 +406,7 @@ router.post('/chat', async (req, res) => {
         msgNormalized.includes('address') || msgNormalized.includes('reach')) {
       return res.json({
         success: true,
-        response: "You can reach us at:\n\nEmail: contact@yvisoft.com\nPhone: +91-XXX-XXXX-XXXX\n\nWe're located in India and UAE.\n\n📘 From Database",
+        response: "You can reach us at:\n\nEmail: contact@yvisoft.com\nPhone: +91-XXX-XXXX-XXXX\n\nWe're located in India and UAE.",
         suggestions: [
           { display: "Email", full: "Send an email" },
           { display: "Services", full: "What services do you offer?" },
@@ -491,11 +491,8 @@ router.post('/chat', async (req, res) => {
     if (cachedResponse && (Date.now() - cachedResponse.timestamp < CACHE_TTL)) {
       console.log('✅ Cache hit (in-memory):', normalizedMessage);
       
-      // Add source indicator if not already present
+      // No source indicator needed
       let responseWithSource = cachedResponse.response;
-      if (!responseWithSource.includes('📘 From Database') && !responseWithSource.includes('🤖 AI Response')) {
-        responseWithSource = `${cachedResponse.response}\n\n📘 From Database`;
-      }
       
       return res.json({
         success: true,
@@ -528,8 +525,8 @@ router.post('/chat', async (req, res) => {
           timestamp: Date.now()
         });
 
-        // Add source indicator
-        const responseWithSource = dbResponse.endsWith('📘 From Database') ? dbResponse : `${dbResponse}\n\n📘 From Database`;
+        // No source indicator needed
+        const responseWithSource = dbResponse;
 
         return res.json({
           success: true,
@@ -565,8 +562,8 @@ router.post('/chat', async (req, res) => {
         matchScore = 1.0;
         console.log('✅ Exact DB match found');
         
-        // Add source indicator
-        aiResponse = `${aiResponse}\n\n📘 From Database`;
+        // No source indicator needed
+        aiResponse = aiResponse;
       } else {
         // If no exact match, try partial matching
         const normalizedMsg = message.toLowerCase().trim();
@@ -601,8 +598,8 @@ router.post('/chat', async (req, res) => {
             matchScore = bestScore;
             console.log('✅ Partial DB match found with score:', bestScore);
             
-            // Add source indicator
-            aiResponse = `${aiResponse}\n\n📘 From Database`;
+            // No source indicator needed
+            aiResponse = aiResponse;
           }
         }
       }
@@ -658,9 +655,7 @@ router.post('/chat', async (req, res) => {
             aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
             responseSource = "fallback";
           } else {
-            // Add source indicator
-            aiResponse = `${aiResponse}\n\n🤖 AI Response (Groq)`;
-            
+            // No source indicator needed
             // Add learn more link for non-database responses
             if (!aiResponse.includes('yvitech.com')) {
               aiResponse = `${aiResponse}\n\n🌐 Learn more: https://yvitech.com`;

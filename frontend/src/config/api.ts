@@ -1,11 +1,11 @@
 // API Configuration for Production with Node.js Backend
 // This file configures API calls to your deployed backend
 
-export const API_BASE = "https://yvitech-com.onrender.com/api";
+export const API_BASE = `${(import.meta as any).env?.VITE_BACKEND_URL}/api`;
 
 export const API_CONFIG = {
   // 🔧 IMPORTANT: Replace with your actual deployed backend URL
-  BACKEND_URL: (import.meta as any).env?.VITE_BACKEND_URL || 'https://yvitech-com.onrender.com',
+  BACKEND_URL: (import.meta as any).env?.VITE_BACKEND_URL || '',
 
   getApiUrl: function(endpoint = '/api/send-email') {
     // For production, use the Node.js endpoint
