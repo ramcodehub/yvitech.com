@@ -1,15 +1,15 @@
-# YVI Soft Solutions - Modern Business Website
+# YVI Technologies - Modern Business Website
 
 [![React](https://img.shields.io/badge/React-19.1.0-blue.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.0.0-brightgreen.svg)](https://vitejs.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A modern, responsive business website for YVI Soft Solutions - delivering innovative technology solutions across AI, Web Development, Mobile Apps, Oracle, RPA, and UI/UX design.
+A modern, responsive business website for YVI Technologies - delivering innovative technology solutions across AI, Web Development, Mobile Apps, Oracle, RPA, and UI/UX design.
 
-## 🏢 About YVI Soft Solutions
+## 🏢 About YVI Technologies
 
-YVI Soft Solutions is a technology consulting firm specializing in providing cutting-edge solutions to businesses worldwide. Our expertise spans across multiple domains including Artificial Intelligence, Web Development, Mobile Applications, Oracle Financials, Robotic Process Automation, and UI/UX Design.
+YVI Technologies is a technology consulting firm specializing in providing cutting-edge solutions to businesses worldwide. Our expertise spans across multiple domains including Artificial Intelligence, Web Development, Mobile Applications, Oracle Financials, Robotic Process Automation, and UI/UX Design.
 
 ## 🚀 Project Overview
 
@@ -105,21 +105,21 @@ Or start each component separately:
 
 ## 📁 Component Details
 
-### Frontend ([frontend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\frontend))
+### Frontend ([frontend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\yvitech\yvitech\frontend))
 The frontend is a React application built with Vite, providing a modern, responsive user interface with:
 - 6 customizable color themes
 - Interactive components and animations
 - Responsive design for all device sizes
 - Contact form with real-time validation
 
-### Backend ([backend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\backend))
+### Backend ([backend/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\yvitech\yvitech\backend))
 The backend is a Node.js/Express server that handles:
 - Email notifications via GoDaddy SMTP
 - Contact form data processing
 - AI chat functionality with Google Gemini API integration
 - API endpoints for frontend communication
 
-### Database ([Database/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\YviSoft\YviSoft\Database))
+### Database ([Database/](file://c:\Users\sathi\OneDrive\Desktop\NextGen_AI\yvitech\yvitech\Database))
 Contains SQL scripts for setting up the Supabase PostgreSQL database:
 - Table creation scripts
 - Row Level Security policies
@@ -280,5 +280,5 @@ git status
 ## 📞 Support
 
 For support, contact:
-- Email: info@yvisoft.com
+- Email: info@yvitech.com
 - Phone: +91-8317622417
