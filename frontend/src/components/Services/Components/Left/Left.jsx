@@ -15,8 +15,8 @@ const Left = ({headingText,content,module,modules,image}) => {
       };
   return (
     <div>
-        <div className="col-xl-12 col-md-6 d-flex flex-wrap aos-init aos-animate justify-content-between align-items-center px-xl-5 p-5 bg-pink_light" data-aos="zoom-out">
-            <div className="col-xl-6 col-md-6 d-flex aos-init aos-animate" data-aos="zoom-out">
+        <div className="col-xl-12 col-md-6 d-flex flex-wrap aos-init aos-animate justify-content-between align-items-center px-xl-5 p-5 bg-pink_light" data-aos="fade-up">
+            <div className="col-xl-6 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up">
               <div className="about-item position-relative">
                 {headingText && <h4><span  className="stretched-link">{headingText}</span></h4>}
                 {content && <p>
@@ -33,7 +33,7 @@ const Left = ({headingText,content,module,modules,image}) => {
   
               </div>
             </div>
-            <div className="col-xl-5 col-md-6 d-flex aos-init aos-animate" data-aos="zoom-out">
+            <div className="col-xl-5 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up">
               <img src={images[image]} className="img-fluid" alt=""/>
             </div>
         

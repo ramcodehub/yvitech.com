@@ -5,16 +5,16 @@ import YVISoft from '../../assets/img/YVI Soft1.mp4'
 const BannerTwo = ({headingText,content}) => {
   return (
         <section id="hero-animated" className="hero-animated d-flex align-items-center" style={{ backgroundColor: 'lightblue' }}>
-            <div className="container d-flex flex-column justify-content-center aos-init aos-animate" data-aos="zoom-out">
+            <div className="container d-flex flex-column justify-content-center aos-init aos-animate" data-aos="fade-up">
                 <div className="row gy-4">
-                    <div className="col-xl-4 col-md-4 d-flex aos-init aos-animate align-items-center" data-aos="zoom-out">
+                    <div className="col-xl-4 col-md-4 d-flex aos-init aos-animate align-items-center" data-aos="fade-up">
                         <div>
                             <h2>{headingText}</h2>
                             <p>{content}</p>
 
                         </div>
                     </div>
-                    <div className="col-xl-8 col-md-6 d-flex aos-init aos-animate align-items-center" data-aos="zoom-out">
+                    <div className="col-xl-8 col-md-6 d-flex aos-init aos-animate align-items-center" data-aos="fade-up">
                         <video controls loop width="1000" height="300" autoPlay muted>
                             <source src={YVISoft} type="video/mp4"/>
                             Your browser does not support the video tag.

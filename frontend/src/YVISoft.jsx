@@ -1,4 +1,5 @@
 import About from "./components/About/About";
+import TeamDetail from "./components/TeamDetail/TeamDetail";
 import Client from "./components/Client/Client";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
@@ -8,6 +9,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import OracleHCM from "./components/Services/OracleHCM/OracleHCM";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useLocation } from "react-router-dom";
+
 import { useEffect } from "react";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import OracleSCM from "./components/Services/OracleSCM/OracleSCM";
@@ -23,50 +26,68 @@ import SAP from "./components/Services/SAP/SAP";
 import ManagedServices from "./components/Services/ManagedServices/ManagedServices";
 
 import Arrow from "./components/Arrow/Arrow";
-import Preloader from "./components/Preloader/Preloader";
 import DigitalMarketing from "./components/Services/DigitalMarketing/DigitalMarketing";
 import ChatWidget from "./components/Chat/ChatWidget";
 
 
 const YVISoft = () => {
-    useEffect(()=>{
-        AOS.init({
-            duration:1000,
-            easing:'ease-in-out',
-            once:true,
-            mirror:false
-        })
-    })
-    return (
-        <Router>
-            <ScrollToTop/>
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home/>} />
-                <Route path="/about" element={<About/>} />
-                <Route path="/contact" element={<Contact/>} />
-                
-                <Route path="/oracle-hcm" element={<OracleHCM/>}/>
-                <Route path="/oracle-scm" element={<OracleSCM/>}/>
-                <Route path="/oracle-financials" element={<OracleFinancials/>}/>
-                <Route path="/other-core-capabilities" element={<OracleOtherStreams/>}/>
-                <Route path="/ai-and-data-platform" element={<AI_Data/>}/>
-                <Route path="/rpa-services" element={<RPAServices/>}/>
-                <Route path="/ui-ux-design" element={<UI_UX/>}/>
-                <Route path="/web-development" element={<WebDevelopment/>}/>
-                <Route path="/mobile-app-development" element={<MobileAppDevelopment/>}/>
-                <Route path="/digital-marketing" element={<DigitalMarketing/>}/>
-                <Route path="/managed-services" element={<ManagedServices/>}/>
-                <Route path="/salesforce" element={<Salesforce/>}/>
-                <Route path="/sap" element={<SAP/>}/>
-            </Routes>
-            <Client/>
-            <Footer/>
-            <Arrow/>
-            <ChatWidget/>
-        </Router>
+  const location = useLocation();
 
-    );
-}
+  const isTeamDetailPage = location.pathname.startsWith("/team/");
+
+
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-in-out",
+      once: true,
+      offset: 200,
+    });
+
+    console.log("AOS initialized");
+  }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      AOS.refreshHard();
+    }, 50);
+
+    return () => clearTimeout(timeout);
+  }, [location.pathname]);
+
+  return (
+    <>
+      <ScrollToTop />
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        {/* <Route path="/team/:id" element={<TeamDetail />} /> */}
+        <Route path="/contact" element={<Contact />} />
+
+        <Route path="/oracle-hcm" element={<OracleHCM />} />
+        <Route path="/oracle-scm" element={<OracleSCM />} />
+        <Route path="/oracle-financials" element={<OracleFinancials />} />
+        <Route path="/other-core-capabilities" element={<OracleOtherStreams />} />
+        <Route path="/ai-and-data-platform" element={<AI_Data />} />
+        <Route path="/rpa-services" element={<RPAServices />} />
+        <Route path="/ui-ux-design" element={<UI_UX />} />
+        <Route path="/web-development" element={<WebDevelopment />} />
+        <Route path="/mobile-app-development" element={<MobileAppDevelopment />} />
+        <Route path="/digital-marketing" element={<DigitalMarketing />} />
+        <Route path="/managed-services" element={<ManagedServices />} />
+        <Route path="/salesforce" element={<Salesforce />} />
+        <Route path="/sap" element={<SAP />} />
+      </Routes>
+
+      {!isTeamDetailPage && <Client />}
+
+      <Footer />
+      <Arrow />
+      <ChatWidget />
+    </>
+  );
+};
 
 export default YVISoft;

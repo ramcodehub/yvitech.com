@@ -22,8 +22,8 @@ const UI_UX = () => {
         </div>
         <div className="row gy-4">
 
-          <div className="col-xl-12 col-md-6 d-flex aos-init aos-animate justify-content-between align-items-center px-xl-5 p-5 bg-pink_light" data-aos="zoom-out">
-            <div className="col-xl-6 col-md-6 d-flex aos-init aos-animate" data-aos="zoom-out">
+          <div className="col-xl-12 col-md-6 d-flex aos-init aos-animate justify-content-between align-items-center px-xl-5 p-5 bg-pink_light" data-aos="fade-up">
+            <div className="col-xl-6 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up">
               <div className="about-item position-relative">
                 <h4><span  className="stretched-link">Enhancing user engagement through UI/UX services that prioritize the needs of the user.</span></h4>
                 <p>
@@ -41,7 +41,7 @@ const UI_UX = () => {
   
               </div>
             </div>
-            <div className="col-xl-5 col-md-6 d-flex aos-init aos-animate" data-aos="zoom-out">
+            <div className="col-xl-5 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up">
               <img src={UXUIDesign} className="img-fluid" alt=""/>
             </div>
         

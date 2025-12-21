@@ -11,8 +11,8 @@ const WhyChooseYVI = ({features}) => {
 
         <div className="row justify-content-center g-4">
           {features.map((feature, index) => (
-            <div key={index} className="col-md-4 col-sm-6">
-              <div className="card border-0 shadow-sm h-100" style={{background:'linear-gradient(135deg,#05F4FA,#2185DA)'}}>
+            <div key={index} className="col-md-4 col-sm-6 ">
+              <div className="card border-0 shadow-sm h-100 rounded-4"  style={{background:'linear-gradient(135deg,#05F4FA,#2185DA)'}}>
                 <div className="card-body text-white">
                   <div className="mb-3">
                     <i className={`${feature.icon} text-white fs-2`}></i>

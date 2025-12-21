@@ -9,6 +9,7 @@ Node.js/Express backend server for the YVI Soft Solutions website, handling emai
 ## 🚀 Features
 
 - **Email Notifications**: Automated email responses via GoDaddy SMTP
+- **AI Chat Assistant**: Powered by Groq API with llama3-8b-8192 model
 - **RESTful API**: Clean API endpoints for frontend communication
 - **Environment Configuration**: Secure environment variable management
 - **CORS Support**: Cross-origin resource sharing enabled
@@ -19,6 +20,7 @@ Node.js/Express backend server for the YVI Soft Solutions website, handling emai
 
 - **Node.js** - JavaScript runtime environment
 - **Express.js** - Web application framework
+- **Groq SDK** - AI API integration
 - **Nodemailer** - Email sending library
 - **Cors** - Cross-origin resource sharing middleware
 - **Dotenv** - Environment variable management
@@ -33,7 +35,14 @@ backend/
 ├── .env.example           # Environment variable template
 ├── .gitignore             # Git ignore file
 ├── README.md              # Backend documentation
-└── INTEGRATION.md         # Integration guide
+├── INTEGRATION.md         # Integration guide
+├── config/
+│   └── ai-config.js       # AI configuration
+├── routes/
+│   └── chat.js            # Chat API routes
+└── test/
+    ├── test_chat_route.js  # Chat route tests
+    └── test_groq_integration.js  # Groq integration tests
 ```
 
 ## 🚀 Quick Start
@@ -97,6 +106,29 @@ backend/
 
 ## 🔧 API Endpoints
 
+### POST /api/chat/chat
+
+Handles AI chat interactions with the YVI Tech Assistant.
+
+**Request Body:**
+```json
+{
+  "message": "User's question",
+  "sessionId": "optional-session-id"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "response": "AI generated response",
+  "suggestions": [{"display": "Suggested question", "full": "Full suggested question"}],
+  "responseSource": "groq|database|fallback",
+  "sessionId": "session-id"
+}
+```
+
 ### POST /api/send-email
 
 Sends an email using the provided data.
@@ -140,6 +172,9 @@ Sends an email using the provided data.
 | `EMAIL_PASS` | SMTP password for sending emails | Required |
 | `EMAIL_TO` | Default recipient email address | sanjeevirr@yvisoft.com |
 | `PORT` | Port for the server to listen on | 3001 |
+| `GROQ_API_KEY` | API key for Groq AI service | Required |
+| `SUPABASE_URL` | Supabase project URL | Required |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key | Required |
 
 ## 🔧 Available Scripts
 

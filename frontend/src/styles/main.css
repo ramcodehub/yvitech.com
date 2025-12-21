@@ -28,6 +28,10 @@ a:hover{
   text-decoration: none;
 }
 
+*{
+   font-family: var(--font-primary);
+}
+
 h1,
 h2,
 h3,
@@ -37,6 +41,9 @@ h6 {
   font-family: var(--font-primary);
 }
 
+p , span{
+   font-family: var(--font-primary);
+}
 .overview h1 {
   font-weight: 600;
 }

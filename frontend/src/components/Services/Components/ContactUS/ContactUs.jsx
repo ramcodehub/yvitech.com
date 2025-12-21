@@ -7,7 +7,7 @@ const ContactUs = ({headingText,content}) => {
     <div>
       <section  className="">
       <div className="container bg_blue d-flex justify-content-between">
-        <div className="col-xl-6 col-md-6 aos-init aos-animate  align-items-center px-xl-5 p-5 " data-aos="zoom-out">
+        <div className="col-xl-6 col-md-6 aos-init aos-animate  align-items-center px-xl-5 p-5 " data-aos="fade-up">
             <h2>{headingText}</h2>
             <p>{content}</p>
             <Link to='/contact'>Get in Touch</Link>

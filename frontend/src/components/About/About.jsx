@@ -1,9 +1,12 @@
 import Banner from "../Banner/Banner";
 import './About.css'
 import OurApproach from '/src/assets/img/OurApproach1.png'
+import RamImg from '../../assets/img/Ramgopal Yarra.jpg'
 import './About.css'
 import Video from "../Video/Video";
 import BannerThree from "../Banner3/BannerThree";
+import TeamCard from "../TeamCard/TeamCard";
+import team from "../../data/team";
 
 const About = () => {
   const valuesData = [
@@ -48,8 +51,22 @@ const About = () => {
                         content="YVI Tech is a results-driven information technology firm dedicated to providing distinctive, dependable, and innovative software solutions."
                         videoName="About.mp4" />
             <Video/>
+            {/* <section className="leaderr" style={{backgroundColor: '#3B3B3B'}}>
+                <div className="container aos-init aos-animate" data-aos="fade-up">
+                    <div className="section-title">
+                        <h2>Board & Executive Committee</h2>
+                        <p style={{color:'white'}}>Meet Our Executive and Board Members</p>
+                        <span className="text-white-50 fs-5">Our Board and Executive Committee are responsible for setting the direction, strategy, organization, and governance of the company, as well as overseeing its business operations.</span>
+                    </div>
+                    <div className="d-flex  gap-4">
+                      {team.map((team) => (
+                        <TeamCard key={team.id} team={team} />
+                      ))}
+                    </div>
+                </div>
+            </section>     */}
             <section id="values" className="values" style={{backgroundColor: '#3B3B3B'}}>
-                <div className="container aos-init aos-animate" data-aos="zoom-out">
+                <div className="container aos-init aos-animate" data-aos="fade-up">
                     <div className="section-title">
                         <h2>Our Values</h2>
                         <p style={{color:'white'}}>Core Values</p>
@@ -229,7 +246,7 @@ const About = () => {
          {/* <!-- <div className="col-lg-2 align-items-stretch order-1 order-lg-4 img" style='background-image: url("assets/img/OurApproach.png");'>&nbsp;</div>
         </div>--> */}
 
-        <div className="col-xl-2 col-md-4 d-flex aos-init aos-animate" data-aos="zoom-out" data-aos-delay="800" >
+        <div className="col-xl-2 col-md-4 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="800" >
       <img src={OurApproach}  className="img-fluid animated" alt=""/>
     </div>
 

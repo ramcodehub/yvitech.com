@@ -159,7 +159,7 @@ const AI_Data = () => {
               </div>
           </div>
 
-          <div className="col-lg-12 d-flex align-items-center aos-init aos-animate" data-aos="zoom-out" data-aos-delay="200">
+          <div className="col-lg-12 d-flex align-items-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
             <img src={DataManagement} className="img-fluid about-imgg" alt=""/>
           </div>
     <div className="col-lg-12 d-flex flex-column justify-content-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">

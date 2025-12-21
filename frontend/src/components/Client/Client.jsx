@@ -18,8 +18,8 @@ const Client = () => {
 
   return (
      <div>
-      <section id="clients" className="clients">
-        <div className="container aos-init aos-animate" data-aos="zoom-out">
+      <section id="clients" className="clients pt-3">
+        <div className="container aos-init aos-animate" data-aos="fade-up">
             <div className="section-title">
                 <h2>Trusted By</h2>
                 <p>Clients</p>

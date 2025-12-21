@@ -5,10 +5,11 @@ const SAPImplementation = ({
   image,
   points = [],
   extraContent,
+  color
 }) => {
   return (
     <div
-      className="container m-0 p-0 pb-5 my-5 border-0 shadow-sm "
+      className="container m-0 p-0 pt-3 pb-5 my-5 border-0 shadow-sm "
       style={{backgroundColor:"#F6F9FF"}}
     >
       <div className="row gx-0 ">
@@ -23,7 +24,7 @@ const SAPImplementation = ({
             </div>
             {description && (
               <div className="" >
-                <p className="p-0 m-0 " style={{fontSize: "1.18rem" }}>
+                <p className="p-0 m-0 " style={{fontSize: "1.1rem" }}>
                   {description}
                 </p>
               </div>
@@ -32,8 +33,8 @@ const SAPImplementation = ({
         )}
 
         {image && (
-          <div className="col-lg-12 d-flex flex-column align-items-center">
-            <img src={image} height='600px' className="img-fluid about-imgg" alt="" />
+          <div className="col-lg-12 d-flex flex-column align-items-center my-5" style={{background:`${color}`}}>
+            <img src={image} height='500px' className=" about-imgg" alt="" />
           </div>
         )}
 
@@ -47,7 +48,7 @@ const SAPImplementation = ({
           <div className="col-lg-12 m-0 p-0 ">
             <ul className="list-unstyled"
               style={{
-                fontSize: "1.25rem",
+                fontSize: "1.1rem",
                 paddingLeft: "2rem",
               }}
             >
@@ -63,7 +64,7 @@ const SAPImplementation = ({
         {extraContent && (
           <div
             className="content text-start px-4"
-            style={{fontSize: "1.25rem" }}
+            style={{fontSize: "1.1rem" }}
           >
             {extraContent}
           </div>

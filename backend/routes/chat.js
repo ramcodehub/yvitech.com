@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import Groq from 'groq-sdk';
 // Supabase client for backend
 import { createClient } from '@supabase/supabase-js';
 import { SYSTEM_PROMPT, AI_CONFIG } from '../config/ai-config.js';
@@ -13,13 +13,13 @@ let supabase;
 try {
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseKey) {
     console.error('⚠️  WARNING: Supabase configuration missing!');
     console.error('SUPABASE_URL:', !!supabaseUrl);
     console.error('SUPABASE_SERVICE_ROLE_KEY:', !!supabaseKey);
   }
-  
+
   supabase = createClient(supabaseUrl || 'https://your-project.supabase.co', supabaseKey || 'your-service-role-key');
 } catch (error) {
   console.error('❌ Failed to initialize Supabase client:', error);
@@ -28,87 +28,145 @@ try {
 
 const router = express.Router();
 
-// Initialize Google Generative AI client with error handling
-let genAI;
-let geminiModel;
+// Initialize Groq client with error handling
+const MODEL_NAME = AI_CONFIG.groq.model || 'llama3-8b-8192'; // Using config model or fallback
+const FALLBACK_MODEL_NAME = AI_CONFIG.groq.fallbackModel || 'mixtral-8x7b-32768'; // Fallback model
+
+// In-memory cache for chatbot responses
+// In-memory cache for chatbot responses
+const responseCache = new Map();
+const CACHE_TTL = 3600000; // 1 hour in milliseconds
+
+// Rate limiting tracking per session
+const sessionUsage = new Map(); // Track Groq calls per session
+const userLastCall = new Map(); // Track last call time per user/session
+
+let groq;
 try {
-  const geminiApiKey = process.env.GEMINI_API_KEY || AI_CONFIG.gemini.apiKey;
-  if (!geminiApiKey) {
-    console.error('⚠️  WARNING: Gemini API key not configured!');
+  const groqApiKey = process.env.GROQ_API_KEY || AI_CONFIG.groq.apiKey;
+  if (!groqApiKey) {
+    console.error('⚠️  WARNING: Groq API key not configured!');
   }
-  
-  genAI = new GoogleGenerativeAI(geminiApiKey || 'your-gemini-api-key-here');
-  geminiModel = genAI.getGenerativeModel({ 
-    model: AI_CONFIG.gemini.model || 'models/gemini-1.5-flash',
-    generationConfig: {
-      temperature: AI_CONFIG.gemini.temperature || 0.7,
-      maxOutputTokens: AI_CONFIG.gemini.maxTokens || 1000
-    }
+
+  groq = new Groq({
+    apiKey: groqApiKey || 'your-groq-api-key-here'
   });
-  console.log('✅ Gemini AI client initialized successfully');
+  console.log(`✅ Groq AI client initialized successfully with model: ${MODEL_NAME}`);
 } catch (error) {
-  console.error('❌ Failed to initialize Gemini AI client:', error);
-  genAI = null;
-  geminiModel = null;
+  console.error('❌ Failed to initialize Groq AI client:', error);
+  groq = null;
 }
 
-// Initialize embedding model for query embeddings
-let embeddingModel;
-try {
-  embeddingModel = genAI?.getGenerativeModel({ model: "embedding-001" });
-  console.log('✅ Embedding model initialized successfully');
-} catch (error) {
-  console.error('❌ Failed to initialize embedding model:', error);
-  embeddingModel = null;
-}
+// Groq doesn't require separate embedding model initialization
 
-// Function to generate embedding for text
-async function generateEmbedding(text) {
-  // Check if embedding model is available
-  if (!embeddingModel) {
-    console.log('Embedding model not available, skipping embedding generation');
-    throw new Error('Embedding model not initialized');
+// Function to validate AI response
+function isValidAIResponse(response) {
+  // Check if response exists and is not empty
+  if (!response || response.trim().length === 0) {
+    return false;
   }
   
-  try {
-    const result = await embeddingModel.embedContent(text);
-    return result.embedding.values;
-  } catch (error) {
-    console.error('Error generating embedding:', error);
-    throw error;
+  // Check if response contains error indicators
+  const errorIndicators = [
+    'technical difficulties',
+    'unable to process',
+    'try again later',
+    'quota',
+    'error',
+    'service unavailable'
+  ];
+  
+  const lowerResponse = response.toLowerCase();
+  for (const indicator of errorIndicators) {
+    if (lowerResponse.includes(indicator)) {
+      return false;
+    }
   }
+  
+  // Check if response is meaningful (more than 50 characters)
+  if (response.trim().length < 50) {
+    return false;
+  }
+  
+  // Response seems valid
+  return true;
 }
 
 // Function to generate AI response with retry logic and exponential backoff
-async function generateAIResponseWithRetry(prompt, maxRetries = 3) {
-  const delays = [500, 1000, 2000]; // Delay times in milliseconds
-  
+async function generateAIResponseWithRetry(prompt, maxRetries = 1) {
+  const delays = [500]; // Single retry with delay
+
+  // Try primary model first
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const result = await geminiModel.generateContent(prompt);
-      return result.response.text();
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content: SYSTEM_PROMPT
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        model: MODEL_NAME,
+        temperature: AI_CONFIG.groq.temperature || 0.3,
+        max_tokens: AI_CONFIG.groq.maxTokens || 600,
+        top_p: 1,
+        stream: false
+      });
+      
+      return chatCompletion.choices[0]?.message?.content || "";
     } catch (error) {
-      console.error(`Attempt ${attempt + 1} failed:`, error.message);
-      
-      // If this was the last attempt, re-throw the error
+      console.error(`Attempt ${attempt + 1} with primary model failed:`, error.message);
+
+      // If this was the last attempt with primary model, try fallback
       if (attempt === maxRetries) {
-        throw error;
+        break;
       }
-      
+
       // Check if it's a retryable error
-      const isRetryable = error.status === 429 || error.status === 500 || 
-                         error.message.includes('429') || error.message.includes('500') ||
-                         error.message.includes('network') || error.message.includes('Network');
-      
+      const isRetryable = error.status === 429 || error.status === 500 ||
+        error.message.includes('429') || error.message.includes('500') ||
+        error.message.includes('network') || error.message.includes('Network');
+
       if (!isRetryable) {
         throw error;
       }
-      
+
       // Wait before retrying with exponential backoff
       const delay = delays[attempt] || delays[delays.length - 1];
       console.log(`Waiting ${delay}ms before retrying...`);
       await new Promise(resolve => setTimeout(resolve, delay));
     }
+  }
+  
+  // Try fallback model
+  try {
+    console.log(`Trying fallback model: ${FALLBACK_MODEL_NAME}`);
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: SYSTEM_PROMPT
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      model: FALLBACK_MODEL_NAME,
+      temperature: AI_CONFIG.groq.temperature || 0.3,
+      max_tokens: AI_CONFIG.groq.maxTokens || 600,
+      top_p: 1,
+      stream: false
+    });
+    
+    return chatCompletion.choices[0]?.message?.content || "";
+  } catch (fallbackError) {
+    console.error('Fallback model also failed:', fallbackError.message);
+    throw fallbackError;
   }
 }
 
@@ -116,10 +174,10 @@ async function generateAIResponseWithRetry(prompt, maxRetries = 3) {
 async function getDynamicSuggestions(responseText) {
   try {
     const lowerText = responseText.toLowerCase();
-    
+
     // Determine the most relevant category based on keywords in the response
     let category = 'general';
-    
+
     if (lowerText.includes('oracle') || lowerText.includes('hcm') || lowerText.includes('scm') || lowerText.includes('financials')) {
       category = 'oracle';
     } else if (lowerText.includes('sap') || lowerText.includes('salesforce')) {
@@ -133,7 +191,7 @@ async function getDynamicSuggestions(responseText) {
     } else if (lowerText.includes('marketing') || lowerText.includes('seo') || lowerText.includes('social') || lowerText.includes('digital')) {
       category = 'marketing';
     }
-    
+
     // Query the database for suggestions in the determined category
     // Get more suggestions than needed so we can randomize selection
     const { data: categorySuggestions, error: categoryError } = await supabase
@@ -143,19 +201,19 @@ async function getDynamicSuggestions(responseText) {
       .eq('is_active', true)
       .order('priority', { ascending: false })
       .limit(10); // Get more suggestions to allow for randomization
-    
+
     if (!categoryError && categorySuggestions && categorySuggestions.length > 0) {
       // Randomize the selection of suggestions
       const shuffled = categorySuggestions.sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, 4);
-      
+
       // Transform to the format expected by the frontend
       return selected.map(suggestion => ({
         display: suggestion.display_text,
         full: suggestion.full_question
       }));
     }
-    
+
     // Fallback to general suggestions if category-specific ones aren't found
     const { data: generalSuggestions, error: generalError } = await supabase
       .from('chat_suggestions')
@@ -164,33 +222,33 @@ async function getDynamicSuggestions(responseText) {
       .eq('is_active', true)
       .order('priority', { ascending: false })
       .limit(10); // Get more suggestions to allow for randomization
-    
+
     if (!generalError && generalSuggestions && generalSuggestions.length > 0) {
       // Randomize the selection of suggestions
       const shuffled = generalSuggestions.sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, 4);
-      
+
       return selected.map(suggestion => ({
         display: suggestion.display_text,
         full: suggestion.full_question
       }));
     }
-    
+
     // Final fallback to hardcoded suggestions
     return [
-      {"display": "Services", "full": "What services do you offer?"},
-      {"display": "Pricing", "full": "Can you provide pricing information?"},
-      {"display": "Contact", "full": "How can I get in touch with your team?"},
-      {"display": "More", "full": "Tell me more about your company"}
+      { "display": "Services", "full": "What services do you offer?" },
+      { "display": "Pricing", "full": "Can you provide pricing information?" },
+      { "display": "Contact", "full": "How can I get in touch with your team?" },
+      { "display": "More", "full": "Tell me more about your company" }
     ];
   } catch (error) {
     console.error('Error fetching dynamic suggestions:', error);
     // Fallback to hardcoded suggestions in case of error
     return [
-      {"display": "Services", "full": "What services do you offer?"},
-      {"display": "Pricing", "full": "Can you provide pricing information?"},
-      {"display": "Contact", "full": "How can I get in touch with your team?"},
-      {"display": "More", "full": "Tell me more about your company"}
+      { "display": "Services", "full": "What services do you offer?" },
+      { "display": "Pricing", "full": "Can you provide pricing information?" },
+      { "display": "Contact", "full": "How can I get in touch with your team?" },
+      { "display": "More", "full": "Tell me more about your company" }
     ];
   }
 }
@@ -200,18 +258,18 @@ router.post('/chat', async (req, res) => {
   console.log('=== CHAT REQUEST RECEIVED ===');
   console.log('Request body:', req.body);
   console.log('Environment variables check:');
-  console.log('- GEMINI_API_KEY exists:', !!process.env.GEMINI_API_KEY);
+  console.log('- GROQ_API_KEY exists:', !!process.env.GROQ_API_KEY);
   console.log('- SUPABASE URL exists:', !!(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL));
   console.log('- SUPABASE SERVICE KEY exists:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);
-  
+
   // Log the actual values (masked for security)
-  if (process.env.GEMINI_API_KEY) {
-    console.log('- GEMINI_API_KEY length:', process.env.GEMINI_API_KEY.length);
+  if (process.env.GROQ_API_KEY) {
+    console.log('- GROQ_API_KEY length:', process.env.GROQ_API_KEY.length);
   }
   if (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL) {
     console.log('- SUPABASE_URL:', process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL);
   }
-  
+
   try {
     const { message, sessionId, userId } = req.body;
     console.log('Processing message:', message);
@@ -219,136 +277,436 @@ router.post('/chat', async (req, res) => {
     // Validate input
     if (!message) {
       console.log('Validation failed: Message is required');
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Message is required' 
+      return res.status(400).json({
+        success: false,
+        error: 'Message is required'
       });
     }
 
     // Check if Supabase is initialized
     if (!supabase) {
       console.error('❌ Supabase client not initialized');
-      return res.status(500).json({ 
-        success: false, 
-        error: 'Database service unavailable' 
+      return res.status(500).json({
+        success: false,
+        error: 'Database service unavailable'
       });
     }
 
     // Check if AI service is configured
-    if (!(process.env.GEMINI_API_KEY || AI_CONFIG.gemini.apiKey)) {
+    console.log('=== AI CONFIGURATION CHECK ===');
+    console.log('process.env.GROQ_API_KEY exists:', !!process.env.GROQ_API_KEY);
+    console.log('AI_CONFIG.groq.apiKey exists:', !!AI_CONFIG.groq.apiKey);
+    console.log('GROQ_API_KEY value (first 10 chars):', process.env.GROQ_API_KEY ? process.env.GROQ_API_KEY.substring(0, 10) + '...' : 'NOT SET');
+    
+    if (!(process.env.GROQ_API_KEY || AI_CONFIG.groq.apiKey)) {
       console.error('❌ AI service not configured');
-      return res.status(500).json({ 
-        success: false, 
-        error: 'AI service not configured' 
+      return res.status(500).json({
+        success: false,
+        error: 'AI service not configured'
       });
     }
+    console.log('✅ AI service is configured');
 
     // Mock response for testing when MOCK_CHAT is enabled
     if (process.env.MOCK_CHAT === 'true') {
       // Get dynamic suggestions even for mock responses
       const mockSuggestions = await getDynamicSuggestions("This is a mock response about our services.");
-      
-      return res.json({ 
-        success: true, 
+
+      return res.json({
+        success: true,
         response: "This is a mock response for testing purposes. In a production environment, this would be a response from our AI assistant.",
         suggestions: mockSuggestions,
-        responseSource: "gemini", // Default to gemini for mock
+        responseSource: "groq", // Default to groq for mock
         sessionId: sessionId || generateSessionId()
       });
     }
 
-    // Generate embedding for the user query
-    let queryEmbedding;
-    try {
-      queryEmbedding = await generateEmbedding(message);
-    } catch (embeddingError) {
-      console.error('Error generating query embedding:', embeddingError);
-      // Fallback to LLM if embedding fails
-      queryEmbedding = null;
+    // --- STEP 1: QUERY NORMALIZATION ---
+    // Normalize query: lowercase, trim, remove punctuation, generate hash
+    const normalizedMessage = message.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '');
+    
+    // Generate simple hash for the normalized message
+    let hash = 0;
+    for (let i = 0; i < normalizedMessage.length; i++) {
+      const char = normalizedMessage.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    const normalizedHash = Math.abs(hash).toString(36);
+    
+    console.log('Normalized message:', normalizedMessage);
+    console.log('Normalized hash:', normalizedHash);
+    
+    // --- STEP 2: CHECK RATE LIMITS ---
+    
+    // Hardcoded responses for common queries to minimize API usage
+    const msgNormalized = message.toLowerCase().trim();
+    
+    // Greetings
+    if (msgNormalized.includes('hello') || msgNormalized.includes('hi') || msgNormalized.includes('hey') || 
+        msgNormalized === 'greetings' || msgNormalized.startsWith('good morning') || 
+        msgNormalized.startsWith('good afternoon') || msgNormalized.startsWith('good evening')) {
+      
+      const greetingResponses = [
+        "Hello! I'm the YVI Tech Assistant. How can I help you today?",
+        "Hi there! I'm here to help you learn about YVI Technologies. What would you like to know?",
+        "Greetings! I'm your AI assistant for YVI Tech. How can I assist you?"
+      ];
+      
+      const randomGreeting = greetingResponses[Math.floor(Math.random() * greetingResponses.length)];
+      
+      return res.json({
+        success: true,
+        response: `${randomGreeting}\n\n📘 From Database`,
+        suggestions: [
+          { display: "Services", full: "What services do you offer?" },
+          { display: "About", full: "Tell me about YVI Tech" },
+          { display: "Contact", full: "How can I contact you?" },
+          { display: "Pricing", full: "Do you have pricing information?" }
+        ],
+        responseSource: "database",
+        sessionId: sessionId || generateSessionId()
+      });
+    }
+    
+    // Thanks
+    if (msgNormalized.includes('thank') || msgNormalized.includes('thanks') || msgNormalized === 'ty') {
+      return res.json({
+        success: true,
+        response: "You're welcome! Is there anything else I can help you with?\n\n📘 From Database",
+        suggestions: [
+          { display: "Services", full: "What services do you offer?" },
+          { display: "Contact", full: "How can I contact you?" },
+          { display: "Website", full: "Visit your website" },
+          { display: "More", full: "Tell me more" }
+        ],
+        responseSource: "database",
+        sessionId: sessionId || generateSessionId()
+      });
+    }
+    
+    // Help
+    if (msgNormalized.includes('help') || msgNormalized === 'help me' || msgNormalized.includes('assist')) {
+      return res.json({
+        success: true,
+        response: "I'm here to help you learn about YVI Technologies. You can ask me about our services, company information, or anything else related to YVI Tech.\n\n📘 From Database",
+        suggestions: [
+          { display: "Services", full: "What services do you offer?" },
+          { display: "About", full: "Tell me about YVI Tech" },
+          { display: "Contact", full: "How can I contact you?" },
+          { display: "Pricing", full: "Do you have pricing information?" }
+        ],
+        responseSource: "database",
+        sessionId: sessionId || generateSessionId()
+      });
+    }
+    
+    // Contact info
+    if (msgNormalized.includes('contact') || msgNormalized.includes('email') || msgNormalized.includes('phone') || 
+        msgNormalized.includes('address') || msgNormalized.includes('reach')) {
+      return res.json({
+        success: true,
+        response: "You can reach us at:\n\nEmail: contact@yvisoft.com\nPhone: +91-XXX-XXXX-XXXX\n\nWe're located in India and UAE.\n\n📘 From Database",
+        suggestions: [
+          { display: "Email", full: "Send an email" },
+          { display: "Services", full: "What services do you offer?" },
+          { display: "About", full: "Tell me about YVI Tech" },
+          { display: "Location", full: "Where are you located?" }
+        ],
+        responseSource: "database",
+        sessionId: sessionId || generateSessionId()
+      });
+    }
+    // Check if we've exceeded Groq call limits for this session
+    if (sessionId) {
+      const sessionData = sessionUsage.get(sessionId) || { count: 0, lastReset: Date.now() };
+      
+      // Reset counter if it's been more than 24 hours
+      if (Date.now() - sessionData.lastReset > 24 * 60 * 60 * 1000) {
+        sessionData.count = 0;
+        sessionData.lastReset = Date.now();
+      }
+      
+      // Max 5 Groq calls per session
+      if (sessionData.count >= 5) {
+        console.log('Session limit reached for session:', sessionId);
+        
+        // Suggest relevant page based on intent
+        let suggestionUrl = 'https://yvitech.com';
+        const msgLower = message.toLowerCase();
+        
+        if (msgLower.includes('oracle')) {
+          suggestionUrl = 'https://yvitech.com/services/oracle';
+        } else if (msgLower.includes('sap') || msgLower.includes('salesforce')) {
+          suggestionUrl = 'https://yvitech.com/services/erp';
+        } else if (msgLower.includes('ai') || msgLower.includes('data')) {
+          suggestionUrl = 'https://yvitech.com/services/ai-data';
+        } else if (msgLower.includes('web') || msgLower.includes('mobile')) {
+          suggestionUrl = 'https://yvitech.com/services/web-development';
+        } else if (msgLower.includes('rpa')) {
+          suggestionUrl = 'https://yvitech.com/services/rpa';
+        } else if (msgLower.includes('cloud')) {
+          suggestionUrl = 'https://yvitech.com/services/cloud';
+        } else if (msgLower.includes('marketing')) {
+          suggestionUrl = 'https://yvitech.com/services/digital-marketing';
+        } else if (msgLower.includes('design') || msgLower.includes('ui') || msgLower.includes('ux')) {
+          suggestionUrl = 'https://yvitech.com/services/ui-ux-design';
+        }
+        
+        return res.json({
+          success: true,
+          response: `I've reached my limit for this session. For more detailed information, please visit our website: ${suggestionUrl}`,
+          suggestions: [
+            { display: "Website", full: `Visit ${suggestionUrl}` },
+            { display: "Services", full: "What services do you offer?" },
+            { display: "Contact", full: "How can I contact you?" },
+            { display: "More Info", full: "Tell me more about YVI Tech" }
+          ],
+          responseSource: "limit-reached",
+          sessionId: sessionId
+        });
+      }
+      
+      // Check per-user rate limiting (1 call per 10 seconds)
+      const lastCallTime = userLastCall.get(sessionId) || 0;
+      if (Date.now() - lastCallTime < 10000) { // 10 seconds
+        console.log('Rate limit exceeded for session:', sessionId);
+        
+        // Still try to provide value without calling Groq
+        const suggestions = await getDynamicSuggestions("Rate limit exceeded");
+        return res.json({
+          success: true,
+          response: "I'm processing your request. Please wait a moment before sending another message.",
+          suggestions: suggestions,
+          responseSource: "rate-limit",
+          sessionId: sessionId
+        });
+      }
+    }
+    
+    // --- STEP 3: CHECK CACHED RESPONSES (In-memory and Database) ---
+
+    // Check in-memory cache first
+    const cachedResponse = responseCache.get(normalizedMessage);
+    if (cachedResponse && (Date.now() - cachedResponse.timestamp < CACHE_TTL)) {
+      console.log('✅ Cache hit (in-memory):', normalizedMessage);
+      
+      // Add source indicator if not already present
+      let responseWithSource = cachedResponse.response;
+      if (!responseWithSource.includes('📘 From Database') && !responseWithSource.includes('🤖 AI Response')) {
+        responseWithSource = `${cachedResponse.response}\n\n📘 From Database`;
+      }
+      
+      return res.json({
+        success: true,
+        response: responseWithSource,
+        suggestions: cachedResponse.suggestions,
+        responseSource: "database",
+        sessionId: sessionId || generateSessionId()
+      });
     }
 
-    let responseSource = "gemini";
+    // Check database for exact match (persistent cache)
+    try {
+      const { data: dbCache, error: dbCacheError } = await supabase
+        .from('chatbot_logs')
+        .select('bot_response, match_score')
+        .eq('user_query', message.trim())
+        .not('bot_response', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (!dbCacheError && dbCache && dbCache.length > 0 && dbCache[0].bot_response) {
+        console.log('✅ Cache hit (database):', normalizedMessage);
+        const dbResponse = dbCache[0].bot_response;
+        const dbSuggestions = await getDynamicSuggestions(dbResponse);
+
+        // Update in-memory cache
+        responseCache.set(normalizedMessage, {
+          response: dbResponse,
+          suggestions: dbSuggestions,
+          timestamp: Date.now()
+        });
+
+        // Add source indicator
+        const responseWithSource = dbResponse.endsWith('📘 From Database') ? dbResponse : `${dbResponse}\n\n📘 From Database`;
+
+        return res.json({
+          success: true,
+          response: responseWithSource,
+          suggestions: dbSuggestions,
+          responseSource: "database",
+          sessionId: sessionId || generateSessionId()
+        });
+      }
+    } catch (cacheErr) {
+      console.log('Database cache check skip:', cacheErr.message);
+    }
+
+    // Skipping embedding generation as Groq doesn't require it
+
+    // --- STEP 2: KEYWORD MATCHING (DB Knowledge) ---
+    let responseSource = "groq";
     let aiResponse = "";
     let matchScore = 0;
 
-    // If we successfully generated an embedding, perform vector similarity search
-    if (queryEmbedding) {
-      try {
-        // Perform vector similarity search against chatbot_knowledge
-        const { data: similarityResults, error: similarityError } = await supabase
-          .rpc('match_documents', {
-            query_embedding: queryEmbedding,
-            match_threshold: 0.80, // 80% similarity threshold
-            match_count: 1
-          });
+    // Perform keyword matching against chatbot_knowledge
+    try {
+      // First, try to find an exact match in the knowledge base
+      const { data: exactMatch, error: exactMatchError } = await supabase
+        .from('chatbot_knowledge')
+        .select('description')
+        .eq('question', message.trim())
+        .single();
 
-        if (!similarityError && similarityResults && similarityResults.length > 0) {
-          const bestMatch = similarityResults[0];
-          matchScore = bestMatch.similarity;
+      if (!exactMatchError && exactMatch && exactMatch.description) {
+        aiResponse = exactMatch.description;
+        responseSource = "database";
+        matchScore = 1.0;
+        console.log('✅ Exact DB match found');
+        
+        // Add source indicator
+        aiResponse = `${aiResponse}\n\n📘 From Database`;
+      } else {
+        // If no exact match, try partial matching
+        const normalizedMsg = message.toLowerCase().trim();
+        const { data: partialMatches, error: partialMatchError } = await supabase
+          .from('chatbot_knowledge')
+          .select('question, description');
+
+        if (!partialMatchError && partialMatches && partialMatches.length > 0) {
+          // Find the best partial match
+          let bestMatch = null;
+          let bestScore = 0;
           
-          // If score > 0.80, return DB answer
-          if (matchScore > 0.80) {
-            aiResponse = bestMatch.description || bestMatch.content || "No detailed information available.";
+          for (const item of partialMatches) {
+            const normalizedQuestion = item.question.toLowerCase();
+            if (normalizedMsg.includes(normalizedQuestion) || normalizedQuestion.includes(normalizedMsg)) {
+              // Calculate a simple match score
+              const score = Math.max(
+                normalizedMsg.includes(normalizedQuestion) ? normalizedQuestion.length / normalizedMsg.length : 0,
+                normalizedQuestion.includes(normalizedMsg) ? normalizedMsg.length / normalizedQuestion.length : 0
+              );
+              
+              if (score > bestScore && score >= 0.5) {  // Minimum 50% match
+                bestScore = score;
+                bestMatch = item;
+              }
+            }
+          }
+          
+          if (bestMatch && bestScore >= 0.5) {
+            aiResponse = bestMatch.description;
             responseSource = "database";
+            matchScore = bestScore;
+            console.log('✅ Partial DB match found with score:', bestScore);
+            
+            // Add source indicator
+            aiResponse = `${aiResponse}\n\n📘 From Database`;
           }
         }
-      } catch (similarityError) {
-        console.log('Vector similarity search error (non-fatal):', similarityError.message);
-        // If RPC function doesn't exist, we'll fall back to LLM
-        if (similarityError.message && similarityError.message.includes('function')) {
-          console.log('Vector similarity function not found, falling back to LLM');
-        }
       }
+    } catch (matchingError) {
+      console.log('Database matching error (non-fatal):', matchingError.message);
     }
 
-    // If we didn't get a high-confidence match from the database, fallback to Gemini LLM
-    if (responseSource === "gemini") {
+    // --- STEP 3: CALL GROQ API ---
+    if (responseSource === "groq") {
       // Check if AI models are initialized
-      if (!genAI || !geminiModel) {
-        console.error('❌ AI models not initialized');
-        // Provide a fallback response
-        aiResponse = "Thank you for your message. Our AI assistant is currently unavailable. A team member will get back to you soon. In the meantime, you can explore our services on the website or contact us directly at sanjeevirr@yvisoft.com.";
+      if (!groq) {
+        console.error('❌ Groq client not initialized');
+        aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
         responseSource = "fallback";
       } else {
-        // Query knowledge base for relevant information (fallback method)
+        // Query knowledge base for relevant context
         let knowledgeBaseInfo = '';
         try {
           const { data: knowledgeData, error: knowledgeError } = await supabase
             .from('chatbot_knowledge')
             .select('category, title, description')
-            .limit(3);
+            .limit(5); // Increased context
 
           if (!knowledgeError && knowledgeData && knowledgeData.length > 0) {
-            knowledgeBaseInfo = '\n\nRelevant information from our knowledge base:\n';
+            knowledgeBaseInfo = '\n\nContext regarding YVI Tech services:\n';
             knowledgeData.forEach(item => {
               knowledgeBaseInfo += `- ${item.title}: ${item.description}\n`;
             });
           }
         } catch (kbError) {
-          console.log('Knowledge base query error (non-fatal):', kbError.message);
+          console.log('Knowledge base context fetch error:', kbError.message);
         }
 
-        // Generate AI response with system prompt and knowledge base info using Gemini
-        const fullPrompt = SYSTEM_PROMPT + knowledgeBaseInfo + '\n\nUser question: ' + message;
-        console.log('Sending prompt to Gemini:', fullPrompt.substring(0, 100) + '...');
-        
+        // Generate AI response with Groq
+        const fullPrompt = message;
+
         try {
-          aiResponse = await generateAIResponseWithRetry(fullPrompt);
-          console.log('Received response from Gemini, length:', aiResponse.length);
-        } catch (aiError) {
-          console.error('❌ Error generating AI response after retries:', aiError);
-          console.error('Error name:', aiError.name);
-          console.error('Error message:', aiError.message);
-          if (aiError.response) {
-            console.error('Error response:', aiError.response);
+          // Check if we're about to exceed rate limits before making the call
+          if (sessionId) {
+            // Update rate limiting tracking
+            const sessionData = sessionUsage.get(sessionId) || { count: 0, lastReset: Date.now() };
+            sessionData.count++;
+            sessionUsage.set(sessionId, sessionData);
+            userLastCall.set(sessionId, Date.now());
           }
           
-          // Provide fallback response when all retries fail
-          aiResponse = "I'm unable to reach the AI service right now. Please try again, or visit https://yvitech.com for details.";
+          aiResponse = await generateAIResponseWithRetry(fullPrompt);
+          console.log('✅ Response generated from Groq');
+          
+          // Validate the AI response
+          if (!isValidAIResponse(aiResponse)) {
+            console.log('❌ Invalid AI response received, using fallback');
+            aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
+            responseSource = "fallback";
+          } else {
+            // Add source indicator
+            aiResponse = `${aiResponse}\n\n🤖 AI Response (Groq)`;
+            
+            // Add learn more link for non-database responses
+            if (!aiResponse.includes('yvitech.com')) {
+              aiResponse = `${aiResponse}\n\n🌐 Learn more: https://yvitech.com`;
+            }
+          }
+        } catch (aiError) {
+          console.error('❌ Groq API error after retries:', aiError.message);
+          
+          // Handle specific error types
+          if (aiError.status === 429 || aiError.message.includes('429') || aiError.message.includes('quota')) {
+            // Quota exceeded - provide friendly fallback
+            let suggestionUrl = 'https://yvitech.com';
+            const msgLower = message.toLowerCase();
+            
+            if (msgLower.includes('oracle')) {
+              suggestionUrl = 'https://yvitech.com/services/oracle';
+            } else if (msgLower.includes('sap') || msgLower.includes('salesforce')) {
+              suggestionUrl = 'https://yvitech.com/services/erp';
+            } else if (msgLower.includes('ai') || msgLower.includes('data')) {
+              suggestionUrl = 'https://yvitech.com/services/ai-data';
+            } else if (msgLower.includes('web') || msgLower.includes('mobile')) {
+              suggestionUrl = 'https://yvitech.com/services/web-development';
+            } else if (msgLower.includes('rpa')) {
+              suggestionUrl = 'https://yvitech.com/services/rpa';
+            } else if (msgLower.includes('cloud')) {
+              suggestionUrl = 'https://yvitech.com/services/cloud';
+            } else if (msgLower.includes('marketing')) {
+              suggestionUrl = 'https://yvitech.com/services/digital-marketing';
+            } else if (msgLower.includes('design') || msgLower.includes('ui') || msgLower.includes('ux')) {
+              suggestionUrl = 'https://yvitech.com/services/ui-ux-design';
+            }
+            
+            aiResponse = `I'm currently experiencing high demand. For immediate assistance, please visit our website: ${suggestionUrl}`;
+          } else {
+            // Other errors
+            aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
+          }
+          
           responseSource = "fallback";
         }
       }
     }
+
+    // --- STEP 4: POST-PROCESSING & CACHING ---
+    // Log final response
+    console.log(`Final Response Source: ${responseSource}`);
 
     // Log the full AI response for debugging
     console.log('Full AI Response:', aiResponse);
@@ -367,32 +725,60 @@ router.post('/chat', async (req, res) => {
     // Get dynamic suggestions from database based on the AI response
     const suggestions = await getDynamicSuggestions(aiResponse);
 
+    // Save to in-memory cache if it was a Groq or DB response (not fallback)
+    // Only cache valid responses
+    if ((responseSource === "groq" && isValidAIResponse(aiResponse)) || responseSource === "database") {
+      responseCache.set(normalizedMessage, {
+        response: aiResponse,
+        suggestions: suggestions,
+        timestamp: Date.now()
+      });
+    }
+
     // Log final response and suggestions
-    console.log('Final response:', aiResponse);
-    console.log('Final suggestions:', suggestions);
+    console.log('Final suggestions count:', suggestions.length);
 
-    // Save chat to Supabase using chatbot_logs table
-    const { data, error } = await supabase
-      .from('chatbot_logs')
-      .insert([
-        {
-          user_query: message,
-          bot_response: aiResponse,
-          matched_category: 'general',
-          source: 'web_widget',
-          match_score: matchScore,
-          response_source: responseSource,
-          created_at: new Date().toISOString()
+    // Save chat to Supabase using chatbot_logs table with usage tracking
+    // Only log valid responses (not fallback/error responses)
+    const isValidResponse = (responseSource === 'groq' && isValidAIResponse(aiResponse)) || responseSource === 'database';
+    
+    if (isValidResponse) {
+      const { data, error } = await supabase
+        .from('chatbot_logs')
+        .insert([
+          {
+            user_query: message,
+            bot_response: aiResponse,
+            matched_category: 'general',
+            source: 'web_widget',
+            match_score: matchScore,
+            response_source: responseSource,
+            created_at: new Date().toISOString()
+            // usage_count: 1 // Temporarily disabled due to schema issues
+          }
+        ]);
+
+      if (error) {
+        console.error('Error saving chat to Supabase:', error);
+      } else {
+        // Update usage count for cached responses
+        // Temporarily disabled due to schema issues
+        /*
+        try {
+          await supabase
+            .from('chatbot_logs')
+            .update({ usage_count: supabase.sql`usage_count + 1` })
+            .eq('user_query', message);
+        } catch (updateError) {
+          console.log('Could not update usage count:', updateError.message);
         }
-      ]);
-
-    if (error) {
-      console.error('Error saving chat to Supabase:', error);
+        */
+      }
     }
 
     // Return AI response with suggestions and metadata
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       response: aiResponse,
       suggestions: suggestions,
       responseSource: responseSource,
@@ -404,16 +790,16 @@ router.post('/chat', async (req, res) => {
     console.error('Error message:', error.message);
     console.error('Error stack:', error.stack);
     console.error('Error status:', error.status);
-    
+
     // Check for specific error types
-    if (error.name === 'GoogleGenerativeAIError' || error.message.includes('API key')) {
-      console.error('This is likely an API key or Google AI configuration issue');
+    if (error.message.includes('API key')) {
+      console.error('This is likely an API key or Groq configuration issue');
     }
-    
+
     if (error.message.includes('Supabase') || error.message.includes('supabase')) {
       console.error('This is likely a Supabase connection or query issue');
     }
-    
+
     // Provide more specific error messages based on error type
     let errorMessage = 'Failed to process chat message';
     if (error.status === 403) {
@@ -421,9 +807,9 @@ router.post('/chat', async (req, res) => {
     } else if (error.message && error.message.includes('API key')) {
       errorMessage = 'AI service configuration error. Please contact support.';
     }
-    
-    res.status(500).json({ 
-      success: false, 
+
+    res.status(500).json({
+      success: false,
       error: errorMessage,
       details: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });

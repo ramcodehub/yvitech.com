@@ -105,7 +105,7 @@ const Approach = () => {
          {/* <!-- <div className="col-lg-2 align-items-stretch order-1 order-lg-4 img" style='background-image: url("assets/img/OurApproach.png");'>&nbsp;</div>
         </div>--> */}
 
-        <div className="col-xl-2 col-md-4 d-flex aos-init aos-animate" data-aos="zoom-out" data-aos-delay="800" >
+        <div className="col-xl-2 col-md-4 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="800" >
       <img src={OurApproach}  className="img-fluid animated" alt=""/>
     </div>
 

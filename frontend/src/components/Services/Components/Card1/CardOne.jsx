@@ -118,7 +118,7 @@ const CardOne = ({image,headingText,content,dataAOS,classname,height=true}) => {
     }  
   return (
     
-      <div className={`col-xl-${classname||4} col-md-6 d-flex aos-init aos-animate`} data-aos="zoom-out"  data-aos-delay={dataAOS||0}>
+      <div className={`col-xl-${classname||4} col-md-6 d-flex aos-init aos-animate`} data-aos="fade-up"  data-aos-delay={dataAOS||0}>
             <div className="service-item position-relative bg_white_light">
               <div> <img src={images[image]} className="img-fluid" alt="" style={ height ? { width: "356px", height: "200px" } : {} }/></div>
               <h4><span className="stretched-link">{headingText}</span></h4>

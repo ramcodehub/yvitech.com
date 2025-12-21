@@ -32,6 +32,27 @@
   transform: scale(1);
 }
 
+.founder{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 6px 10px;
+  background-color: rgba(255, 255, 255, 0.196);
+  color: white;
+  border-radius: 4px;
+}
+.founder-linkedin{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 6px 10px;
+  color: white;
+}
+
+.founder-linkedin:hover{
+  color: #0a66c2 !important;
+}
+
 /*--------------------------------------------------------------
 # F.A.Q Section
 --------------------------------------------------------------*/
@@ -115,4 +136,11 @@
   border-radius: 5px;
   background: var(--color-white);
   box-shadow: none;
+}
+
+
+@media (max-width: 1024px) {
+  .meet-the-founder {
+    flex-direction: column;
+  }
 }
