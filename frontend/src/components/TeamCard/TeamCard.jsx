@@ -16,8 +16,8 @@ const TeamCard = ({ team }) => {
       <img
         src={team.image}
         alt={team.name}
-        className="img-fluid rounded-4"
-        style={{ height: "360px", objectFit: "cover", border:'2px solid rgba(255, 255, 255, 0.5)' }}
+        className="img-fluid "
+        style={{ height: "360px", objectFit: "cover", border:'2px solid rgba(255, 255, 255, 0.5)' , borderRadius:'50%' }}
       />
 
       <h3 className="mt-2 text-white fw-bold">{team.name}</h3>
@@ -28,7 +28,7 @@ const TeamCard = ({ team }) => {
               target="_blank"
               rel="noreferrer"
             >
-              <i className="bi bi-linkedin fs-3"></i>
+              <i className="bi bi-linkedin fs-3 lkd"></i>
             </a>
     </div>
   );

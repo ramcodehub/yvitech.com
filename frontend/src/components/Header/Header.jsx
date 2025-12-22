@@ -68,6 +68,8 @@ const Header = () => {
                       <li><Link to="/oracle-hcm" onClick={() => setIsOpen(false)}>Oracle HCM</Link></li>
                       <li><Link to="/oracle-scm" onClick={() => setIsOpen(false)}>Oracle SCM</Link></li>
                       <li><Link to="/oracle-financials" onClick={() => setIsOpen(false)}>Oracle Financials</Link></li>
+                      <li><Link to="/sap" onClick={() => setIsOpen(false)}>SAP</Link></li>
+                      <li><Link to="/salesforce" onClick={() => setIsOpen(false)}>Salesforce</Link></li>
                       <li><Link to="/other-core-capabilities" onClick={() => setIsOpen(false)}>Other Core Capabilities</Link></li>
                     </ul>
                   </li>
@@ -75,12 +77,15 @@ const Header = () => {
                   <li><Link to="/managed-services" onClick={() => setIsOpen(false)}>Managed Services</Link></li>
                   <li><Link to="/ai-and-data-platform" onClick={() => setIsOpen(false)}>Data and AI Solutions</Link></li>
                   <li><Link to="/rpa-services" onClick={() => setIsOpen(false)}>RPA Services</Link></li>
-                  <li><Link to="/sap" onClick={() => setIsOpen(false)}>SAP</Link></li>
-                  <li><Link to="/salesforce" onClick={() => setIsOpen(false)}>Salesforce</Link></li>
                   <li><Link to="/digital-marketing" onClick={() => setIsOpen(false)}>Digital Marketing</Link></li>
-                  <li><Link to="/ui-ux-design" onClick={() => setIsOpen(false)}>UX/UI Design</Link></li>
-                  <li><Link to="/web-development" onClick={() => setIsOpen(false)}>Web Development</Link></li>
-                  <li><Link to="/mobile-app-development" onClick={() => setIsOpen(false)}>Mobile Development</Link></li>
+                  <li className="dropdown">
+                    <a href="#"><span>Enterprise Solutions</span> <i className="bi bi-chevron-right dropdown-indicator"></i></a>
+                    <ul>
+                      <li><Link to="/ui-ux-design" onClick={() => setIsOpen(false)}>UX/UI Design</Link></li>
+                      <li><Link to="/web-development" onClick={() => setIsOpen(false)}>Web Development</Link></li>
+                      <li><Link to="/mobile-app-development" onClick={() => setIsOpen(false)}>Mobile Development</Link></li>
+                    </ul>
+                  </li>
                 </ul>
               )}
             </li>

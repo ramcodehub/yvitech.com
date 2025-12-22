@@ -6,11 +6,14 @@ const MobileMenu = () => {
   const [sideBar, setSideBar] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [enterpriseDrop, setEnterpriseDrop] = useState(false);
+  const [developmentDrop, setdevelopmentDrop] = useState(false);
+
 
   const handleNavigate = () => {
     setSideBar(false);
     setDropDown(false);
     setEnterpriseDrop(false);
+    setdevelopmentDrop(false);
   };
 
   return (
@@ -72,6 +75,16 @@ const MobileMenu = () => {
                           Oracle Financials
                         </Link>
                       </li>
+                     <li>
+                  <Link to="/sap" onClick={handleNavigate}>
+                    SAP
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/salesforce" onClick={handleNavigate}>
+                    Salesforce
+                  </Link>
+                </li> 
                       <li>
                         <Link to="/other-core-capabilities" onClick={handleNavigate}>
                           Other Core Capabilities
@@ -96,36 +109,42 @@ const MobileMenu = () => {
                     RPA Services
                   </Link>
                 </li>
-                <li>
-                  <Link to="/sap" onClick={handleNavigate}>
-                    SAP
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/salesforce" onClick={handleNavigate}>
-                    Salesforce
-                  </Link>
-                </li>
+                
                 <li>
                   <Link to="/digital-marketing" onClick={handleNavigate}>
                     Digital Marketing
                   </Link>
                 </li>
-                <li>
-                  <Link to="/ui-ux-design" onClick={handleNavigate}>
-                    UX/UI Design
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/web-development" onClick={handleNavigate}>
-                    Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/mobile-app-development" onClick={handleNavigate}>
-                    Mobile Development
-                  </Link>
-                </li>
+                <li className="sub-dropdown">
+                  <button
+                    className="servicebtn sub-btn"
+                    onClick={() => setdevelopmentDrop(!developmentDrop)}
+                  >
+                    <span>Enterprise Solutions</span>{' '}
+                    <i className={`bi ${developmentDrop ? 'bi-chevron-up' : 'bi-chevron-down'} dropdown-indicator`}></i>
+                  </button>
+
+                  {developmentDrop && (
+                    <ul className="sub-submenu">
+                      <li>
+                        <Link to="/ui-ux-design" onClick={handleNavigate}>
+                          UX/UI Design
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/web-development" onClick={handleNavigate}>
+                          Web Development
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/mobile-app-development" onClick={handleNavigate}>
+                          Mobile Development
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                  </li>
+                
               </ul>
             )}
           </li>
