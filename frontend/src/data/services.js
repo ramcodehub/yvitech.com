@@ -6,6 +6,8 @@ import TestingQA from "../assets/img/OurServices/TestingQA.png"
 import DataAnalytics from "../assets/img/OurServices/DataAnalytics.jpg"
 import InfrastructureServices from "../assets/img/OurServices/InfrastructureServices.jpg"
 import CybersecurityServices from "../assets/img/OurServices/CybersecurityServices.jpg"
+import Automation from "../assets/img/OurServices/Automation.png"
+import EnterpriseSolutions from "../assets/img/OurServices/Enterprise Solutions.png"
 
 const services = [
       {
@@ -71,6 +73,19 @@ const services = [
     description:
       "Equipped with experience in information security and employing ISO 27001 certified information security management practices, we help to achieve the robust protection of the companies’ applications and networks.",
     img: CybersecurityServices, 
+  },
+  {
+    id: "tab-9",
+    title: "Automation",
+    description:"At YVI Tech, we specialize in delivering advanced Robotic Process Automation (RPA) solutions designed to optimize operational efficiency, enhance productivity, and foster innovation. Our RPA services are customized to support your organization in automating repetitive manual tasks, allowing your team to focus on strategic initiatives that drive growth and operational excellence.",
+    img: Automation,
+  },
+  {
+    id: "tab-10",
+    title: "Enterprise Solutions",
+    description:`We specialise in designing and implementing enterprise-level applications that facilitate seamless integration across various business functions, ensuring data consistency, process automation, and comprehensive operational visibility throughout the organisation. 
+    Expertise includes ERP, CRM, and enterprise system integration, as well as modernization of legacy applications and end-to-end system harmonisation.`,
+    img:EnterpriseSolutions,
   },
   ];
 

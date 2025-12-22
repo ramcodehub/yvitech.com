@@ -5,14 +5,19 @@ import "./ServicesTabs.css";
 export default function ServicesTabs({ services }) {
   const [activeTab, setActiveTab] = useState(services[0].id);
   const activeTabRef = useRef(null);
+  const firstLoad = useRef(true);
 
   const activeService = services.find(
     (service) => service.id === activeTab
   );
 
-  // Auto-scroll active tab into view on mobile
   useEffect(() => {
-    if (activeTabRef.current) {
+    if (firstLoad.current) {
+      firstLoad.current = false;
+      return;
+    }
+
+    if (window.innerWidth <= 768 && activeTabRef.current) {
       activeTabRef.current.scrollIntoView({
         behavior: "smooth",
         inline: "center",

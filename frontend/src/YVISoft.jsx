@@ -41,15 +41,13 @@ const YVISoft = () => {
       duration: 800,
       easing: "ease-in-out",
       once: true,
-      offset: 200,
+      offset: 0,
     });
-
-    console.log("AOS initialized");
   }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      AOS.refreshHard();
+      AOS.refresh();
     }, 50);
 
     return () => clearTimeout(timeout);
