@@ -120,7 +120,7 @@ const MobileMenu = () => {
                     className="servicebtn sub-btn"
                     onClick={() => setdevelopmentDrop(!developmentDrop)}
                   >
-                    <span>Enterprise Solutions</span>{' '}
+                    <span>Digital Solutions</span>{' '}
                     <i className={`bi ${developmentDrop ? 'bi-chevron-up' : 'bi-chevron-down'} dropdown-indicator`}></i>
                   </button>
 

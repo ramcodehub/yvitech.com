@@ -79,7 +79,7 @@ const Header = () => {
                   <li><Link to="/rpa-services" onClick={() => setIsOpen(false)}>RPA Services</Link></li>
                   <li><Link to="/digital-marketing" onClick={() => setIsOpen(false)}>Digital Marketing</Link></li>
                   <li className="dropdown">
-                    <a href="#"><span>Enterprise Solutions</span> <i className="bi bi-chevron-right dropdown-indicator"></i></a>
+                    <a href="#"><span>Digital Solutions</span> <i className="bi bi-chevron-right dropdown-indicator"></i></a>
                     <ul>
                       <li><Link to="/ui-ux-design" onClick={() => setIsOpen(false)}>UX/UI Design</Link></li>
                       <li><Link to="/web-development" onClick={() => setIsOpen(false)}>Web Development</Link></li>
