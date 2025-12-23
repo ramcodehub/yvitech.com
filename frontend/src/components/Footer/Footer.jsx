@@ -45,41 +45,34 @@ const Footer = () => {
           </div>
           <div className="col-lg-1 col-md-6 footer-links"></div>
           <div className="col-lg-2 col-md-6 footer-links">
-            <h4>Core Capabilities</h4>
+            <h4>Enterprise Solutions</h4>
             <ul>
-                <li><i className="bi bi-chevron-right"></i> <a >Enterprise Solutions</a></li>
-                <li><i className="bi bi-chevron-right ms-3"></i> <Link to="/oracle-hcm">Oracle HCM</Link></li>
-                <li><i className="bi bi-chevron-right ms-3"></i> <Link to="/oracle-scm">Oracle SCM</Link></li>
-                <li><i className="bi bi-chevron-right ms-3"></i> <Link to="/oracle-financials">Oracle Financials</Link></li>
-                <li><i className="bi bi-chevron-right ms-3"></i>  <Link to="/sap">SAP</Link> </li>
-                <li><i className="bi bi-chevron-right ms-3"></i> <Link to="/salesforce">Salesforce</Link></li>
-                <li><i className="bi bi-chevron-right ms-3"></i><Link to="/other-core-capabilities">Other Core Capabilities</Link></li>
-                <li><i className="bi bi-chevron-right"></i> <Link to="/managed-services">Managed Services</Link></li>
+                <li><i className="bi bi-chevron-right"></i> <Link to="/oracle-hcm">Oracle HCM</Link></li>
+                <li><i className="bi bi-chevron-right"></i> <Link to="/oracle-scm">Oracle SCM</Link></li>
+                <li><i className="bi bi-chevron-right"></i> <Link to="/oracle-financials">Oracle Financials</Link></li>
+                <li><i className="bi bi-chevron-right"></i>  <Link to="/sap">SAP</Link> </li>
+                <li><i className="bi bi-chevron-right"></i> <Link to="/salesforce">Salesforce</Link></li>
+                <li><i className="bi bi-chevron-right"></i><Link to="/other-core-capabilities">Other Core Capabilities</Link></li>
                 
                 </ul>
           </div>
 
           <div className="col-lg-2 col-md-6 footer-links">
-            <h4> Other  Capabilities</h4>
+            <h4>Digital Solutions</h4>
             <ul>
+              <li><i className="bi bi-chevron-right"></i> <Link to="/ui-ux-design">UX/UI Design</Link></li>
+              <li><i className="bi bi-chevron-right"></i> <Link to="/web-development">Web Development</Link></li>
+              <li><i className="bi bi-chevron-right"></i> <Link to="/mobile-app-development">Mobile Development</Link></li>
+            </ul>
+          </div>
 
+          <div className="col-lg-2 col-md-6 footer-links">
+            <h4>Explore More</h4>
+            <ul>
+              <li><i className="bi bi-chevron-right"></i> <Link to="/managed-services">Managed Services</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/ai-and-data-platform">Data and AI Solutions</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/rpa-services">RPA Services</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/digital-marketing">Digital Marketing</Link></li>
-              <li><i className="bi bi-chevron-right"></i> <a>Digital Solutions</a></li>
-              <li><i className="bi bi-chevron-right ms-3"></i> <Link to="/ui-ux-design">UX/UI Design</Link></li>
-              <li><i className="bi bi-chevron-right ms-3"></i> <Link to="/web-development">Web Development</Link></li>
-              <li><i className="bi bi-chevron-right ms-3"></i> <Link to="/mobile-app-development">Mobile Development</Link></li>
-               
-                
-                </ul>
-          </div>
-
-          <div className="col-lg-2 col-md-6 footer-links">
-            <h4>Insights</h4>
-            <ul>
-              <li><i className="bi bi-chevron-right"></i> <Link className="nav-link" to="/">Home</Link></li>
-              <li><i className="bi bi-chevron-right"></i> <Link className="nav-link scrollto" to="/about">Explore YVI Tech</Link></li>
               
             </ul>
           </div>
