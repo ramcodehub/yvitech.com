@@ -47,7 +47,7 @@ const Header = () => {
               </a>
 
               {isOpen && (
-                <div className="mega-menu py-4 px-5 d-flex " onMouseLeave={() => setIsOpen(false)} >
+                <div className="mega-menu py-4 d-flex " onMouseLeave={() => setIsOpen(false)} >
                   <h2 className="fw-bold lh-1 m-0 p-0">Our Services</h2>
                 <div className="d-flex align-items-start py-2  w-100" >
 

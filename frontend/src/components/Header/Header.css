@@ -262,6 +262,7 @@
 /* Align content with header container */
 .mega-menu {
   display: flex;
+  padding: 0 3rem;
 }
 
 .mega-menu > * {
@@ -322,4 +323,10 @@
 
 .navbar .megamenu > a {
   background: none !important;
+}
+
+@media (min-width: 1439px) {
+  .mega-menu{
+    padding-left: 5rem !important;
+  }
 }
