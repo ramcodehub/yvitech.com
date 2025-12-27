@@ -25,7 +25,7 @@ const Footer = () => {
                 
               </div>
               
-              <div className='d-flex gap-2 address'>
+              <div className='d-flex gap-3 address'>
                 <p><img src={India} width='20px'/><br/>
                 Hyderabad, India<br/>
                 Address:- Unit No: 709, 7th Floor, Asian Sun City, B-Block, Kondapur, Hyderabad-500084
@@ -52,7 +52,7 @@ const Footer = () => {
                 <li><i className="bi bi-chevron-right"></i> <Link to="/oracle-financials">Oracle Financials</Link></li>
                 <li><i className="bi bi-chevron-right"></i>  <Link to="/sap">SAP</Link> </li>
                 <li><i className="bi bi-chevron-right"></i> <Link to="/salesforce">Salesforce</Link></li>
-                <li><i className="bi bi-chevron-right"></i><Link to="/other-core-capabilities">Other Core Capabilities</Link></li>
+                <li><i className="bi bi-chevron-right"></i><Link to="/other-core-capabilities">Explore More</Link></li>
                 
                 </ul>
           </div>
@@ -67,11 +67,11 @@ const Footer = () => {
           </div>
 
           <div className="col-lg-2 col-md-6 footer-links">
-            <h4>Explore More</h4>
+            <h4>Other Capabilities</h4>
             <ul>
               <li><i className="bi bi-chevron-right"></i> <Link to="/managed-services">Managed Services</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/ai-and-data-platform">Data and AI Solutions</Link></li>
-              <li><i className="bi bi-chevron-right"></i> <Link to="/rpa-services">RPA Services</Link></li>
+              <li><i className="bi bi-chevron-right"></i> <Link to="/rpa-services">Automation & RPA</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/digital-marketing">Digital Marketing</Link></li>
               
             </ul>

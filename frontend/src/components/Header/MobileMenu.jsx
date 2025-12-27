@@ -106,7 +106,7 @@ const MobileMenu = () => {
                 </li>
                 <li>
                   <Link to="/rpa-services" onClick={handleNavigate}>
-                    RPA Services
+                    Automation & RPA
                   </Link>
                 </li>
                 

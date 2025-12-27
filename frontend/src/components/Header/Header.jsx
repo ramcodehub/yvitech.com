@@ -59,7 +59,7 @@ const Header = () => {
                       <Link to="/oracle-financials" onClick={() => setIsOpen(false)}>Oracle Financials</Link>
                       <Link to="/sap" onClick={() => setIsOpen(false)}>SAP</Link>
                       <Link to="/salesforce" onClick={() => setIsOpen(false)}>Salesforce</Link>
-                      <Link to="/other-core-capabilities" onClick={() => setIsOpen(false)}>Other Core Capabilities</Link>
+                      <Link to="/other-core-capabilities" onClick={() => setIsOpen(false)}>Explore More</Link>
                     </div>
 
                     <div className="mega-column">
@@ -73,7 +73,7 @@ const Header = () => {
                     <div>
                       <Link to="/managed-services" onClick={() => setIsOpen(false)}>Managed Services</Link>
                       <Link to="/ai-and-data-platform" onClick={() => setIsOpen(false)}>Data & AI Solutions</Link>
-                      <Link to="/rpa-services" onClick={() => setIsOpen(false)}>RPA Services</Link>
+                      <Link to="/rpa-services" onClick={() => setIsOpen(false)}>Automation & RPA</Link>
                       <Link to="/digital-marketing" onClick={() => setIsOpen(false)}>Digital Marketing</Link>
                     </div>
                   </div>
