@@ -150,10 +150,34 @@ const ChatWidget = () => {
 
         setMessages(prev => [...prev, botMessage]);
         
-        // Simulate typing effect
+        // Simulate typing effect - complete in approximately 3 seconds total
         let i = 0;
+        const responseLength = data.response.length;
+        const intervalDelay = 10; // Fixed fast interval
+        const startTime = Date.now();
+        const maxDuration = 3000; // Maximum 3 seconds
+        
         const intervalId = setInterval(() => {
-          if (i < data.response.length) {
+          // Check if we've exceeded max duration
+          if (Date.now() - startTime >= maxDuration) {
+            // Immediately complete the message
+            setMessages(prevMessages => {
+              const updatedMessages = [...prevMessages];
+              const lastMessage = updatedMessages[updatedMessages.length - 1];
+              if (lastMessage.isBot) {
+                updatedMessages[updatedMessages.length - 1] = {
+                  ...lastMessage,
+                  text: data.response // Complete the full response
+                };
+              }
+              return updatedMessages;
+            });
+            clearInterval(intervalId);
+            setIsLoading(false);
+            return;
+          }
+          
+          if (i < responseLength) {
             setMessages(prevMessages => {
               const updatedMessages = [...prevMessages];
               const lastMessage = updatedMessages[updatedMessages.length - 1];
@@ -170,7 +194,7 @@ const ChatWidget = () => {
             clearInterval(intervalId);
             setIsLoading(false);
           }
-        }, 20); // Adjust typing speed here (lower = faster)
+        }, intervalDelay);
       } else {
         throw new Error(data.error || 'Failed to get response');
       }
@@ -192,10 +216,34 @@ const ChatWidget = () => {
       
       setMessages(prev => [...prev, errorMessage]);
       
-      // Apply typing effect to error message
+      // Apply typing effect to error message - complete in approximately 3 seconds total
       let i = 0;
+      const errorTextLength = errorText.length;
+      const intervalDelay = 10; // Fixed fast interval
+      const startTime = Date.now();
+      const maxDuration = 3000; // Maximum 3 seconds
+      
       const intervalId = setInterval(() => {
-        if (i < errorText.length) {
+        // Check if we've exceeded max duration
+        if (Date.now() - startTime >= maxDuration) {
+          // Immediately complete the message
+          setMessages(prevMessages => {
+            const updatedMessages = [...prevMessages];
+            const lastMessage = updatedMessages[updatedMessages.length - 1];
+            if (lastMessage.isBot) {
+              updatedMessages[updatedMessages.length - 1] = {
+                ...lastMessage,
+                text: errorText // Complete the full response
+              };
+            }
+            return updatedMessages;
+          });
+          clearInterval(intervalId);
+          setIsLoading(false);
+          return;
+        }
+        
+        if (i < errorTextLength) {
           setMessages(prevMessages => {
             const updatedMessages = [...prevMessages];
             const lastMessage = updatedMessages[updatedMessages.length - 1];
@@ -212,7 +260,7 @@ const ChatWidget = () => {
           clearInterval(intervalId);
           setIsLoading(false);
         }
-      }, 20);
+      }, intervalDelay);
     }
   };
 
