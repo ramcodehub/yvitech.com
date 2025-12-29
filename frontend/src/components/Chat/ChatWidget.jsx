@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import chatIcon from '../../assets/img/aiassistant.png';
 import './ChatWidget.css';
-import { CATEGORIES, MORE_CATEGORIES } from '../../data/promptCategories';
+import { CATEGORIES, MORE_CATEGORIES, getFullPrompt } from '../../data/promptCategories';
 import PromptList from './PromptList'; // Add this import
 import API_CONFIG, { API_BASE } from '../../config/api';
 
@@ -266,7 +266,9 @@ const ChatWidget = () => {
 
   // Handler for when a prompt is selected from the list
   const handlePromptSelect = (prompt) => {
-    setInputValue(prompt);
+    // Use the full expanded prompt instead of the UI label
+    const fullPrompt = getFullPrompt(prompt);
+    setInputValue(fullPrompt);
     setSelectedCategory(null); // Hide the prompt list
     // Auto-focus the input and send the message
     setTimeout(() => {

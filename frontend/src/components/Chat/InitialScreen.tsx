@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CATEGORIES, MORE_CATEGORIES, Category } from '../../data/promptCategories';
+import { CATEGORIES, MORE_CATEGORIES, Category, getFullPrompt } from '../../data/promptCategories';
 
 interface InitialScreenProps {
   onExampleClick: (prompt: string) => void;
@@ -161,7 +161,7 @@ const InitialScreen: React.FC<InitialScreenProps> = ({ onExampleClick }) => {
             {selectedCategory.prompts.map((prompt) => (
               <button
                 key={prompt.id}
-                onClick={() => onExampleClick(prompt.text)}
+                onClick={() => onExampleClick(getFullPrompt(prompt.text))}
                 className="
                   flex items-center justify-start gap-3
                   px-4 py-3

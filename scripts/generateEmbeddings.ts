@@ -7,7 +7,7 @@
 
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import Groq from 'groq-sdk';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -19,28 +19,27 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../backend/.env') });
 
 // Validate environment variables
-const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const geminiApiKey = process.env.GEMINI_API_KEY;
+const groqApiKey = process.env.GROQ_API_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error('❌ Missing Supabase environment variables');
-  console.error('Please ensure VITE_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in backend/.env');
+  console.error('Please ensure SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in backend/.env');
   process.exit(1);
 }
 
-if (!geminiApiKey) {
-  console.error('❌ Missing Gemini API key');
-  console.error('Please ensure GEMINI_API_KEY is set in backend/.env');
+if (!groqApiKey) {
+  console.error('❌ Missing Groq API key');
+  console.error('Please ensure GROQ_API_KEY is set in backend/.env');
   process.exit(1);
 }
 
 // Initialize Supabase client
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Initialize Google Generative AI
-const genAI = new GoogleGenerativeAI(geminiApiKey);
-const embeddingModel = genAI.getGenerativeModel({ model: "embedding-001" });
+// Initialize Groq client
+const groq = new Groq({ apiKey: groqApiKey });
 
 // Function to add delay for rate limiting
 function delay(ms: number): Promise<void> {
@@ -57,9 +56,12 @@ async function generateEmbedding(text: string, retries: number = 3): Promise<num
       throw new Error('Empty content provided for embedding');
     }
     
-    // Generate embedding using Gemini
-    const result = await embeddingModel.embedContent(content);
-    return result.embedding.values;
+    // Generate embedding using Groq
+    const response = await groq.embeddings.create({
+      model: 'text-embedding-ada-002',
+      input: content,
+    });
+    return response.data[0].embedding;
   } catch (error: any) {
     if (retries > 0 && (error.message.includes('429') || error.message.includes('quota'))) {
       console.log(`⚠️  Rate limit hit, waiting 10 seconds before retry (${retries} retries left)...`);

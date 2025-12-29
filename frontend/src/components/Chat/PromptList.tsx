@@ -1,5 +1,5 @@
 import React from 'react';
-import { Category } from '../../data/promptCategories';
+import { Category, getFullPrompt } from '../../data/promptCategories';
 
 interface PromptListProps {
   category: Category;
@@ -24,7 +24,7 @@ const PromptList: React.FC<PromptListProps> = ({ category, onPromptSelect, onBac
           <div
             key={prompt.id}
             className="prompt-item"
-            onClick={() => onPromptSelect(prompt.text)}
+            onClick={() => onPromptSelect(getFullPrompt(prompt.text))}
           >
             {prompt.text}
           </div>

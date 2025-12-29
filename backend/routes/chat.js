@@ -83,8 +83,8 @@ function isValidAIResponse(response) {
     }
   }
   
-  // Check if response is meaningful (more than 50 characters)
-  if (response.trim().length < 50) {
+  // Check if response is meaningful (more than 10 characters)
+  if (response.trim().length < 10) {
     return false;
   }
   
@@ -542,77 +542,227 @@ router.post('/chat', async (req, res) => {
 
     // Skipping embedding generation as Groq doesn't require it
 
-    // --- STEP 2: KEYWORD MATCHING (DB Knowledge) ---
+    // --- STEP 2: ENHANCED DB RETRIEVAL (DB Knowledge) ---
     let responseSource = "groq";
     let aiResponse = "";
     let matchScore = 0;
 
-    // Perform keyword matching against chatbot_knowledge
+    // Input normalization for better matching
+    const normalizeQuery = (query) => {
+      // Convert to lowercase
+      let normalized = query.toLowerCase().trim();
+      
+      // Remove common question words that might interfere with matching
+      const questionWords = ['how', 'does', 'what', 'where', 'when', 'why', 'which', 'who', 'can', 'do', 'is', 'are', 'will', 'would', 'could', 'should', 'implement', 'provide', 'offer', 'tell', 'me', 'about', 'the', 'a', 'an'];
+      
+      // Remove question words but keep the core meaning
+      normalized = normalized.split(' ')
+        .filter(word => !questionWords.includes(word))
+        .join(' ');
+      
+      // Additional cleanup
+      normalized = normalized.replace(/[?]/g, ''); // Remove question marks
+      normalized = normalized.replace(/[.]/g, ''); // Remove periods
+      normalized = normalized.replace(/[!]/g, ''); // Remove exclamation marks
+      
+      return normalized.trim();
+    };
+    
+    // Log normalized query for debugging
+    const normalizedQuery = normalizeQuery(message);
+    console.log('Original query:', message);
+    console.log('Normalized query:', normalizedQuery);
+    
+    // Perform enhanced keyword matching against chatbot_knowledge
+    console.log('Starting DB knowledge lookup for:', message);
     try {
       // First, try to find an exact match in the knowledge base
+      // Also try to find matches for the normalized query
       const { data: exactMatch, error: exactMatchError } = await supabase
         .from('chatbot_knowledge')
-        .select('description')
-        .eq('question', message.trim())
+        .select('title, description')  // Changed from 'question' to 'title' to match the populate-knowledge-base.js structure
+        .or(
+          `title.ilike.%${message.trim()}%,title.ilike.%${normalizedQuery}%,description.ilike.%${message.trim()}%,description.ilike.%${normalizedQuery}%`  // Match original or normalized query against title and description
+        )
         .single();
+      
+      console.log('Exact match query result - data:', exactMatch, 'error:', exactMatchError);
 
       if (!exactMatchError && exactMatch && exactMatch.description) {
         aiResponse = exactMatch.description;
         responseSource = "database";
         matchScore = 1.0;
-        console.log('✅ Exact DB match found');
+        console.log('✅ Exact DB match found for:', exactMatch.title);
         
         // No source indicator needed
         aiResponse = aiResponse;
       } else {
-        // If no exact match, try partial matching
-        const normalizedMsg = message.toLowerCase().trim();
-        const { data: partialMatches, error: partialMatchError } = await supabase
+        // If no exact match, try semantic keyword matching
+        const { data: allKnowledge, error: knowledgeFetchError } = await supabase
           .from('chatbot_knowledge')
-          .select('question, description');
+          .select('title, description');  // Changed from 'question' to 'title' to match the populate-knowledge-base.js structure
 
-        if (!partialMatchError && partialMatches && partialMatches.length > 0) {
-          // Find the best partial match
+        if (!knowledgeFetchError && allKnowledge && allKnowledge.length > 0) {
+          console.log('Found', allKnowledge.length, 'knowledge entries to match against');
+          // Calculate similarity scores for all entries
           let bestMatch = null;
           let bestScore = 0;
           
-          for (const item of partialMatches) {
-            const normalizedQuestion = item.question.toLowerCase();
-            if (normalizedMsg.includes(normalizedQuestion) || normalizedQuestion.includes(normalizedMsg)) {
-              // Calculate a simple match score
-              const score = Math.max(
-                normalizedMsg.includes(normalizedQuestion) ? normalizedQuestion.length / normalizedMsg.length : 0,
-                normalizedQuestion.includes(normalizedMsg) ? normalizedMsg.length / normalizedQuestion.length : 0
+          for (const item of allKnowledge) {
+            // Calculate multiple similarity metrics for both title and description
+            const itemTitleNormalized = normalizeQuery(item.title);
+            const itemDescriptionNormalized = normalizeQuery(item.description);
+            
+            // Simple word overlap score for title
+            const queryWordsArray = normalizedQuery.split(' ').filter(w => w.length > 0);
+            const titleWordsArray = itemTitleNormalized.split(' ').filter(w => w.length > 0);
+            const descriptionWordsArray = itemDescriptionNormalized.split(' ').filter(w => w.length > 0);
+            
+            const queryWords = new Set(queryWordsArray);
+            const titleWords = new Set(titleWordsArray);
+            const descriptionWords = new Set(descriptionWordsArray);
+            
+            // Calculate scores for title
+            let titleOverlap = 0;
+            for (const word of queryWords) {
+              if (titleWords.has(word)) titleOverlap++;
+            }
+            const titleOverlapScore = queryWords.size > 0 ? titleOverlap / Math.max(queryWords.size, titleWords.size) : 0;
+            
+            // Calculate scores for description
+            let descriptionOverlap = 0;
+            for (const word of queryWords) {
+              if (descriptionWords.has(word)) descriptionOverlap++;
+            }
+            const descriptionOverlapScore = queryWords.size > 0 ? descriptionOverlap / Math.max(queryWords.size, descriptionWords.size) : 0;
+            
+            // Check for substring matches in title
+            const queryInTitle = itemTitleNormalized.includes(normalizedQuery) ? 0.9 : 0;
+            const titleInQuery = normalizedQuery.includes(itemTitleNormalized) ? 0.9 : 0;
+            
+            // Check for substring matches in description
+            const queryInDescription = itemDescriptionNormalized.includes(normalizedQuery) ? 0.8 : 0;
+            const descriptionInQuery = normalizedQuery.includes(itemDescriptionNormalized) ? 0.8 : 0;
+            
+            // Check for word-level inclusion in title
+            const allQueryWordsInTitle = queryWordsArray.every(word => titleWords.has(word)) ? 0.8 : 0;
+            const allTitleWordsInQuery = titleWordsArray.every(word => queryWords.has(word)) ? 0.8 : 0;
+            
+            // Check for word-level inclusion in description
+            const allQueryWordsInDescription = queryWordsArray.every(word => descriptionWords.has(word)) ? 0.7 : 0;
+            const allDescriptionWordsInQuery = descriptionWordsArray.every(word => queryWords.has(word)) ? 0.7 : 0;
+            
+            // Partial word matching (for cases like 'migrat' matching 'migration') in title
+            let titlePartialMatchScore = 0;
+            for (const queryWord of queryWordsArray) {
+              for (const titleWord of titleWordsArray) {
+                if (queryWord.length > 3 && titleWord.includes(queryWord) || queryWord.includes(titleWord)) {
+                  titlePartialMatchScore = Math.max(titlePartialMatchScore, 0.5);
+                  break;
+                }
+              }
+            }
+            
+            // Partial word matching (for cases like 'migrat' matching 'migration') in description
+            let descriptionPartialMatchScore = 0;
+            for (const queryWord of queryWordsArray) {
+              for (const descriptionWord of descriptionWordsArray) {
+                if (queryWord.length > 3 && descriptionWord.includes(queryWord) || queryWord.includes(descriptionWord)) {
+                  descriptionPartialMatchScore = Math.max(descriptionPartialMatchScore, 0.4);
+                  break;
+                }
+              }
+            }
+            
+            // Calculate a composite similarity score considering both title and description
+            // Weight title more heavily than description
+            let compositeScore = Math.max(
+              titleOverlapScore * 1.2,  // Slightly higher weight for title
+              descriptionOverlapScore,
+              queryInTitle * 1.2,       // Higher weight for title substring matches
+              titleInQuery * 1.2,
+              queryInDescription,
+              descriptionInQuery,
+              allQueryWordsInTitle * 1.2,    // Higher weight for title word inclusion
+              allTitleWordsInQuery * 1.2,
+              allQueryWordsInDescription,
+              allDescriptionWordsInQuery,
+              titlePartialMatchScore * 1.2,  // Higher weight for title partial matches
+              descriptionPartialMatchScore,
+              // Additional check for partial matches in title
+              normalizedQuery.includes(itemTitleNormalized.substring(0, Math.min(10, itemTitleNormalized.length))) ? 0.7 : 0,
+              itemTitleNormalized.includes(normalizedQuery.substring(0, Math.min(10, normalizedQuery.length))) ? 0.7 : 0,
+              // Additional check for partial matches in description
+              normalizedQuery.includes(itemDescriptionNormalized.substring(0, Math.min(10, itemDescriptionNormalized.length))) ? 0.6 : 0,
+              itemDescriptionNormalized.includes(normalizedQuery.substring(0, Math.min(10, normalizedQuery.length))) ? 0.6 : 0
+            );
+            
+            // Check if query matches any keywords in the knowledge entry
+            if (item.keywords && Array.isArray(item.keywords)) {
+              const keywordMatches = item.keywords.filter(keyword => 
+                normalizedQuery.includes(keyword.toLowerCase()) || 
+                keyword.toLowerCase().includes(normalizedQuery)
               );
               
-              if (score > bestScore && score >= 0.5) {  // Minimum 50% match
-                bestScore = score;
-                bestMatch = item;
+              if (keywordMatches.length > 0) {
+                // Boost score significantly if keywords match
+                const keywordBoost = Math.min(0.3 * keywordMatches.length, 0.5); // Max 0.5 boost
+                compositeScore = Math.max(compositeScore, 0.8); // Minimum score of 0.8 if keywords match
+                console.log('Keyword match found for', item.title, 'keywords:', keywordMatches);
               }
+            }
+            
+            console.log('Matching', item.title, 'with score:', compositeScore, 'details:', {titleOverlapScore, descriptionOverlapScore, queryInTitle, queryInDescription});
+            
+            if (compositeScore > bestScore && compositeScore >= 0.05) {  // Lowered threshold to 5% for more inclusive matching
+              bestScore = compositeScore;
+              bestMatch = item;
+              console.log('Found better match:', item.title, 'with score:', compositeScore);
             }
           }
           
-          if (bestMatch && bestScore >= 0.5) {
+          if (bestMatch && bestScore >= 0.1) {  // Lowered threshold for more inclusive matching
             aiResponse = bestMatch.description;
             responseSource = "database";
             matchScore = bestScore;
-            console.log('✅ Partial DB match found with score:', bestScore);
+            console.log('✅ Semantic DB match found with score:', bestScore, 'for question:', bestMatch.title);
             
             // No source indicator needed
             aiResponse = aiResponse;
+          } else {
+            console.log('No DB match found, best score was:', bestScore);
           }
         }
       }
     } catch (matchingError) {
       console.log('Database matching error (non-fatal):', matchingError.message);
     }
+    
+    // DB-FIRST GUARANTEE: If we found a database match, return it immediately
+    if (responseSource === "database") {
+      console.log('DB match found, returning immediately without calling AI');
+      
+      // Get dynamic suggestions from database based on the response
+      const suggestions = await getDynamicSuggestions(aiResponse);
+      
+      // Return the database response immediately
+      return res.json({
+        success: true,
+        response: aiResponse,
+        suggestions: suggestions,
+        responseSource: "database",
+        sessionId: sessionId || generateSessionId()
+      });
+    }
 
-    // --- STEP 3: CALL GROQ API ---
+    // If no database match was found, ensure we call the AI
     if (responseSource === "groq") {
       // Check if AI models are initialized
       if (!groq) {
         console.error('❌ Groq client not initialized');
-        aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
+        // Instead of returning fallback immediately, try to provide some basic response
+        // This allows the frontend to handle the situation more gracefully
+        aiResponse = "AI services are temporarily unavailable. Please visit https://yvitech.com for more information about our services, or try again later.";
         responseSource = "fallback";
       } else {
         // Query knowledge base for relevant context
@@ -651,9 +801,11 @@ router.post('/chat', async (req, res) => {
           
           // Validate the AI response
           if (!isValidAIResponse(aiResponse)) {
-            console.log('❌ Invalid AI response received, using fallback');
-            aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
-            responseSource = "fallback";
+            console.log('⚠️ AI response did not meet validation criteria, but returning it anyway to avoid fallback');
+            // Add learn more link for non-database responses
+            if (!aiResponse.includes('yvitech.com')) {
+              aiResponse = `${aiResponse}\n\n🌐 Learn more: https://yvitech.com`;
+            }
           } else {
             // No source indicator needed
             // Add learn more link for non-database responses
@@ -690,11 +842,22 @@ router.post('/chat', async (req, res) => {
             
             aiResponse = `I'm currently experiencing high demand. For immediate assistance, please visit our website: ${suggestionUrl}`;
           } else {
-            // Other errors
-            aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
+            // For other errors, provide a more informative response
+            console.log('Other Groq error - will try to return a more helpful message');
+            // Try to generate a helpful response based on the query
+            const msgLower = message.toLowerCase();
+            
+            if (msgLower.includes('contact') || msgLower.includes('email') || msgLower.includes('phone')) {
+              aiResponse = "You can reach us at contact@yvisoft.com or +91-XXX-XXXX-XXXX. We're located in India and UAE.";
+            } else if (msgLower.includes('service') || msgLower.includes('offer')) {
+              aiResponse = "YVI Technologies offers a range of services including AI & Automation, ERP Solutions (Oracle, SAP), Web Development, Cloud & DevOps, Digital Marketing, and more. Visit https://yvitech.com/services for detailed information.";
+            } else {
+              // Other errors - provide general fallback but try to be helpful
+              aiResponse = "I couldn't find the right answer right now. Please visit https://yvitech.com or ask about our services, AI, Oracle, SAP, or contact details.";
+            }
+            
+            responseSource = "fallback";
           }
-          
-          responseSource = "fallback";
         }
       }
     }
