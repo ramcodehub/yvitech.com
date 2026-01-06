@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import team from "../../data/team";
 import "./TeamDetail.css";
 
@@ -11,10 +13,14 @@ const TeamDetail = () => {
   return (
     <section className="leader" style={{ backgroundColor: "#3B3B3B" }}>
       <div className="container aos-init aos-animate" data-aos="fade-up">
+        <div className="back-arrow">
+          <Link to='/'>Home</Link><i className="bi bi-chevron-right"></i><HashLink smooth to="/about/#team">Team</HashLink><i className="bi bi-chevron-right"></i><Link >{leader.role}</Link>
+        </div>
         <div
           className="meet-the-founder d-flex justify-content-center text-white"
           style={{ gap: "3rem" }}
         >
+          
           <div className="position-relative">
             <img src={leader.image} height="450px" alt={leader.name} className="rounded-4"/>
 

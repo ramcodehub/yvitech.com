@@ -1,6 +1,31 @@
 .leader{   
-  margin-top: 100px;
+  margin-top: 80px;
 }
+
+
+.back-arrow{
+  padding: 6px 0px 30px;
+
+}
+
+.back-arrow i{
+  font-size: 1rem;
+  color:  rgba(255, 255, 255, 0.502);
+  padding: 0rem 0.4rem;
+}
+
+.back-arrow a{
+  color: white;
+}
+.back-arrow a{
+  color: white;
+}
+
+.back-arrow a:hover{
+  color: rgba(255, 255, 255, 0.598) !important;
+}
+
+
 .founder{
   position: absolute;
   top: 10px;
@@ -10,6 +35,7 @@
   color: white;
   border-radius: 4px;
 }
+
 
 .founder-linkedin{
   position: absolute;
