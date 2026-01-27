@@ -75,6 +75,7 @@ const Header = () => {
                       <Link to="/ai-and-data-platform" onClick={() => setIsOpen(false)}>Data & AI Solutions</Link>
                       <Link to="/rpa-services" onClick={() => setIsOpen(false)}>Automation & RPA</Link>
                       <Link to="/digital-marketing" onClick={() => setIsOpen(false)}>Digital Marketing</Link>
+                      <Link to="/microsoft-dynamics" onClick={() => setIsOpen(false)}>Microsoft Dynamics</Link>
                     </div>
                   </div>
                 </div>

@@ -24,6 +24,7 @@ import WebDevelopment from "./components/Services/WebDevelopment/WebDevelopment"
 import Salesforce from "./components/Services/Salesforce/Salesforce";
 import SAP from "./components/Services/SAP/SAP";
 import ManagedServices from "./components/Services/ManagedServices/ManagedServices";
+import MicrosoftDynamics from "./components/Services/MicrosoftDynamics/MicrosoftDynamics";
 
 import Arrow from "./components/Arrow/Arrow";
 import DigitalMarketing from "./components/Services/DigitalMarketing/DigitalMarketing";
@@ -73,6 +74,7 @@ const YVISoft = () => {
         <Route path="/ui-ux-design" element={<UI_UX />} />
         <Route path="/web-development" element={<WebDevelopment />} />
         <Route path="/mobile-app-development" element={<MobileAppDevelopment />} />
+        <Route path="/microsoft-dynamics" element={<MicrosoftDynamics />} />
         <Route path="/digital-marketing" element={<DigitalMarketing />} />
         <Route path="/managed-services" element={<ManagedServices />} />
         <Route path="/salesforce" element={<Salesforce />} />
