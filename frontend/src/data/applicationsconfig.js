@@ -6,6 +6,7 @@ export const applicationsConfig = {
     Application: [
       {
         title: "SharePoint & Microsoft 365",
+        icon: "bi bi-microsoft",
         items: [
           {
             subheading: "Seamless Microsoft 365 Integration",
@@ -26,6 +27,7 @@ export const applicationsConfig = {
       },
       {
         title: "SQL Server Integration Services",
+        icon: "bi bi-database",
         items: [
           {
             subheading: "Data Integration Platform",
@@ -46,6 +48,7 @@ export const applicationsConfig = {
       },
       {
         title: "SQL Server Reporting Services",
+        icon: "bi bi-file-earmark-bar-graph",
         items: [
           {
             subheading: "Enterprise Reporting",
@@ -66,6 +69,7 @@ export const applicationsConfig = {
       },
       {
         title: "DevOps",
+        icon: "bi bi-infinity",
         items: [
           {
             subheading: "Azure DevOps Toolchain",
@@ -85,7 +89,8 @@ export const applicationsConfig = {
         ],
       },
       {
-        title: "Cloud",
+        title: " Azure Cloud",
+        icon: "bi bi-cloud",
         items: [
           {
             subheading: "Microsoft Azure Platform",
@@ -106,6 +111,7 @@ export const applicationsConfig = {
       },
       {
         title: "Analytics & Visualization",
+        icon: "bi bi-bar-chart-line",
         items: [
           {
             subheading: "Power BI Desktop & Service",
@@ -126,6 +132,7 @@ export const applicationsConfig = {
       },
       {
         title: ".NET Core",
+        icon: "bi bi-code-slash",
         items: [
           {
             subheading: "Modern Web Applications",
