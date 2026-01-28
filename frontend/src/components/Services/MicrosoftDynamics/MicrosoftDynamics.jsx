@@ -1,6 +1,6 @@
 import React from 'react'
-import image5 from '../../../assets/img/SAPBusiness Value.png'
-import image1 from '../../../assets/img/SAPoverview.png'
+import image5 from '../../../assets/img/microsofttech.png'
+import image1 from '../../../assets/img/microsoftdynamics.png'
 import ImageTextSection from '../Components/ImageTextSection/ImageTextSection'
 import MicrosoftDynamicsComponent from '../Components/MicrosoftDynamicsComponent/MicrosoftDynamicsComponent'
 import Applications from '../Applications/Applications'
