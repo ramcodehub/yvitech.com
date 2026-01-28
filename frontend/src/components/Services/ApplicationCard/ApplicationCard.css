@@ -7,14 +7,15 @@
   max-height: 540px;
   background-color: #ffffff;
   height: 100%;
-  /* background-image: url(../../assets/images/AIGeneratedContentDevelopment.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat; */
 }
-/* .application-card h2{
-    height : 84px;
-} */
+
+.app-icon {
+  font-size: 28px;
+  color: #181818;
+  background: #f2f2f2;
+  padding: 10px;
+  border-radius: 12px;
+}
 
 @media (max-width: 1024px) and (min-width: 768px) {
   .application-card {
