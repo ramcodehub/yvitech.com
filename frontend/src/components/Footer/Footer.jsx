@@ -73,7 +73,7 @@ const Footer = () => {
               <li><i className="bi bi-chevron-right"></i> <Link to="/ai-and-data-platform">Data and AI Solutions</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/rpa-services">Automation & RPA</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/digital-marketing">Digital Marketing</Link></li>
-              <li><i className="bi bi-chevron-right"></i> <Link to="/microsoft-dynamics">Microsoft Dynamics</Link></li>
+              <li><i className="bi bi-chevron-right"></i> <Link to="/microsoft-solutions">Microsoft Solutions</Link></li>
               
             </ul>
           </div>

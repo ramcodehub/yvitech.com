@@ -74,7 +74,7 @@ const YVISoft = () => {
         <Route path="/ui-ux-design" element={<UI_UX />} />
         <Route path="/web-development" element={<WebDevelopment />} />
         <Route path="/mobile-app-development" element={<MobileAppDevelopment />} />
-        <Route path="/microsoft-dynamics" element={<MicrosoftDynamics />} />
+        <Route path="/microsoft-solutions" element={<MicrosoftDynamics />} />
         <Route path="/digital-marketing" element={<DigitalMarketing />} />
         <Route path="/managed-services" element={<ManagedServices />} />
         <Route path="/salesforce" element={<Salesforce />} />

@@ -116,8 +116,8 @@ const MobileMenu = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/microsoft-dynamics" onClick={handleNavigate}>
-                    Microsoft Dynamics
+                  <Link to="/microsoft-solutions" onClick={handleNavigate}>
+                    Microsoft Solutions
                   </Link>
                 </li>
                 <li className="sub-dropdown">
