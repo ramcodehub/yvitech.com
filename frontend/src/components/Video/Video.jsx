@@ -8,13 +8,21 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // Import offering images from the correct directory
-import Slide1 from '../../assets/img/YVISoftHighlevelSlides/YVISoftHighlevelSlide1.png'
-import Slide2 from '../../assets/img/YVISoftHighlevelSlides/YVISoftHighlevelSlide2.png'
-import Slide3 from '../../assets/img/YVISoftHighlevelSlides/YVISoftHighlevelSlide3.png'
-import Slide4 from '../../assets/img/YVISoftHighlevelSlides/YVISoftHighlevelSlide4.png'
-import Slide5 from '../../assets/img/YVISoftHighlevelSlides/YVISoftHighlevelSlide5.png'
 
-import brochure from '../../assets/img/YVI Tech Corporate Profile.pdf' 
+
+
+import Slide1 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-1.jpg'
+import Slide2 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-2.jpg'
+import Slide3 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-3.jpg'
+import Slide4 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-4.jpg'
+import Slide5 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-5.jpg'
+import Slide6 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-6.jpg'
+import Slide7 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-7.jpg'
+import Slide8 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-8.jpg'
+import Slide9 from '../../assets/img/YVISoftHighlevelSlides/YVI Tech CorporateProfile-9.jpg'
+
+
+import brochure from '../../assets/img/YVI Tech CorporateProfile.pdf' 
 
 const Video = () => {
   // Array of offering images
@@ -23,7 +31,12 @@ const Video = () => {
     { image: Slide2, title: "Our Services" },
     { image: Slide3, title: "Technology Expertise" },
     { image: Slide4, title: "Our Approach" },
-    { image: Slide5, title: "Why Choose Us" }
+    { image: Slide5, title: "Why Choose Us" },
+    { image: Slide6, title: "Our Vision" },
+    { image: Slide7, title: "Our Mission" },
+    { image: Slide8, title: "Our Values" },
+    { image: Slide9, title: "Our Team" }
+
   ];
 
   return (
