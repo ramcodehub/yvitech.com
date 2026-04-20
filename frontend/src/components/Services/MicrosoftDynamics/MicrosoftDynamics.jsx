@@ -5,6 +5,8 @@ import ImageTextSection from '../Components/ImageTextSection/ImageTextSection'
 import MicrosoftDynamicsComponent from '../Components/MicrosoftDynamicsComponent/MicrosoftDynamicsComponent'
 import Applications from '../Applications/Applications'
 import { applicationsConfig } from '../../../data/applicationsconfig'
+import { corecyberservices } from '../../../data/corecyberservices'
+import CyberServices from '../Components/CyberServices/CyberServices'
 
 const MicrosoftDynamics = () => {
   return (
@@ -34,6 +36,7 @@ const MicrosoftDynamics = () => {
             ]}
             />
             <Applications Application={applicationsConfig.props.Application} />
+            <CyberServices Services={corecyberservices.props.Services} />
       </div>
 
             <MicrosoftDynamicsComponent/>

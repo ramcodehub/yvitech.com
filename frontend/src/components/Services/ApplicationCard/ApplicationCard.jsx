@@ -26,7 +26,7 @@ const ApplicationCard = ({ title, items, icon }) => {
               <div>
                 {item.points?.map((point, i) => (
                   <p key={i} style={{ color: '#5a5a5a' }}>
-                    {point}
+                    <i className="bi bi-dot"></i>{point}
                   </p>
                 ))}
               </div>
