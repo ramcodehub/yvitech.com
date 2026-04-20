@@ -45,7 +45,8 @@ const videoAssets = {
   'Web_Development.mp4': { video: WebDevelopment, poster: WebDevPoster },
   'managedservices.mp4': {video: ManagedServices , poster: OracleHCMPoster },
   'Salesforce.mp4': {video: Salesforce , poster: OracleHCMPoster },
-  'SAP.mp4': {video: SAP , poster: OracleHCMPoster }
+  'SAP.mp4': {video: SAP , poster: OracleHCMPoster },
+  'CyberSecurityServices.mp4': {video: Salesforce , poster: OracleHCMPoster }
   
 }
 
