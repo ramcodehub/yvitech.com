@@ -98,7 +98,11 @@ const MobileMenu = () => {
                     Managed Services
                   </Link>
                 </li>
-              
+                <li>
+                  <Link to="/cyber-security-services" onClick={handleNavigate}>
+                    Cyber Security Services
+                  </Link>
+                </li>
                 <li>
                   <Link to="/ai-and-data-platform" onClick={handleNavigate}>
                     Data and AI Solutions

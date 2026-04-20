@@ -1,0 +1,78 @@
+.cyber-sec-app .section-title {
+  font-weight: 600;
+}
+
+/* Card base */
+.cyber-sec-app .card-custom {
+  position: relative;
+  overflow: visible; /* important for popup */
+
+  border: none;
+  border-radius: 12px;
+  padding: 25px 15px;
+  text-align: center;
+  background: #ffffff;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+/* Hover lift effect */
+.cyber-sec-app .card-custom:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon styling */
+.cyber-sec-app .card-custom i {
+  font-size: 40px !important;
+  font-weight: bolder;
+
+  background: linear-gradient(to right, #05F4FA, #2185DA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* spacing */
+.cyber-sec-app .icon {
+  margin-bottom: 20px;
+}
+
+/* Title */
+.cyber-sec-app .card-title {
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: #1d1d1e;
+}
+
+/* 🔥 Popup (tooltip style) */
+.cyber-sec-app .card-hover {
+  position: absolute;
+  inset: 0; /* FULL CARD COVER */
+
+  background: linear-gradient(to right, #05F4FA, #2185DA);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  padding: 20px;
+  border-radius: 12px;
+
+  opacity: 0;
+  transform: translateY(20px); /* slight slide effect */
+  transition: all 0.3s ease;
+
+  z-index: 2;
+}
+/* Show popup on hover */
+.cyber-sec-app .card-custom:hover .card-hover {
+  opacity: 1;
+  transform: translateY(0);
+}
