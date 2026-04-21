@@ -8,6 +8,7 @@ import { applicationsConfig } from '../../../data/applicationsconfig'
 import { corecyberservices } from '../../../data/corecyberservices'
 import CyberServices from '../Components/CyberServices/CyberServices'
 
+
 const MicrosoftDynamics = () => {
   return (
     <div>
