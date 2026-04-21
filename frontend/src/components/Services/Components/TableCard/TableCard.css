@@ -1,0 +1,30 @@
+.table-card .card {
+  border-radius: 12px;
+  border: none;
+}
+
+table{
+    border: 1px solid #e0e0e0;
+}
+/* Header */
+.custom-table thead th {
+  background: black;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Rows */
+.custom-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f8f9fc;
+}
+
+/* Cell text */
+.custom-table td {
+  font-size: 16px;
+  color: #333;
+}
