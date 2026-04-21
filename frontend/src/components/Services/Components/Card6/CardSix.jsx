@@ -3,7 +3,7 @@ const CardSix = ({ data }) => {
     <section className="py-5">
       <div className="container">
         {/* Main Heading */}
-        <h2 className="text-start mb-4">{data.title}</h2>
+        <h2 className="text-start fw-bold mb-3">{data.title}</h2>
 
         <div className="row">
           {data.items.map((item, index) => (

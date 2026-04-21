@@ -6,7 +6,6 @@ import { InfoCardsSection } from "../Components/SectionComponents/SectionCompone
 import { RisksSection } from "../Components/SectionComponents/SectionComponents"
 import "./CyberSecurityServices.css";
 import ImageTextSection from "../Components/ImageTextSection/ImageTextSection"
-import image1 from '../../../assets/img/SAPOurApproach.png'
 import { corecyberservices } from '../../../data/corecyberservices'
 import CyberServices from '../Components/CyberServices/CyberServices'
 import CardFive from '../Components/Card5/CardFive'
@@ -19,8 +18,10 @@ import { yvivaptservicesdata } from '../../../data/yvivaptservicesdata'
 import { benefitsdata } from '../../../data/benefitsdata'
 import { maturityData } from '../../../data/maturityData'
 import MaturityTimeLine from '../Components/MaturityTimeLine/MaturityTimeLine'
-import image5 from '../../../assets/img/microsofttech.png'
-import image2 from '../../../assets/img/microsoftdynamics.png'
+import image3 from '../../../assets/img/technology-ecosystem.png'
+import ContactUs from "../Components/ContactUs/ContactUs"
+import image1 from '../../../assets/img/cybersecurity1.png'
+import image2 from '../../../assets/img/cybersecurity2.png'
 
 const headers1 = ["Feature", "YVI Advantages"];
 
@@ -266,7 +267,7 @@ const CyberSecurityServices = () => {
       <MaturityTimeLine data={maturityData}/>
       <div className="container">
           <ImageTextSection
-            image={image5}
+            image={image2}
             heading="YVI Cyber Security Differentiators"
             points={[
                 "AI + Human Intelligence Model ",
@@ -279,7 +280,7 @@ const CyberSecurityServices = () => {
             />
 
         <ImageTextSection
-            image={image1}
+            image={image3}
             heading="Technology Ecosystem"
             description="YVI integrates with leading platforms. "
             points={[
@@ -290,6 +291,34 @@ const CyberSecurityServices = () => {
             ]}
             />
         </div>
+        <div className="container bg-white rounded-2xl shadow-md py-4">
+          <h2 className="text-2xl fw-bold text-gray-800 mb-3">
+            Business Impact
+          </h2>
+
+          <ul className="space-y-3 d-flex flex-column expert gap-2 list-unstyled text-gray-600 ps-2">
+            <li className="flex items-start gap-3" >
+              <i className="bi bi-check2-circle text-green-600 text-lg me-2"></i>
+              70% faster threat detection
+            </li>
+
+            <li className="flex items-start gap-3 ">
+              <i className="bi bi-check2-circle text-green-600 text-lg me-2"></i>
+              50% reduction in security incidents 
+            </li>
+
+            <li className="flex items-start gap-3 ">
+              <i className="bi bi-check2-circle text-green-600 text-lg me-2"></i>
+              40% lower operational security costs 
+            </li>
+             <li className="flex items-start gap-3 ">
+              <i className="bi bi-check2-circle text-green-600 text-lg me-2"></i>
+              Improved compliance posture 
+            </li>
+          </ul>
+        </div>
+        <ContactUs headingText='Secure your digital future with YVI Technologies.'
+                   content="Partner with us to build a resilient, intelligent, and future-ready cybersecurity ecosystem."/>
 
     </div>
   )

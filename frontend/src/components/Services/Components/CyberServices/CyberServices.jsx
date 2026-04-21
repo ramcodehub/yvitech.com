@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import ApplicationCard from '../../ApplicationCard/ApplicationCard';
 import './CyberServices.css';
@@ -16,19 +16,25 @@ export default function CyberServices({ Services }) {
         <h1 className="fw-bold" >Core Cyber Security Services</h1>
 
         <div className="d-flex gap-2 me-4">
-          <button ref={prevRef} className="p-3 border-0 rounded-circle">
+          <button ref={prevRef} className="py-3 px-4 border-1 bg-white rounded-circle">
             <i className="bi bi-arrow-left text-dark fs-4"></i>
           </button>
-          <button ref={nextRef} className="p-3 border-0 rounded-circle">
+          <button ref={nextRef} className="py-3 px-4 border-1 bg-white rounded-circle">
             <i className="bi bi-arrow-right text-dark fs-4"></i>
           </button>
         </div>
       </div>
 
-      <Swiper
-        modules={[Navigation]}
+       <Swiper
+        modules={[Navigation, Autoplay]}
         spaceBetween={20}
         slidesPerView={3}
+        autoplay={{
+          delay: 1250,
+          disableOnInteraction: true, 
+          pauseOnMouseEnter: true, 
+        }}
+        loop={true} 
         onBeforeInit={(swiper) => {
           swiper.params.navigation.prevEl = prevRef.current;
           swiper.params.navigation.nextEl = nextRef.current;

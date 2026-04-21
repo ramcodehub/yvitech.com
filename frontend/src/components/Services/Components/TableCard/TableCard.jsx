@@ -3,7 +3,7 @@ import "./TableCard.css";
 export default function TableCard({ title, headers, data }) {
   return (
     <div className="table-card container py-4">
-        <h2 className="card-title mb-1 fw-bold">{title}</h2>
+        <h2 className="card-title mb-3 fw-bold">{title}</h2>
       <div className="card">
         
         {/* Card Title */}
