@@ -16,6 +16,7 @@ import WebDevelopment from '/src/assets/Videos/Web_Development.mp4'
 import ManagedServices from '/src/assets/Videos/managedservices.mp4'
 import Salesforce from '/src/assets/Videos/Salesforce.mp4'
 import SAP from '/src/assets/Videos/SAP.mp4'
+import CyberServices from '/src/assets/Videos/cyberbanner.mp4'
 
 import HomePoster from '/src/assets/Videos/YVI.png'
 import AboutPoster from '/src/assets/Videos/About.png'
@@ -46,7 +47,7 @@ const videoAssets = {
   'managedservices.mp4': {video: ManagedServices , poster: OracleHCMPoster },
   'Salesforce.mp4': {video: Salesforce , poster: OracleHCMPoster },
   'SAP.mp4': {video: SAP , poster: OracleHCMPoster },
-  'CyberSecurityServices.mp4': {video: Salesforce , poster: OracleHCMPoster }
+  'CyberSecurityServices.mp4': {video: CyberServices , poster: OracleHCMPoster }
   
 }
 
