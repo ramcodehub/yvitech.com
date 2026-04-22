@@ -48,7 +48,7 @@ const tableData1 = [
   },
 ];
 
-const headers2 = ["Feature", "YVR MDR Advantage"];
+const headers2 = ["Feature", "YVI MDR Advantage"];
 
 const tableData2 = [
   {
@@ -201,7 +201,7 @@ const CyberSecurityServices = () => {
          <CardFive data={yvimdrservicesdata}/>
          <CardFive data={humanexpertisedata}/>
         <TableCard
-          title="Why MDR Matters"
+          title="Why YVI MDR Matters"
           headers={headers2}
           data={tableData2}
         />
