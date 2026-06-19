@@ -83,7 +83,11 @@ const Header = () => {
                </div> 
               )}
             </li>
-
+            <li>
+              <Link to="/products">
+                Products
+              </Link>
+            </li>
             <li>
               <Link className="bttn" to="/contact">
                 Contact Us

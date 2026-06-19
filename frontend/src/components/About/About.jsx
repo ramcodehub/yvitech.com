@@ -1,7 +1,7 @@
 import Banner from "../Banner/Banner";
 import './About.css'
 import OurApproach from '/src/assets/img/OurApproach1.png'
-import RamImg from '../../assets/img/Ramgopal Yarra.jpg'
+import RamImg from '../../assets/img/team/Ramgopal Yarra.jpg'
 import './About.css'
 import Video from "../Video/Video";
 import BannerThree from "../Banner3/BannerThree";

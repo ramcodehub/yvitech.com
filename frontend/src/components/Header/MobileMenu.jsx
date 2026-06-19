@@ -157,7 +157,11 @@ const MobileMenu = () => {
               </ul>
             )}
           </li>
-
+          <li>
+            <Link className="nav-link scrollto" to="/products" onClick={handleNavigate}>
+              Products
+            </Link>
+          </li>
           <li>
             <Link className="nav-link scrollto" to="/contact" onClick={handleNavigate}>
               Contact Us

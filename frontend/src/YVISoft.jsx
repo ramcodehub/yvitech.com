@@ -5,6 +5,7 @@ import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
+import Products from "./components/Products/Products.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import OracleHCM from "./components/Services/OracleHCM/OracleHCM";
 import AOS from 'aos';
@@ -36,6 +37,7 @@ const YVISoft = () => {
   const location = useLocation();
 
   const isTeamDetailPage = location.pathname.startsWith("/team/");
+  const isProductsPage = location.pathname === "/products";
 
 
   useEffect(() => {
@@ -65,6 +67,7 @@ const YVISoft = () => {
         <Route path="/about" element={<About />} />
         <Route path="/team/:id" element={<TeamDetail />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/products" element={<Products />} />
 
         <Route path="/oracle-hcm" element={<OracleHCM />} />
         <Route path="/oracle-scm" element={<OracleSCM />} />
@@ -83,7 +86,7 @@ const YVISoft = () => {
         <Route path="/sap" element={<SAP />} />
       </Routes>
 
-      {!isTeamDetailPage && <Client />}
+      {!isTeamDetailPage && !isProductsPage && <Client />}
 
       <Footer />
       <Arrow />

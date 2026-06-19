@@ -1,0 +1,73 @@
+.bannerr {
+  padding: 5rem 0 0rem;
+}
+.bannerr-heading h1 {
+  font-size: 4rem;
+}
+
+.font-abel {
+  font-family: 'Abel', sans-serif;
+}
+
+.innovative-solutions {
+  background: #3B3B3B;
+  padding: 6rem 0 0rem;
+}
+
+.secondaryBtn {
+  background: linear-gradient(to right, #5653ff, #d252ff);;
+  padding: 0.6em 2em;
+  font-size: 1em;
+  border-radius: 2.8em;
+  color: var(--white-color);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.bannerr-description {
+  max-width: 70ch;
+  font-size: 1.4em;
+  margin: 1rem 0 0.5rem;
+}
+
+.colored {
+  background: linear-gradient(to right, #5653ff, #d252ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.smooth-swiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+.smooth-swiper .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1281px) {
+  .banner{
+    padding-top: 9.6rem;
+  }
+  .banner-heading h1 {
+    font-size: 5rem;
+  }
+  .banner-description {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 576px){
+  .banner {
+  padding: 6rem 0 1.5rem;
+}
+  .banner-heading h1{
+    font-size: 2.8rem;
+  }
+  .banner-description{
+    font-size: 1rem;
+  }
+}
