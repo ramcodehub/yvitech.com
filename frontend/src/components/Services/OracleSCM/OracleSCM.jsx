@@ -1,4 +1,4 @@
-import React from 'react'
+ import React from 'react'
 import Banner from '../../Banner/Banner'
 import CardOne from '../Components/Card1/CardOne'
 import CardTwo from '../Components/Card2/CardTwo'

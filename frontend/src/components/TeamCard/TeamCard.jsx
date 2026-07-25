@@ -9,27 +9,40 @@ const TeamCard = ({ team }) => {
 
   return (
     <div
-      className="leader-card text-center position-relative"
+      className="leader-card text-center"
       style={{ cursor: "pointer" }}
       onClick={handleClick}
     >
-      <img
-        src={team.image}
-        alt={team.name}
-        className="img-fluid "
-        style={{ height: "360px", objectFit: "cover", border:'2px solid rgba(255, 255, 255, 0.5)' , borderRadius:'50%' }}
-      />
+      <div className="team-image-wrapper">
+        <img
+          src={team.image}
+          alt={team.name}
+          className="img-fluid"
+          style={{
+            width: "250px",
+            height: "250px",
+            objectFit: "cover",
+            border: "2px solid rgba(255,255,255,.5)",
+            borderRadius: "50%",
+          }}
+        />
 
-      <h3 className="mt-2 text-white fw-bold">{team.name}</h3>
-      <p className="text-white-50 lh-1 fs-6">{team.role}</p>
-      <a
-              href={team.linkedin}
-              className="founder-linkedin"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <i className="bi bi-linkedin fs-3 lkd"></i>
-            </a>
+        <a
+          href={team.linkedin}
+          className="team-linkedin"
+          target="_blank"
+          rel="noreferrer"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <i className="bi bi-linkedin fs-3"></i>
+        </a>
+      </div>
+
+      <h3 className="mt-3 text-white fw-bold">{team.name}</h3>
+
+      <p className="text-white-50 lh-1 fs-6">
+        {team.role}
+      </p>
     </div>
   );
 };

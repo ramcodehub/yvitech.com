@@ -1,4 +1,4 @@
-.bannerr {
+.banner-products {
   padding: 5rem 0 0rem;
 }
 .bannerr-heading h1 {
@@ -49,25 +49,25 @@
 }
 
 @media (min-width: 1281px) {
-  .banner{
+  .banner-products {
     padding-top: 9.6rem;
   }
-  .banner-heading h1 {
+  .bannerr-heading h1 {
     font-size: 5rem;
   }
-  .banner-description {
+  .bannerr-description {
     font-size: 1.6rem;
   }
 }
 
 @media (max-width: 576px){
-  .banner {
+  .banner-products {
   padding: 6rem 0 1.5rem;
 }
-  .banner-heading h1{
+  .bannerr-heading h1{
     font-size: 2.8rem;
   }
-  .banner-description{
+  .bannerr-description{
     font-size: 1rem;
   }
 }

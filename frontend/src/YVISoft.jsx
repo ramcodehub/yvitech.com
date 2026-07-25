@@ -31,6 +31,7 @@ import MicrosoftDynamics from "./components/Services/MicrosoftDynamics/Microsoft
 import Arrow from "./components/Arrow/Arrow";
 import DigitalMarketing from "./components/Services/DigitalMarketing/DigitalMarketing";
 import ChatWidget from "./components/Chat/ChatWidget";
+import RPAServicesStandalone from "./components/Services/RPAServices/RPAServicesStandalone";
 
 
 const YVISoft = () => {
@@ -84,6 +85,7 @@ const YVISoft = () => {
         <Route path="/cyber-security-services" element={<CyberSecurityServices />} />
         <Route path="/salesforce" element={<Salesforce />} />
         <Route path="/sap" element={<SAP />} />
+        <Route path="/rpa-services-standalone" element={<RPAServicesStandalone />} />
       </Routes>
 
       {!isTeamDetailPage && !isProductsPage && <Client />}

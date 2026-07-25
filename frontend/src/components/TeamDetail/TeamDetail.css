@@ -1,69 +1,110 @@
-.leader{   
+.leader {
   margin-top: 80px;
 }
 
-
-.back-arrow{
-  padding: 6px 0px 30px;
-
+.back-arrow {
+  padding: 6px 0 30px;
 }
 
-.back-arrow i{
+.back-arrow i {
   font-size: 1rem;
-  color:  rgba(255, 255, 255, 0.502);
-  padding: 0rem 0.4rem;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0 .4rem;
 }
 
-.back-arrow a{
+.back-arrow a,
+.back-arrow span {
   color: white;
-}
-.back-arrow a{
-  color: white;
+  text-decoration: none;
 }
 
-.back-arrow a:hover{
-  color: rgba(255, 255, 255, 0.598) !important;
+.back-arrow a:hover {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
+.meet-the-founder {
+  gap: 3rem;
+}
 
-.founder{
+.leader-image {
+  height: 450px;
+  width: auto;
+  object-fit: cover;
+}
+
+.founder {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 6px 10px;
-  background-color: rgba(255, 255, 255, 0.196);
+  top: 15px;
+  left: 15px;
+
+  max-width: calc(100% - 90px); /* leave space for LinkedIn */
+
+  padding: 10px 16px;
+
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
   color: white;
-  border-radius: 4px;
+
+  border-radius: 8px;
+  font-weight: 600;
 }
 
 
-.founder-linkedin{
+.founder span {
+  display: block;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+
+.detail-linkedin {
   position: absolute;
-  top: 0px;
-  right: 0px;
-  padding: 6px 10px;
-  color: white;
+  top: 15px;
+  right: 15px;
+  color: rgb(13, 1, 1);
+  z-index: 10;
 }
 
-.lkd{
-  position: absolute;
-  top: 270px;
-  right: 10px;
-  padding: 6px 10px;
-  color: white;
-}
-
-.founder-linkedin:hover{
+.detail-linkedin:hover {
   color: #0a66c2 !important;
 }
 
-.lkd:hover{
-  color: #0a66c2 !important;
+
+
+
+.team-image-wrapper{
+  position:relative;
+  display:inline-block;
 }
 
+.team-linkedin{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  color:white;
+  z-index:10;
+}
 
-@media (max-width: 1024px) {
+.team-linkedin:hover{
+  color:#0a66c2 !important;
+}
+
+@media (max-width:1024px) {
+
   .meet-the-founder {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
+
+  .meet-the-founder ul {
+    text-align: left;
+  }
+
+  .leader-image {
+    width: 300px;
+    height: 380px;
+  }
+
 }

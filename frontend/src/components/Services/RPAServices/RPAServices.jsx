@@ -58,7 +58,7 @@ const RPAServices = () => {
                      image='RPA-in-Customer-Service.png'
                      dataAOS={400}/>
           </div>
-          </div>
+        </div>
       </section> 
       <section id="featured-services" className="featured-services">
 
@@ -96,16 +96,12 @@ const RPAServices = () => {
         </div>
         <div className="row gy-4">
           <Left content="Our RPA solutions passionately serve a diverse array of industries—finance, healthcare, manufacturing, retail, and beyond—dedicating ourselves to creating bespoke automation strategies that truly transform the way these fields overcome their unique challenges. We're driven by a unwavering commitment to empower each sector, unleashing new possibilities and inspiring breakthroughs that elevate their success to unprecedented heights."
-      image='RPAAll_Industries.jpeg'/> 
+                image='RPAAll_Industries.jpeg'/> 
         </div>
        </div>
       </section>
-          
-      
-      
       <ContactUs headingText='Start Your Automation Journey Today'
-      content="Begin your automation journey with YVI Tech and enhance your business operations through our advanced RPA solutions.  
-Please contact us to schedule a consultation and explore how we can help your organization become more efficient, innovative, and agile." />  
+                content="Begin your automation journey with YVI Tech and enhance your business operations through our advanced RPA solutions. Please contact us to schedule a consultation and explore how we can help your organization become more efficient, innovative, and agile." />  
     </div>
   )
 }

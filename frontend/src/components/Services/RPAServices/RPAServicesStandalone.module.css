@@ -1,0 +1,621 @@
+/* RPAServicesStandalone Module CSS */
+/* This module contains all component-scoped styling for RPAServicesStandalone */
+/* Matches the original component styling: CardOne, CardThree, Left, BannerThree, etc. */
+
+/* ============================================
+   LAYOUT & GRID CLASSES
+   ============================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col_xl_12 {
+  flex: 0 0 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col_xl_6 {
+  flex: 0 0 50%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col_xl_4 {
+  flex: 0 0 33.333%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col_md_6 {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col_lg_12 {
+  flex: 0 0 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.d_flex {
+  display: flex;
+}
+
+.flex_wrap {
+  flex-wrap: wrap;
+}
+
+.justify_content_between {
+  justify-content: space-between;
+}
+
+.align_items_center {
+  align-items: center;
+}
+
+.position_relative {
+  position: relative;
+}
+
+.p_3 {
+  padding: 1rem;
+}
+
+.p_5 {
+  padding: 3rem;
+}
+
+.px_xl_5 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.gap_4 {
+  gap: 1.5rem;
+}
+
+.aos_init,
+.aos_animate {
+  opacity: 1;
+}
+
+/* ============================================
+   SECTION & TITLE STYLING
+   ============================================ */
+.featured_services {
+  padding: 60px 0;
+  background: white;
+  overflow: hidden;
+}
+
+.featured_services:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.section_title {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.section_title h2 {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0;
+  line-height: 1px;
+  margin: 0 0 5px 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaaaaa;
+  display: inline-block;
+}
+
+.section_title h2::after {
+  content: "";
+  width: 120px;
+  height: 1px;
+  display: inline-block;
+  background: var(--color-primary, #1e90ff);
+  margin: 4px 10px;
+}
+
+.section_title p {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-secondary, #0056b3);
+}
+
+/* ============================================
+   VALUES/BOX SECTION
+   ============================================ */
+.values {
+  margin-bottom: 40px;
+}
+
+.box {
+  padding: 20px 30px;
+  border-radius: 8px;
+  text-align: left;
+  background-color: lightgrey;
+  box-shadow: 0px 0 5px rgba(1, 41, 112, 0.08);
+  transition: 0.3s;
+}
+
+.imp_msg {
+  margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-secondary, #222222);
+}
+
+/* ============================================
+   SERVICE ITEM (CardOne) STYLING
+   ============================================ */
+.service_item {
+  padding: 30px;
+  transition: all ease-in-out 0.4s;
+  background: white;
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0px 0 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.service_item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 0 60px 0 rgba(1, 41, 112, 0.1);
+}
+
+.bg_white_light {
+  background: white;
+  border: none;
+}
+
+.service_item h4 {
+  font-weight: 600;
+  margin: 8px 0 15px;
+  font-size: 24px;
+  color: var(--color-secondary, #0056b3);
+}
+
+.service_item h4 .stretched_link {
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  color: var(--color-secondary, #0056b3);
+}
+
+.service_item:hover h4 .stretched_link {
+  color: var(--color-primary, #1e90ff);
+}
+
+.service_item p {
+  line-height: 24px;
+  font-size: 14px;
+  font-weight: 450;
+  margin-bottom: 0;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  color: #666666;
+  flex-grow: 1;
+}
+
+/* ============================================
+   CARD IMAGE STYLING
+============================================ */
+.card_image {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.card_image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.service_item:hover .card_image img {
+  transform: scale(1.05);
+}
+
+.img_fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================
+   ABOUT ITEM (CardThree) STYLING
+   ============================================ */
+.about_item {
+  position: relative;
+  padding: 30px;
+  border-radius: 8px;
+  background: white;
+  height: 100%;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 0 25px rgba(0, 0, 0, 0.08);
+}
+
+.about_item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.box_border {
+  border: 1px solid #e0e0e0;
+}
+
+.about_item h4 {
+  font-weight: 600;
+  margin: 8px 0 15px;
+  font-size: 24px;
+  color: var(--color-secondary, #0056b3);
+}
+
+.about_item h4 .stretched_link {
+  transition: color 0.3s ease-in-out;
+  cursor: pointer;
+  color: var(--color-secondary, #0056b3);
+}
+
+.about_item:hover h4 .stretched_link {
+  color: var(--color-primary, #1e90ff);
+}
+
+.about_item p {
+  line-height: 24px;
+  font-size: 14px;
+  font-weight: 450;
+  margin-bottom: 0;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  color: #666666;
+}
+
+.integ_bg1 {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #333;
+}
+
+/* ============================================
+   BANNER STYLING (BannerThree)
+   ============================================ */
+.banner_section {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin-top: 100px;
+  overflow: hidden;
+  margin-bottom: 60px;
+}
+
+.banner_container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.banner_container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video_overlay,
+.banner_content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video_overlay {
+  background: linear-gradient(rgba(0, 0, 0, 0.534), rgba(0, 0, 0, 0.507));
+  z-index: 1;
+}
+
+.banner_content {
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 105vh;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.banner_content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: white;
+}
+
+.banner_content p {
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  color: white;
+  line-height: 1.75;
+}
+
+/* ============================================
+   BACKGROUND UTILITIES
+   ============================================ */
+.bg_pink_light {
+  background-color: #ffe6f0;
+  border-radius: 8px;
+}
+
+.bg_blue {
+  background: linear-gradient(135deg, #4a69bd 0%, #1e3a8a 100%);
+  border-radius: 8px;
+  padding: 50px;
+}
+
+.bg_blue h2 {
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.bg_blue p {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+
+/* ============================================
+   CONTACT SECTION
+   ============================================ */
+.contact_section {
+  padding: 60px 0;
+  background: white;
+}
+
+.contact_link {
+  display: inline-block;
+  padding: 12px 30px;
+  background: var(--color-primary, #1e90ff);
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  margin-top: 15px;
+}
+
+.contact_link:hover {
+  background: var(--color-secondary, #0056b3);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1024px) {
+  .banner_content {
+    height: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .col_xl_4,
+  .col_xl_6,
+  .col_xl_12 {
+    flex: 0 0 50%;
+  }
+
+  .col_xl_12 {
+    flex: 0 0 100%;
+  }
+
+  .banner_content h1 {
+    font-size: 2rem;
+  }
+
+  .banner_content p {
+    font-size: 1rem;
+  }
+
+  .section_title p {
+    font-size: 28px;
+  }
+
+  .px_xl_5 {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .p_5 {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .col_xl_4,
+  .col_xl_6,
+  .col_xl_12 {
+    flex: 0 0 100%;
+  }
+
+  .gap_4 {
+    gap: 1.25rem;
+  }
+
+  .service_item,
+  .about_item {
+    padding: 20px;
+  }
+
+  .banner_section {
+    margin-top: 70px;
+  }
+
+  .banner_content {
+    padding: 1.5rem 1rem;
+    height: auto;
+    justify-content: center;
+  }
+
+  .banner_content h1 {
+    font-size: 1.8rem;
+    line-height: 1.3;
+    padding: 0 10px;
+  }
+
+  .banner_content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0 10px;
+  }
+
+  .section_title h2 {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .section_title h2::after {
+    display: none;
+  }
+
+  .section_title p {
+    font-size: 24px;
+  }
+
+  .flex_wrap {
+    flex-direction: column;
+  }
+
+  .bg_blue {
+    padding: 30px;
+  }
+
+  .bg_blue h2 {
+    font-size: 24px;
+  }
+
+  .px_xl_5 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .p_5 {
+    padding: 20px;
+  }
+
+  .featured_services {
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .banner_section {
+    margin-top: 60px;
+    margin-bottom: 40px;
+  }
+
+  .banner_content h1 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .banner_content p {
+    font-size: 0.9rem;
+  }
+
+  .section_title {
+    padding-bottom: 30px;
+  }
+
+  .section_title p {
+    font-size: 20px;
+  }
+
+  .service_item h4,
+  .about_item h4 {
+    font-size: 18px;
+    margin: 8px 0 10px;
+  }
+
+  .service_item p,
+  .about_item p {
+    font-size: 13px;
+  }
+
+  .bg_blue {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .bg_blue h2 {
+    font-size: 20px;
+  }
+
+  .featured_services {
+    padding: 30px 0;
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+
+  .row {
+    margin-right: -10px;
+    margin-left: -10px;
+  }
+
+  .col_xl_12,
+  .col_xl_6,
+  .col_xl_4,
+  .col_md_6,
+  .col_lg_12 {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .service_item,
+  .about_item {
+    padding: 15px;
+  }
+
+  .card_image img {
+    width: 100%;
+    height: 150px;
+  }
+}
