@@ -1,5 +1,5 @@
-import RamImg from "../assets/img/team/Ramgopal Yarra.jpg";
-import pradeepImg from "../assets/img/team/pradeep-krishnamoorthy.jpeg";
+import RamImg from "../assets/img/team/Ramgopal Yarra2.jpg";
+import pradeepImg from "../assets/img/team/PradeepKrishnaMurthy.jpeg";
 import sachinImg from "../assets/img/team/sachin.png";
 
 const team = [
@@ -9,6 +9,7 @@ const team = [
     role: "Founder & CEO",
     image: RamImg,
     linkedin: "https://www.linkedin.com/in/ramgopal-yarra/",
+    clickable: true,
     intro:
       "With a strong belief in innovation and meaningful work, our founder laid the foundation for what we are today. Their leadership continues to inspire growth, creativity, and trust across our journey.",
     description:
@@ -16,11 +17,11 @@ const team = [
 
     experienceTitle: "Experience",
     experienceIntro:
-      "Throughout a distinguished career, prominent roles at ADP, Zensar, Accenture, and HCL have shaped a deep industry foundation.",
-    experiencePoints: [
-      "2 decades of experience in the IT industry",
-      "Founder of both YVI TECH, a consulting and services organization, and Dwansys Technologies, a product development firm.",
-    ],
+      "With two decades in IT Industry at ADP, Accenture, HCL, and Zensar, I gained deep insight into how enterprises adopt and scale technology—and where they struggle. This impeccable foundational expertise within our team supports every client we serve.",
+    // experiencePoints: [
+    //   "2 decades of experience in the IT industry",
+    //   "Founder of both YVI TECH, a consulting and services organization, and Dwansys Technologies, a product development firm.",
+    // ],
 
     highlightsTitle: "Education",
     highlightsIntro:
@@ -31,21 +32,48 @@ const team = [
     ],
   },
 
-  // {
-  //   id: "pradeep-krishnamoorthy",
-  //   name: "Pradeep Krishnamoorthy",
-  //   role: "Advisor",
-  //   image: pradeepImg,
-  //   linkedin: "https://www.linkedin.com/in/pradeep-krishnamoorthy/",
-  // },
+  {
+  // id: "pradeep-krishnamoorthy",
+  name: "Pradeep Krishnamoorthy",
+  role: "Board Advisor & Mentor",
+  image: pradeepImg,
+  linkedin: null,
+  clickable: false,
+  
+
+  intro:
+    "With extensive experience in technology leadership and strategic consulting, Pradeep provides valuable guidance in driving innovation, business growth, and digital transformation.",
+
+  description:
+    "",
+
+  experienceTitle: "Experience",
+  experienceIntro:
+    "Throughout a distinguished career, Pradeep has held leadership roles across the IT industry, contributing to enterprise transformation and business strategy.",
+
+  experiencePoints: [
+    "Over two decades of experience in the IT industry.",
+    "Extensive expertise in strategic planning, project delivery, and business development.",
+  ],
+
+  highlightsTitle: "Highlights",
+  highlightsIntro:
+    "Pradeep brings strategic insight and industry expertise to support business growth and innovation.",
+
+  highlightsPoints: [
+    "Provides strategic guidance on technology and business transformation.",
+    "Supports leadership in driving innovation and long-term organizational growth.",
+  ],
+},
 
   {
     id: "sachin-kumar",
     name: "Sachin Kumar",
     role: "Strategic Advisor - Data & AI Governance",
     image: sachinImg,
-    linkedin: "",
-  
+    linkedin: "http://www.linkedin.com/in/sachinkumark",
+    clickable: true,
+    showLinkedin: true,
     intro:
       "With over two decades of global technology leadership, Sachin guides our organization in building responsible, scalable, and trustworthy AI systems through strong data strategy and governance.",
   

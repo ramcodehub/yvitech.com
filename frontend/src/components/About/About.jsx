@@ -58,9 +58,14 @@ const About = () => {
                         <p style={{color:'white'}}>Meet Our Executive and Board Members</p>
                         <span className="text-white-50 fs-5">Our Board and Executive Committee are responsible for setting the direction, strategy, organization, and governance of the company, as well as overseeing its business operations.</span>
                     </div>
-                    <div className="d-flex  gap-4">
-                      {team.map((team) => (
-                        <TeamCard key={team.id} team={team} />
+                    <div className="row justify-content-center">
+                      {team.map((member) => (
+                        <div
+                          key={member.id}
+                          className="col-12 col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center mb-5"
+                        >
+                          <TeamCard team={member} />
+                        </div>
                       ))}
                     </div>
                 </div>

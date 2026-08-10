@@ -70,7 +70,11 @@
   color: #0a66c2 !important;
 }
 
-
+.disabled-linkedin {
+  pointer-events: none;
+  opacity: 1;
+  cursor: default;
+}
 
 
 .team-image-wrapper{

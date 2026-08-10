@@ -4,13 +4,18 @@ const TeamCard = ({ team }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+
+    if (team.clickable === false) return;
+
     navigate(`/team/${team.id}`);
   };
 
   return (
     <div
       className="leader-card text-center"
-      style={{ cursor: "pointer" }}
+      style={{
+        cursor: team.clickable === false ? "default" : "pointer",
+      }}
       onClick={handleClick}
     >
       <div className="team-image-wrapper">
@@ -27,15 +32,20 @@ const TeamCard = ({ team }) => {
           }}
         />
 
-        <a
-          href={team.linkedin}
-          className="team-linkedin"
-          target="_blank"
-          rel="noreferrer"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <i className="bi bi-linkedin fs-3"></i>
-        </a>
+        {/* {team.showLinkedin !== false && ( */}
+          <a
+            href={team.linkedin || "#"}
+            className={`team-linkedin ${!team.linkedin ? "disabled-linkedin" : ""}`}
+            target={team.linkedin ? "_blank" : undefined}
+            rel="noreferrer"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!team.linkedin) e.preventDefault();
+            }}
+          >
+            <i className="bi bi-linkedin fs-3"></i>
+          </a>
+        {/* )} */}
       </div>
 
       <h3 className="mt-3 text-white fw-bold">{team.name}</h3>
