@@ -5,6 +5,7 @@ import Icon from '../../assets/img/footer-icon.png'
 import yviLogo from '../../assets/img/YVI TechLogo.png'
 import India from '../../assets/img/india.png'
 import UAE from '../../assets/img/uae.png'
+import oraclePartner from '../../assets/img/oraclePartner.png'
 import './Footer.css'
 
 
@@ -22,7 +23,13 @@ const Footer = () => {
            
               <div className="card-header">
                 <img src={yviLogo} className="logo"/>
-                
+                <div className="oracle-container">
+                  <img
+                    src={oraclePartner}
+                    alt="Oracle Partner"
+                    className="oracle"
+                  />
+                </div>
               </div>
               
               <div className='d-flex gap-3 address'>
@@ -53,8 +60,9 @@ const Footer = () => {
                 <li><i className="bi bi-chevron-right"></i>  <Link to="/sap">SAP</Link> </li>
                 <li><i className="bi bi-chevron-right"></i> <Link to="/salesforce">Salesforce</Link></li>
                 <li><i className="bi bi-chevron-right"></i><Link to="/other-core-capabilities">Explore More</Link></li>
-                
-                </ul>
+              
+            </ul>
+            
           </div>
 
           <div className="col-lg-2 col-md-6 footer-links">

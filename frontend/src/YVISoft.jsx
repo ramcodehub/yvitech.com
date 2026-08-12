@@ -32,6 +32,7 @@ import Arrow from "./components/Arrow/Arrow";
 import DigitalMarketing from "./components/Services/DigitalMarketing/DigitalMarketing";
 import ChatWidget from "./components/Chat/ChatWidget";
 import RPAServicesStandalone from "./components/Services/RPAServices/RPAServicesStandalone";
+import Partner from "./components/Partners/Partners";
 
 
 const YVISoft = () => {
@@ -87,8 +88,8 @@ const YVISoft = () => {
         <Route path="/sap" element={<SAP />} />
         <Route path="/rpa-services-standalone" element={<RPAServicesStandalone />} />
       </Routes>
-
-      {!isTeamDetailPage && !isProductsPage && <Client />}
+      {!isTeamDetailPage && !isProductsPage && <Partner /> }
+      {!isTeamDetailPage && !isProductsPage && <Client /> }
 
       <Footer />
       <Arrow />
