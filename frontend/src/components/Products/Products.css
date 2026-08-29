@@ -2,7 +2,7 @@
   padding: 5rem 0 0rem;
 }
 .bannerr-heading h1 {
-  font-size: 4rem;
+  font-size: 3.5rem;
 }
 
 .font-abel {
@@ -31,11 +31,40 @@
 }
 
 .colored {
-  background: linear-gradient(to right, #5653ff, #d252ff);
+  display: block;
+
+  background: linear-gradient(
+    90deg,
+    #5653ff 0%,
+    #8b4cff 35%,
+    #d252ff 50%,
+    #8b4cff 65%,
+    #5653ff 100%
+  );
+
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+
+  animation: gradientFlow 5s ease-in-out infinite;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .smooth-swiper .swiper-wrapper {
@@ -60,14 +89,28 @@
   }
 }
 
-@media (max-width: 576px){
+@media (max-width: 576px) {
   .banner-products {
-  padding: 6rem 0 1.5rem;
-}
-  .bannerr-heading h1{
-    font-size: 2.8rem;
+    padding: 6rem 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .bannerr-description{
+
+  .bannerr-heading {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .bannerr-heading h1 {
+    width: 100%;
+    font-size: 2.8rem;
+    text-align: center;
+  }
+
+  .bannerr-description {
     font-size: 1rem;
+    text-align: center;
   }
 }

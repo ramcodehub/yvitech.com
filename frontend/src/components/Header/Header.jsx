@@ -36,14 +36,14 @@ const Header = () => {
         <nav className="navbar">
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">Explore YVI Tech</Link></li>
+            <li><Link to="/about">About us</Link></li>
 
             <li
               className="dropdown megamenu"
               onMouseEnter={() => setIsOpen(true)}
             >
               <a href="#">
-                Services <i className="bi bi-chevron-down"></i>
+                Explore Services <i className="bi bi-chevron-down"></i>
               </a>
 
               {isOpen && (
@@ -82,6 +82,11 @@ const Header = () => {
                 </div>
                </div> 
               )}
+            </li>
+            <li>
+              <Link to="/skill-development">
+                Skill Development
+              </Link>
             </li>
             <li>
               <Link to="/products">

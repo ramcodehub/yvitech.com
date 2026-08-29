@@ -1,0 +1,57 @@
+.security-plans {
+  width: 100%;
+  padding: 20px 0;
+  background: #ffffff;
+  color: #151b33;
+}
+
+.security-plans__container { width: min(1200px, calc(100% - 48px)); margin: 0 auto; }
+.security-plans__header { max-width: 650px; margin-bottom: 45px; }
+.security-plans__eyebrow { display: inline-block; margin-bottom: 18px; color: var(--color-links); font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+.security-plans__header h2 { margin: 0; color: #151b33; font-size: 36px; font-weight: 700; letter-spacing: 0; line-height: 1.15; }
+.security-plans__header h2 span { background: linear-gradient(90deg, var(--color-links), var(--color-primary-light)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.plans-table { overflow: hidden; border: 1px solid rgba(var(--color-secondary-rgb), 0.14); border-radius: 14px; background: #ffffff; box-shadow: 0 12px 35px rgba(var(--color-default-rgb), 0.06); }
+.plans-row { display: grid; grid-template-columns: minmax(330px, 1.7fr) repeat(3, 1fr); min-height: 54px; border-bottom: 1px solid rgba(var(--color-secondary-rgb), 0.14); }
+.plans-row:last-child { border-bottom: 0; }
+.plans-row--header { min-height: 76px; border-bottom: 1px solid rgba(var(--color-secondary-rgb), 0.14); }
+.plans-feature-header { display: flex; align-items: center; padding: 0 21px; background: #ffffff; color: #151b33; font-size: 17px; font-weight: 700; }
+.plans-plan-header { display: flex; align-items: center; justify-content: center; gap: 2px; padding: 0 15px; border-left: 1px solid rgba(var(--color-secondary-rgb), 0.14); background: #f3f6fc; color: #151b33; font-size: 16px; font-weight: 700; }
+.plans-plan-header.pro { flex-direction: column; border-left-color: transparent; background: linear-gradient(135deg, var(--color-links), var(--color-primary-light)); color: #ffffff; }
+.plans-plan-header.pro small, .mobile-plan-card__header small { font-size: 9px; line-height: 1; letter-spacing: 1px; color: rgba(255, 255, 255, 0.85); }
+.plans-feature { display: flex; align-items: center; padding: 12px 21px; background: #ffffff; color: rgba(var(--color-default-rgb), 0.66); font-size: 14px; line-height: 1.4; }
+.plans-feature small { display: block; margin-top: 3px; color: rgba(var(--color-default-rgb), 0.42); font-size: 12px; }
+.plan-value { display: flex; min-height: 54px; align-items: center; justify-content: center; border-left: 1px solid rgba(var(--color-secondary-rgb), 0.14); background: #f3f6fc; transition: background 0.2s ease; }
+.plans-row .plan-value:nth-child(3) { border-left-color: rgba(var(--color-primary-rgb), 0.14); background: rgba(var(--color-primary-rgb), 0.055); }
+.plan-value.is-available i { color: var(--color-links); font-size: 20px; font-weight: 700; }
+.plan-value.is-disabled i { color: var(--color-secondary-light); font-size: 17px; }
+.plans-row:not(.plans-row--header):hover .plans-feature { background: #fafbfe; }
+.plans-row:not(.plans-row--header):hover .plan-value { background: #eef2fa; }
+.plans-row:not(.plans-row--header):hover .plan-value:nth-child(3) { background: rgba(var(--color-primary-rgb), 0.09); }
+.plans-mobile { display: none; }
+
+@media (max-width: 900px) {
+  .security-plans__container { width: min(100% - 32px, 700px); }
+  .plans-table { display: none; }
+  .plans-mobile { display: flex; flex-direction: column; gap: 18px; }
+  .mobile-plan-card { overflow: hidden; border: 1px solid rgba(var(--color-secondary-rgb), 0.14); border-radius: 14px; background: #ffffff; box-shadow: 0 8px 25px rgba(var(--color-default-rgb), 0.05); }
+  .mobile-plan-card__header { display: flex; height: 58px; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #151b33; font-size: 18px; font-weight: 700; background: #f3f6fc; }
+  .mobile-plan-card.pro { border-color: rgba(var(--color-primary-rgb), 0.3); }
+  .mobile-plan-card.pro .mobile-plan-card__header { color: #ffffff; background: linear-gradient(135deg, var(--color-links), var(--color-primary-light)); }
+  .mobile-plan-card__body { padding: 6px 18px; }
+  .mobile-feature { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px 0; border-bottom: 1px solid rgba(var(--color-secondary-rgb), 0.14); }
+  .mobile-feature:last-child { border-bottom: 0; }
+  .mobile-feature__name { color: rgba(var(--color-default-rgb), 0.66); font-size: 13px; line-height: 1.4; }
+  .mobile-feature i { flex-shrink: 0; font-size: 18px; }
+  .mobile-check { color: var(--color-links); }
+  .mobile-dash { color: var(--color-secondary-light); }
+}
+
+@media (max-width: 600px) {
+  .security-plans { padding: 75px 0; }
+  .security-plans__container { width: calc(100% - 30px); }
+  .security-plans__header { margin-bottom: 34px; }
+  .security-plans__eyebrow { margin-bottom: 14px; font-size: 10px; letter-spacing: 2px; }
+  .security-plans__header h2 { font-size: 30px; }
+  .mobile-plan-card__header { height: 50px; font-size: 17px; }
+}

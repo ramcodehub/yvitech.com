@@ -7,7 +7,7 @@ import ServicesTabs from "../ServicesTabs/ServicesTabs";
 import services from "../../data/services";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import BannerThree from "../Banner3/BannerThree";
+import BannerHero from "../BannerHero/BannerHero";
 
 
 const Home = () => {
@@ -17,8 +17,9 @@ const Home = () => {
             {/* <Banner headingText='IT Consulting and Services to Support Your Digital Transformation'
                 content='Leverage our tailored software engineering services to optimize your digital capabilities. We are committed to supporting your efforts to streamline operations, improve efficiency, and enhance the customer experience through customized solutions.'
                 imageName='Index.jpg' /> */}
-            <BannerThree headingText='IT Consulting and Services to Support Your Digital Transformation'
-                        content="Leverage our tailored software engineering services to optimize your digital capabilities. We are committed to supporting your efforts to streamline operations, improve efficiency, and enhance the customer experience through customized solutions."
+            <BannerHero headingText="We Transform investments"
+                        highlightText="into AI-enabled & autonomous business operations."
+                        content="From enterprise platforms and cloud to data, AI, and cybersecurity — we partner with Fortune 1000 organizations to turn technology into sustained competitive advantage."
                         videoName="YVI.mp4" />
 
                                {/* ======= About Section ======= */}

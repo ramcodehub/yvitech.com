@@ -1,0 +1,408 @@
+.cyber-security-page {
+  --cyber-ink: #172033;
+  --cyber-panel: #eff0f3;
+  --cyber-panel-deep: #1c263a;
+  --cyber-text: #f4f6fb;
+  --cyber-muted: rgba(244, 246, 251, 0.68);
+  --cyber-faint: rgba(244, 246, 251, 0.42);
+  --cyber-line: rgba(244, 246, 251, 0.13);
+  --cyber-accent: var(--color-orange);
+  --cyber-accent-soft: rgba(var(--color-orange-rgb), 0.16);
+  background: #ffffff;
+}
+
+.cyber-profile {
+  position: relative;
+  width: calc(100% - 40px);
+  max-width: 1120px;
+  margin: 72px auto;
+  overflow: hidden;
+  border: 1px solid var(--cyber-line);
+  background: var(--cyber-panel);
+  color: var(--cyber-text);
+  isolation: isolate;
+}
+
+.cyber-profile__grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(244, 246, 251, 0.035) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.cyber-profile__header,
+.cyber-profile__strapline,
+.cyber-profile__vision-mission,
+.cyber-profile__drives,
+.cyber-profile__footer {
+  position: relative;
+}
+
+.cyber-profile__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 0px 60px 40px;
+  border-bottom: 1px solid var(--cyber-line);
+}
+
+.cyber-profile__brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cyber-profile__mark {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(var(--color-orange-rgb), 0.7);
+  color: var(--cyber-accent);
+  font-family: Georgia, serif;
+  font-size: 22px;
+}
+
+.cyber-profile__brand-name,
+.cyber-profile__brand-sub,
+.cyber-profile__stat-number,
+.cyber-profile__stat-label,
+.cyber-profile__eyebrow,
+.cyber-profile__count,
+.cyber-profile__footer,
+.cyber-profile__status {
+  font-family: var(--font-secondary);
+}
+
+.cyber-profile__brand-name {
+  margin: 0;
+  color: var(--cyber-text);
+  font-family: Georgia, serif;
+  font-size: 24px;
+}
+
+.cyber-profile__brand-sub,
+.cyber-profile__stat-label,
+.cyber-profile__count,
+.cyber-profile__footer,
+.cyber-profile__status {
+  margin: 4px 0 0;
+  color: var(--cyber-faint);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.cyber-profile__stat {
+  text-align: right;
+}
+
+.cyber-profile__stat-number {
+  margin: 0;
+  color: var(--cyber-accent);
+  font-size: 36px;
+  line-height: 1;
+}
+
+.cyber-profile__stat-label {
+  margin-top: 8px;
+}
+
+.cyber-profile__strapline {
+  max-width: none;
+  margin: 0;
+  padding: 34px 60px 38px;
+  border-bottom: 1px solid var(--cyber-line);
+  color: var(--cyber-muted);
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.cyber-profile__strapline strong {
+  color: var(--cyber-text);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.cyber-profile__vision-mission {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 1px solid var(--cyber-line);
+}
+
+.cyber-profile__column {
+  padding: 38px 60px;
+}
+
+.cyber-profile__column + .cyber-profile__column {
+  border-left: 1px solid var(--cyber-line);
+}
+
+.cyber-profile__eyebrow {
+  margin: 0 0 14px;
+  color: var(--cyber-accent);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cyber-profile__column h2 {
+  margin: 0 0 12px;
+  color: var(--cyber-text);
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.cyber-profile__body {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--cyber-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.cyber-profile__drives {
+  padding: 44px 60px 52px;
+}
+
+.cyber-profile__drives-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.cyber-profile__drives-head .cyber-profile__eyebrow {
+  margin-bottom: 0;
+}
+
+.cyber-profile__trace {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.cyber-profile__trace::before {
+  position: absolute;
+  top: 5px;
+  right: calc(25% - 5.5px);
+  left: 5.5px;
+  height: 1px;
+  background: repeating-linear-gradient(to right, var(--color-secondary-light) 0 4px, transparent 4px 9px);
+  content: "";
+}
+
+.cyber-profile__pillar {
+  position: relative;
+  padding: 28px 24px 0 0;
+}
+
+.cyber-profile__node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--cyber-accent);
+  border-radius: 50%;
+  background: var(--cyber-panel);
+}
+
+.cyber-profile__node::after {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--cyber-accent);
+  content: "";
+}
+
+.cyber-profile__pillar h3 {
+  margin: 0 0 7px;
+  color: var(--cyber-text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.cyber-profile__pillar p {
+  max-width: 22ch;
+  margin: 0;
+  color: var(--cyber-faint);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.cyber-profile__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 17px 60px;
+  background: var(--cyber-panel-deep);
+  border-top: 1px solid var(--cyber-line);
+}
+
+.cyber-profile__footer p {
+  margin: 0;
+}
+
+.cyber-profile__footer span {
+  margin: 0 10px;
+  color: var(--cyber-accent);
+}
+
+.cyber-profile__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cyber-profile__status > span {
+  width: 6px;
+  height: 6px;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--cyber-accent);
+  box-shadow: 0 0 0 0 rgba(var(--color-orange-rgb), 0.45);
+  animation: cyber-profile-pulse 2.2s infinite;
+}
+
+.cyber-profile--light {
+  --cyber-panel: #ffffff;
+  --cyber-panel-deep: #f3f6fc;
+  --cyber-text: #151b33;
+  --cyber-muted: rgba(21, 27, 51, 0.66);
+  --cyber-faint: rgba(21, 27, 51, 0.48);
+  --cyber-line: rgba(20, 30, 70, 0.12);
+  --cyber-accent: var(--color-links);
+  background: var(--cyber-panel);
+  box-shadow: 0 1px 2px rgba(20, 30, 70, 0.06);
+}
+
+.cyber-profile--light .cyber-profile__strapline {
+  max-width: none;
+}
+
+.cyber-profile--light .cyber-profile__grain {
+  background-image: radial-gradient(rgba(21, 27, 51, 0.035) 1px, transparent 1px);
+}
+
+.cyber-profile--light .cyber-profile__stat-number,
+.cyber-profile--light .cyber-profile__promise-number {
+  background: linear-gradient(100deg, var(--color-primary-light), var(--cyber-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cyber-profile__promise-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--cyber-line);
+}
+
+.cyber-profile__promise-number {
+  flex: 0 0 auto;
+  margin: 0;
+  font-family: var(--font-secondary);
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.cyber-profile__promise-label {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--cyber-faint);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@keyframes cyber-profile-pulse {
+  70% { box-shadow: 0 0 0 7px rgba(var(--color-orange-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--color-orange-rgb), 0); }
+}
+
+@media (max-width: 760px) {
+  .cyber-profile {
+    width: calc(100% - 28px);
+    margin: 44px auto;
+  }
+
+  .cyber-profile__header,
+  .cyber-profile__strapline,
+  .cyber-profile__column,
+  .cyber-profile__drives,
+  .cyber-profile__footer {
+    padding-right: 28px;
+    padding-left: 28px;
+  }
+
+  .cyber-profile__header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 34px;
+    padding-bottom: 30px;
+  }
+
+  .cyber-profile__stat {
+    text-align: left;
+  }
+
+  .cyber-profile__vision-mission {
+    grid-template-columns: 1fr;
+  }
+
+  .cyber-profile__column + .cyber-profile__column {
+    border-top: 1px solid var(--cyber-line);
+    border-left: 0;
+  }
+
+  .cyber-profile__trace {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 20px;
+  }
+
+  .cyber-profile__trace::before {
+    display: none;
+  }
+
+  .cyber-profile__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cyber-profile__promise-stat {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 440px) {
+  .cyber-profile__brand-name {
+    font-size: 21px;
+  }
+
+  .cyber-profile__strapline {
+    font-size: 18px;
+  }
+
+  .cyber-profile__trace {
+    grid-template-columns: 1fr;
+  }
+}

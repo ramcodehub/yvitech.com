@@ -34,7 +34,7 @@ const MobileMenu = () => {
           </li>
           <li>
             <Link className="nav-link scrollto" to="/about" onClick={handleNavigate}>
-              Explore YVI Tech
+              About us
             </Link>
           </li>
 
@@ -43,7 +43,7 @@ const MobileMenu = () => {
               className="servicebtn"
               onClick={() => setDropDown(!dropDown)}
             >
-              <span>Services</span>{' '}
+              <span>Explore Services</span>{' '}
               <i className={`bi ${dropDown ? 'bi-chevron-up' : 'bi-chevron-down'} dropdown-indicator`}></i>
             </button>
 
@@ -156,6 +156,11 @@ const MobileMenu = () => {
                 
               </ul>
             )}
+          </li>
+          <li>
+            <Link className="nav-link scrollto" to="/skill-development" onClick={handleNavigate}>
+              Skill Development
+            </Link>
           </li>
           <li>
             <Link className="nav-link scrollto" to="/products" onClick={handleNavigate}>

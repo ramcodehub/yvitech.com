@@ -1,0 +1,131 @@
+.endpoint-protection {
+  width: 100%;
+  padding: 40px 0;
+  overflow: hidden;
+  background: #ffffff;
+  color: var(--color-default);
+}
+
+.endpoint-protection__container {
+  width: min(1400px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+.endpoint-protection__header {
+  max-width: 850px;
+  margin-bottom: 34px;
+}
+
+.endpoint-protection__eyebrow {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--color-links);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.endpoint-protection__header h2 {
+  margin: 0;
+  color: var(--color-default);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+.endpoint-protection__header p {
+  margin: 20px 0 0;
+  color: rgba(var(--color-default-rgb), 0.66);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.endpoint-protection__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.endpoint-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 28px 24px;
+  border: 1px solid rgba(var(--color-secondary-rgb), 0.14);
+  border-radius: 10px;
+  background: #f3f6fc;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.endpoint-card:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.3);
+  box-shadow: 0 20px 45px rgba(var(--color-default-rgb), 0.09);
+  transform: translateY(-5px);
+}
+
+.endpoint-card__logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  margin-bottom: 18px;
+}
+
+.endpoint-card__logo {
+  max-width: 140px;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.endpoint-card__content {
+  width: 100%;
+  text-align: center;
+}
+
+.endpoint-card__content p {
+  margin: 0;
+  color: rgba(var(--color-default-rgb), 0.66);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+@media (max-width: 1100px) {
+  .endpoint-protection__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .endpoint-protection {
+    padding: 65px 0;
+  }
+  .endpoint-protection__container {
+    width: min(100% - 36px, 600px);
+  }
+  .endpoint-protection__header h2 {
+    font-size: 32px;
+  }
+  .endpoint-protection__header p {
+    font-size: 15px;
+  }
+  .endpoint-protection__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .endpoint-card {
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .endpoint-protection__grid {
+    grid-template-columns: 1fr;
+  }
+  .endpoint-protection__header h2 {
+    font-size: 30px;
+  }
+}

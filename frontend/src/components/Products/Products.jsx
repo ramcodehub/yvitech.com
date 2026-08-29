@@ -21,8 +21,8 @@ const Products = () => {
     <div className="innovative-solutions ">
         <div className="d-flex flex-column align-items-center justify-content-center w-100 banner-products">
       <div className="d-flex flex-column align-items-center m-0 p-0 bannerr-heading">
-        <h1 className="m-0 p-0 lh-1 font-abel text-white">Unlock Data Insights</h1>
-        <h1 className="p-0 lh-1 font-abel colored">Make Smarter Decisions</h1>
+        <h1 className="m-0 p-0 lh-1 text-white">Unlock Data Insights</h1>
+        <h1 className="p-0 lh-1 colored hero-highlight">Make Smarter Decisions</h1>
       </div>
       <div className="fw-light text-center  lh-1 mx-auto bannerr-description">
         <p className="fs-5 font-abel fw-bold" style={{color: "rgba(255, 255, 255, 0.502)"}}>

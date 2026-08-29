@@ -5,6 +5,8 @@ import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
+import SkillDevelopment from "./components/SkillDevelopment/SkillDevelopment";
+import TrainingDetail from "./components/SkillDevelopment/TrainingDetail";
 import Products from "./components/Products/Products.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import OracleHCM from "./components/Services/OracleHCM/OracleHCM";
@@ -25,7 +27,7 @@ import WebDevelopment from "./components/Services/WebDevelopment/WebDevelopment"
 import Salesforce from "./components/Services/Salesforce/Salesforce";
 import SAP from "./components/Services/SAP/SAP";
 import ManagedServices from "./components/Services/ManagedServices/ManagedServices";
-import CyberSecurityServices from "./components/Services/CyberSecurityServices/CyberSecurityServices.jsx";
+import CyberSecurity from "./components/Services/CyberSecurity/CyberSecurity.jsx";
 import MicrosoftDynamics from "./components/Services/MicrosoftDynamics/MicrosoftDynamics";
 
 import Arrow from "./components/Arrow/Arrow";
@@ -69,6 +71,8 @@ const YVISoft = () => {
         <Route path="/about" element={<About />} />
         <Route path="/team/:id" element={<TeamDetail />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/skill-development" element={<SkillDevelopment />} />
+        <Route path="/skill-development/:trainingId" element={<TrainingDetail />} />
         <Route path="/products" element={<Products />} />
 
         <Route path="/oracle-hcm" element={<OracleHCM />} />
@@ -83,7 +87,7 @@ const YVISoft = () => {
         <Route path="/microsoft-solutions" element={<MicrosoftDynamics />} />
         <Route path="/digital-marketing" element={<DigitalMarketing />} />
         <Route path="/managed-services" element={<ManagedServices />} />
-        <Route path="/cyber-security-services" element={<CyberSecurityServices />} />
+        <Route path="/cyber-security-services" element={<CyberSecurity />} />
         <Route path="/salesforce" element={<Salesforce />} />
         <Route path="/sap" element={<SAP />} />
         <Route path="/rpa-services-standalone" element={<RPAServicesStandalone />} />

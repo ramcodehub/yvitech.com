@@ -4,7 +4,7 @@ import OurApproach from '/src/assets/img/OurApproach1.png'
 import RamImg from '../../assets/img/team/Ramgopal Yarra.jpg'
 import './About.css'
 import Video from "../Video/Video";
-import BannerThree from "../Banner3/BannerThree";
+import BannerHero from "../BannerHero/BannerHero";
 import TeamCard from "../TeamCard/TeamCard";
 import team from "../../data/team";
 
@@ -47,7 +47,8 @@ const About = () => {
             {/* <Banner headingText='Where Innovation Transforms into Action'
             content='YVI Soft is a results-driven information technology firm dedicated to providing distinctive, dependable, and innovative software solutions.'
             imageName='Innovation.jpg' /> */}
-            <BannerThree headingText='Where Innovation Transforms into Action'
+            <BannerHero headingText="Where Innovation"
+                        highlightText="Transforms into Action"
                         content="YVI Tech is a results-driven information technology firm dedicated to providing distinctive, dependable, and innovative software solutions."
                         videoName="About.mp4" />
             <Video/>
