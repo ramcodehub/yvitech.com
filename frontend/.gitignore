@@ -67,3 +67,4 @@ logs/
 .cache/
 .parcel-cache/
 .vite/echo frontend/src/assets/Videos/CyberResilience.mp4 
+src/assets/Videos/CyberResilience.mp4 
