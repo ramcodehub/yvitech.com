@@ -126,36 +126,55 @@
 }
 
 .training-button {
-	border-radius: 5px;
-	cursor: pointer;
-	font: inherit;
-	font-size: 0.875rem;
-	font-weight: 700;
-	padding: 0.8rem 1.4rem;
-	transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+    border-radius: 5px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.8rem 1.4rem;
+    text-decoration: none;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
 }
+
+
+/* ================================
+   READ MORE
+   ================================ */
 
 .training-button--primary {
-	background: var(--training-accent);
-	border: 1px solid var(--training-accent);
-	color: white;
+    background: var(--training-accent);
+    border: 1px solid var(--training-accent);
+    color: #ffffff !important;
 }
 
-.training-button--primary:hover {
-	background: #0c4d9f;
-	border-color: #0c4d9f;
+.training-button--primary:hover,
+.training-button--primary:focus {
+    background: #0c4d9f;
+    border-color: #0c4d9f;
+    color: #ffffff !important;
 }
+
+
+/* ================================
+   CONTACT US
+   ================================ */
 
 .training-button--secondary {
-	background: transparent;
-	border: 1px solid #b9c3d0;
-	color: var(--training-accent);
+    background: transparent;
+    border: 1px solid #b9c3d0;
+    color: var(--training-accent) !important;
 }
 
-.training-button--secondary:hover {
-	border-color: var(--training-accent);
+.training-button--secondary:hover,
+.training-button--secondary:focus {
+    background: #eef4fc;
+    border-color: #0c4d9f;
+    color: #0c4d9f !important;
 }
-
 @keyframes training-fade-in {
 	from { opacity: 0; }
 	to { opacity: 1; }

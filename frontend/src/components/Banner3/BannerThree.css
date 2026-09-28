@@ -25,6 +25,31 @@
   background: linear-gradient(rgba(0, 0, 0, 0.534),rgba(0, 0, 0, 0.507));
   z-index: 1;
 }
+.banner-mute-button {
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  z-index: 3;
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+}
+.banner-mute-button i {
+  font-size: 1.15rem;
+}
+.banner-mute-button:hover,
+.banner-mute-button:focus-visible {
+  background: rgba(0, 0, 0, 0.7);
+}
 .contentt{
   right: 0;
   bottom: 0;
@@ -41,6 +66,9 @@
 
 }
 .contentt h2{
+.banner--cybersecurity .contentt {
+  transform: translate3d(0, -4rem, 0) !important;
+}
   font-size: 3rem;
   font-weight: 700;
   line-height: 1.2;

@@ -35,7 +35,9 @@ const CyberSecurity = () => {
       <BannerThree
         headingText="Cyber Security"
         content="Enterprise cybersecurity, privacy, and compliance - One stop solution for all Enterprise Compliance, Cloud, Security & AI"
-        videoName="CyberSecurityServices.mp4"
+        videoName="CyberResilience.mp4"
+        showMuteButton
+        className="banner--cybersecurity"
       />
 
       <section className="cyber-profile cyber-profile--light" aria-labelledby="cyber-profile-title">
@@ -115,6 +117,8 @@ const CyberSecurity = () => {
           <p className="cyber-profile__status"><span aria-hidden="true" /> System secure</p>
         </footer>
       </section>
+
+      {/* <CyberResilienceVideo /> */}
 
       <ComplianceStandards />
       <SecurityPillars />

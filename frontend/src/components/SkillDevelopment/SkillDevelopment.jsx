@@ -39,8 +39,8 @@ const SkillDevelopment = () => {
   return (
     <div className="skill-development-page">
       <BannerHero
-        headingText="From undefined opportunity to"
-        highlightText="Scalable Outcome-Led AI MVP"
+        headingText="From Undefined Opportunity to"
+        highlightText="Scalable AI MVP"
         content="Most AI initiatives start with a technology possibility rather than an owned business problem. This workshop puts business, product, design, data, AI, engineering and governance stakeholders into one working cadence — so the right choices get made early, and the team leaves with a delivery package, not a slide deck."
         videoName="Skill_Development.mp4"
       />

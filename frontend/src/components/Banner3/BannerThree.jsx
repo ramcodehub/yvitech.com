@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import './BannerThree.css'
 
 import Home from '/src/assets/Videos/YVI.mp4'
@@ -17,6 +17,7 @@ import ManagedServices from '/src/assets/Videos/managedservices.mp4'
 import Salesforce from '/src/assets/Videos/Salesforce.mp4'
 import SAP from '/src/assets/Videos/SAP.mp4'
 import CyberServices from '/src/assets/Videos/cyberbanner.mp4'
+import CyberResilience from '/src/assets/Videos/CyberResilience.mp4'
 
 import HomePoster from '/src/assets/Videos/YVI.png'
 import AboutPoster from '/src/assets/Videos/About.png'
@@ -30,6 +31,7 @@ import OtherOracleStreamsPoster from '/src/assets/Videos/Other_Oracle_Streams.pn
 import RPAServicesPoster from '/src/assets/Videos/RPA_Services.png'
 import UiUxPoster from '/src/assets/Videos/ui-ux-design.png'
 import WebDevPoster from '/src/assets/Videos/Web_Development.png'
+import CyberPoster from '/src/assets/Videos/cyberbanner.png'
 
 const videoAssets = {
   'YVI.mp4': { video: Home, poster: HomePoster },
@@ -47,27 +49,49 @@ const videoAssets = {
   'managedservices.mp4': {video: ManagedServices , poster: OracleHCMPoster },
   'Salesforce.mp4': {video: Salesforce , poster: OracleHCMPoster },
   'SAP.mp4': {video: SAP , poster: OracleHCMPoster },
-  'CyberSecurityServices.mp4': {video: CyberServices , poster: OracleHCMPoster }
+  'CyberSecurityServices.mp4': {video: CyberServices , poster: OracleHCMPoster },
+  'CyberResilience.mp4': { video: CyberResilience, poster: CyberPoster }
   
 }
 
-const BannerThree = ({ headingText, content, videoName }) => {
+const BannerThree = ({ headingText, content, videoName, showMuteButton = false, className = '' }) => {
+  const videoRef = useRef(null)
+  const [isMuted, setIsMuted] = useState(true)
   const asset = videoAssets[videoName]
 
+  const toggleMute = () => {
+    if (!videoRef.current) return
+    videoRef.current.muted = !videoRef.current.muted
+    setIsMuted(videoRef.current.muted)
+  }
+
   return (
-    <div className="banner" style={{
+    <div className={`banner ${className}`.trim()} style={{
         backgroundImage: `url(${asset?.poster})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}>
       <video 
-        src={asset?.video} 
+        ref={videoRef}
+        src={asset?.video}
         autoPlay 
         loop 
         muted 
+        defaultMuted
         poster={asset?.poster} 
       />
       <div className="video-overlay" />
+      {showMuteButton && (
+        <button
+          className="banner-mute-button"
+          type="button"
+          onClick={toggleMute}
+          aria-label={isMuted ? "Unmute video" : "Mute video"}
+            title={isMuted ? "Unmute video" : "Mute video"}
+        >
+            <i className={`bi ${isMuted ? "bi-volume-mute-fill" : "bi-volume-up-fill"}`} aria-hidden="true" />
+        </button>
+      )}
       <div className="contentt">
         <h2>{headingText}</h2>
         <p>{content}</p>

@@ -3,15 +3,18 @@ import './BannerHero.css'
 
 import Home from '/src/assets/Videos/YVI.mp4'
 import About from '/src/assets/Videos/About.mp4'
+import Contact from '/src/assets/Videos/Contact.mp4'
 import SkillDevelopment from '/src/assets/Videos/Skill_Development.mp4'
 
 import HomePoster from '/src/assets/Videos/YVI.png'
 import AboutPoster from '/src/assets/Videos/About.png'
+import ContactPoster from '/src/assets/Videos/Contact.png'
 
 const videoAssets = {
   'YVI.mp4': { video: Home, poster: HomePoster },
   'About.mp4': { video: About, poster: AboutPoster },
-  'Skill_Development.mp4': { video: SkillDevelopment, poster: AboutPoster }
+  'Skill_Development.mp4': { video: SkillDevelopment, poster: AboutPoster },
+  'Contact.mp4' : {video : Contact, poster:ContactPoster}
 }
 
 const BannerHero = ({ headingText, highlightText, content, videoName }) => {

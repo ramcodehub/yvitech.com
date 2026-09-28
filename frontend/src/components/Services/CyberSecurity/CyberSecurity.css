@@ -11,6 +11,10 @@
   background: #ffffff;
 }
 
+.cyber-security-page .banner--cybersecurity .contentt {
+  transform: translateY(-3.75rem);
+}
+
 .cyber-profile {
   position: relative;
   width: calc(100% - 40px);

@@ -173,54 +173,76 @@
   gap: 12px;
   margin-top: 32px;
 }
+/* =====================================================
+   TRAINING DETAIL BUTTONS
+   ===================================================== */
 
 .training-detail__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 48px;
-  padding: 0 19px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  font-size: 13px;
+  gap: 0.5rem;
+
+  border-radius: 5px;
+  cursor: pointer;
+
+  font: inherit;
+  font-size: 0.875rem;
   font-weight: 700;
+
+  padding: 0.8rem 1.4rem;
+
   text-decoration: none;
+
   transition:
-    transform 180ms ease,
-    background 180ms ease,
+    background-color 180ms ease,
     border-color 180ms ease,
-    box-shadow 180ms ease;
+    color 180ms ease,
+    transform 180ms ease;
 }
 
-.training-detail__button:hover {
-  transform: translateY(-2px);
-}
+
+/* =====================================================
+   PRIMARY BUTTON
+   Design your program / Talk to YVI
+   ===================================================== */
 
 .training-detail__button--primary {
-  color: #fff;
-  background: linear-gradient(135deg, var(--td-violet), #765fe9);
-  border-color: var(--td-violet);
-  box-shadow: 0 12px 28px rgba(90, 63, 224, 0.2);
+  background: var(--td-violet);
+  border: 1px solid var(--td-violet);
+  color: #ffffff !important;
 }
 
-.training-detail__button--primary:hover {
-  background: linear-gradient(135deg, var(--td-violet-dark), var(--td-violet));
-  box-shadow: 0 16px 32px rgba(90, 63, 224, 0.25);
+.training-detail__button--primary:hover,
+.training-detail__button--primary:focus,
+.training-detail__button--primary:active {
+  background: var(--td-violet-dark);
+  border-color: var(--td-violet-dark);
+  color: #ffffff !important;
+  text-decoration: none;
+  transform: translateY(-1px);
 }
+
+
+/* =====================================================
+   SECONDARY BUTTON
+   Explore curriculum
+   ===================================================== */
 
 .training-detail__button--secondary {
-  color: var(--td-ink);
-  background: rgba(255, 255, 255, 0.72);
-  border-color: var(--td-line);
+  background: transparent;
+  border: 1px solid #b9c3d0;
+  color: var(--td-violet) !important;
 }
 
-.training-detail__button--secondary:hover {
-  color: #ffffff;
-  border-color: rgba(90, 63, 224, 0.3);
-  background: linear-gradient(135deg, var(--td-violet), #765fe9);
+.training-detail__button--secondary:hover,
+.training-detail__button--secondary:focus,
+.training-detail__button--secondary:active {
+  background: rgba(90, 63, 224, 0.06);
+  border-color: var(--td-violet-dark);
+  color: var(--td-violet-dark) !important;
+  text-decoration: none;
 }
-
 .training-detail__visual {
   min-height: 480px;
   position: relative;

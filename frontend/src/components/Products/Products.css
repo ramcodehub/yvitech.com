@@ -1,6 +1,77 @@
+.innovative-solutions {
+  background: #3B3B3B;
+  padding: 70px 0 0;
+}
+
+
+/* =========================================
+   VIDEO HERO
+   ========================================= */
+
+.products-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #3B3B3B;
+}
+
+
+/* Background video */
+
+.innovative-video {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  z-index: 0;
+}
+
+
+/* Dark overlay */
+
+.innovative-video-overlay {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.58),
+    rgba(0, 0, 0, 0.52)
+  );
+
+  z-index: 1;
+}
+
+
+/* Content above video */
+
 .banner-products {
+  position: relative;
+
+  z-index: 2;
+
+  min-height: 100vh;
+
   padding: 5rem 0 0rem;
 }
+
+
+/* =========================================
+   EXISTING HERO STYLING
+   ========================================= */
+
 .bannerr-heading h1 {
   font-size: 3.5rem;
 }
@@ -9,26 +80,16 @@
   font-family: 'Abel', sans-serif;
 }
 
-.innovative-solutions {
-  background: #3B3B3B;
-  padding: 6rem 0 0rem;
-}
-
-.secondaryBtn {
-  background: linear-gradient(to right, #5653ff, #d252ff);;
-  padding: 0.6em 2em;
-  font-size: 1em;
-  border-radius: 2.8em;
-  color: var(--white-color);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
 .bannerr-description {
   max-width: 70ch;
   font-size: 1.4em;
   margin: 1rem 0 0.5rem;
 }
+
+
+/* =========================================
+   GRADIENT HIGHLIGHT
+   ========================================= */
 
 .colored {
   display: block;
@@ -43,17 +104,23 @@
   );
 
   background-size: 300% 100%;
+
   background-position: 0% 50%;
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
   background-clip: text;
   color: transparent;
 
   animation: gradientFlow 5s ease-in-out infinite;
 }
 
+
+/* Highlight animation */
+
 @keyframes gradientFlow {
+
   0% {
     background-position: 0% 50%;
   }
@@ -65,52 +132,136 @@
   100% {
     background-position: 0% 50%;
   }
+
 }
 
-.smooth-swiper .swiper-wrapper {
-  transition-timing-function: linear !important;
+
+/* =========================================
+   BUTTON
+   ========================================= */
+
+.secondaryBtn {
+  background: linear-gradient(
+    to right,
+    #5653ff,
+    #d252ff
+  );
+
+  padding: 0.6em 2em;
+
+  font-size: 1em;
+
+  border-radius: 2.8em;
+
+  color: var(--white-color);
+
+  cursor: pointer;
+
+  transition: background 0.2s;
 }
 
-.smooth-swiper .swiper-slide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
+/* =========================================
+   LARGE SCREENS
+   ========================================= */
 
 @media (min-width: 1281px) {
+
   .banner-products {
     padding-top: 9.6rem;
   }
+
   .bannerr-heading h1 {
     font-size: 5rem;
   }
+
   .bannerr-description {
     font-size: 1.6rem;
   }
+
 }
 
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 1024px) {
+
+  .banner-products {
+    min-height: 100vh;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
 @media (max-width: 576px) {
+
   .banner-products {
     padding: 6rem 0 1.5rem;
+
+    min-height: 100vh;
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
+    justify-content: center;
   }
 
   .bannerr-heading {
     width: 100%;
+
     align-items: center;
+
     text-align: center;
   }
 
   .bannerr-heading h1 {
     width: 100%;
+
     font-size: 2.8rem;
+
     text-align: center;
   }
 
   .bannerr-description {
     font-size: 1rem;
+
     text-align: center;
   }
+
+  .innovative-video {
+    object-fit: cover;
+  }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 490px) {
+
+  .banner-products {
+    padding: 5rem 1rem 1.5rem;
+  }
+
+  .bannerr-heading h1 {
+    font-size: 2.3rem;
+
+    line-height: 1.2;
+  }
+
+  .bannerr-description {
+    font-size: 0.95rem;
+  }
+
 }
