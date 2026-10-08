@@ -3,6 +3,7 @@ import Banner from '../../Banner/Banner'
 import CardOne from '../Components/Card1/CardOne'
 import ContactUs from '../Components/ContactUS/ContactUs'
 import BannerThree from '../../Banner3/BannerThree'
+import './OracleOtherStreams.css'
 
 const OracleOtherStreams = () => {
   return (
@@ -11,8 +12,9 @@ const OracleOtherStreams = () => {
               content="Oracle ERP (Enterprise Resource Planning) provides a comprehensive suite of applications that encompass a wide range of business processes across multiple domains. This includes, but is not limited to, Oracle Human Capital Management (HCM), Oracle Supply Chain Management (SCM), and Oracle Financials."
               imageName="OracleERp.png"/> */}
         <BannerThree headingText='Other Core Capabilities'
-                    content="Oracle ERP (Enterprise Resource Planning) provides a comprehensive suite of applications that encompass a wide range of business processes across multiple domains. This includes, but is not limited to, Oracle Human Capital Management (HCM), Oracle Supply Chain Management (SCM), and Oracle Financials."
-                    videoName='Other_Oracle_Streams.mp4'/>
+                    content="Oracle ERP offers a comprehensive suite of applications covering key business processes, including HCM, Supply Chain Management, Financials and other business functions."
+                    videoName='Other_Oracle_Streams.mp4'
+                    className='oracle-other-streams-banner'/>
         <section id="featured-services" className="featured-services">
 
         <div className="container">

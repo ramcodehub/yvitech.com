@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Header.css";
-import yviLogo from "../../assets/img/YVI TechLogo.png";
+import yviLogo from "../../assets/img/YVI TECH Logo.png";
 import MobileMenu from "./MobileMenu";
 import { useEffect, useState } from "react";
 

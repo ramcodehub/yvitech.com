@@ -1,13 +1,13 @@
 import React from 'react'
 import './BannerHero.css'
 
-import Home from '/src/assets/Videos/YVI.mp4'
-import About from '/src/assets/Videos/About.mp4'
+import Home from '/src/assets/Videos/home1.mp4'
+import About from '/src/assets/Videos/about_us1.mp4'
 import Contact from '/src/assets/Videos/Contact.mp4'
 import SkillDevelopment from '/src/assets/Videos/Skill_Development.mp4'
 
-import HomePoster from '/src/assets/Videos/YVI.png'
-import AboutPoster from '/src/assets/Videos/About.png'
+import HomePoster from '/src/assets/Videos/home1_poster.png'
+import AboutPoster from '/src/assets/Videos/about_us_poster.png'
 import ContactPoster from '/src/assets/Videos/Contact.png'
 
 const videoAssets = {

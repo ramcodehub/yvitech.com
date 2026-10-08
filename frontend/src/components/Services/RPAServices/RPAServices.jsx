@@ -13,9 +13,8 @@ const RPAServices = () => {
                 Empowering Businesses with Smart Automation Solutions'
               content="At YVI Soft, we specialize in providing advanced Robotic Process Automation (RPA) solutions that optimize operations, increase productivity, and support innovation. Our RPA services are tailored to assist your organization in automating repetitive, manual tasks, enabling your team to concentrate on strategic initiatives that promote growth and efficiency."
               imageName='RPAServices.jpg'/> */}
-      <BannerThree headingText='Robotic Process Automation (RPA) Services. 
-                Empowering Businesses with Smart Automation Solutions'
-                  content="At YVI Tech, we specialize in providing advanced Robotic Process Automation (RPA) solutions that optimize operations, increase productivity, and support innovation. Our RPA services are tailored to assist your organization in automating repetitive, manual tasks, enabling your team to concentrate on strategic initiatives that promote growth and efficiency."
+      <BannerThree headingText='Automation & AI'
+                  content="YVI Tech offers advanced RPA solutions to optimize operations, boost productivity, and drive innovation. Our services automate repetitive tasks, allowing your team to focus on strategic growth."
                   videoName='RPA_Services.mp4'/>
       <section id="featured-services" className="featured-services">
       <div className="container">

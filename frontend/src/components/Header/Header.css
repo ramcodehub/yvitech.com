@@ -30,7 +30,7 @@
 # Header
 --------------------------------------------------------------*/
 .header {
-  padding: 15px 0;
+  padding: 7px 0 7px;
   transition: all 0.5s;
   z-index: 998;
 }
@@ -117,7 +117,7 @@
     justify-content: space-between;
     padding: 14px 20px;
     font-family: var(--font-secondary);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: rgba(var(--color-secondary-dark-rgb), 0.7);
     white-space: nowrap;
@@ -252,7 +252,7 @@
 .mega-menu {
   position: fixed;
   left: 0;
-  top: 110px; /* matches header height */
+  top: 94px; /* matches header height */
   width: 100vw;
   background: linear-gradient(to right,#f6faff,#ffffff) !important;
   padding: 20px;
@@ -279,7 +279,7 @@
   display: block;
   color: #000;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 400;
   transition: 0.3s ease;
 }
@@ -292,7 +292,7 @@
 
 /* Group blocks */
 .mega-column h5 {
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 15px;
   color: #111;
 }
