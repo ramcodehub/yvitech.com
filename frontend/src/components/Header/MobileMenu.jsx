@@ -75,7 +75,7 @@ const MobileMenu = () => {
                           Oracle Financials
                         </Link>
                       </li>
-                     <li>
+                     {/* <li>
                   <Link to="/sap" onClick={handleNavigate}>
                     SAP
                   </Link>
@@ -84,7 +84,7 @@ const MobileMenu = () => {
                   <Link to="/salesforce" onClick={handleNavigate}>
                     Salesforce
                   </Link>
-                </li> 
+                </li>  */}
                       <li>
                         <Link to="/other-core-capabilities" onClick={handleNavigate}>
                           Other Core Capabilities
@@ -119,11 +119,11 @@ const MobileMenu = () => {
                     Digital Marketing
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/microsoft-solutions" onClick={handleNavigate}>
                     Microsoft Solutions
                   </Link>
-                </li>
+                </li> */}
                 <li className="sub-dropdown">
                   <button
                     className="servicebtn sub-btn"

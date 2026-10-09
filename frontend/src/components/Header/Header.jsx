@@ -57,8 +57,8 @@ const Header = () => {
                       <Link to="/oracle-hcm" onClick={() => setIsOpen(false)}>Oracle HCM</Link>  
                       <Link to="/oracle-scm" onClick={() => setIsOpen(false)}>Oracle SCM</Link>
                       <Link to="/oracle-financials" onClick={() => setIsOpen(false)}>Oracle Financials</Link>
-                      <Link to="/sap" onClick={() => setIsOpen(false)}>SAP</Link>
-                      <Link to="/salesforce" onClick={() => setIsOpen(false)}>Salesforce</Link>
+                      {/* <Link to="/sap" onClick={() => setIsOpen(false)}>SAP</Link>
+                      <Link to="/salesforce" onClick={() => setIsOpen(false)}>Salesforce</Link> */}
                       <Link to="/other-core-capabilities" onClick={() => setIsOpen(false)}>Explore More</Link>
                     </div>
 
@@ -75,7 +75,7 @@ const Header = () => {
                       <Link to="/ai-and-data-platform" onClick={() => setIsOpen(false)}>Data & AI Solutions</Link>
                       <Link to="/rpa-services" onClick={() => setIsOpen(false)}>Automation & RPA</Link>
                       <Link to="/digital-marketing" onClick={() => setIsOpen(false)}>Digital Marketing</Link>
-                      <Link to="/microsoft-solutions" onClick={() => setIsOpen(false)}>Microsoft Solutions</Link>
+                      {/* <Link to="/microsoft-solutions" onClick={() => setIsOpen(false)}>Microsoft Solutions</Link> */}
                       <Link to="/cyber-security-services" onClick={() => setIsOpen(false)}>Cyber Security Services</Link>
                     </div>
                   </div>

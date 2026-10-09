@@ -57,8 +57,8 @@ const Footer = () => {
                 <li><i className="bi bi-chevron-right"></i> <Link to="/oracle-hcm">Oracle HCM</Link></li>
                 <li><i className="bi bi-chevron-right"></i> <Link to="/oracle-scm">Oracle SCM</Link></li>
                 <li><i className="bi bi-chevron-right"></i> <Link to="/oracle-financials">Oracle Financials</Link></li>
-                <li><i className="bi bi-chevron-right"></i>  <Link to="/sap">SAP</Link> </li>
-                <li><i className="bi bi-chevron-right"></i> <Link to="/salesforce">Salesforce</Link></li>
+                {/* <li><i className="bi bi-chevron-right"></i>  <Link to="/sap">SAP</Link> </li>
+                <li><i className="bi bi-chevron-right"></i> <Link to="/salesforce">Salesforce</Link></li> */}
                 <li><i className="bi bi-chevron-right"></i><Link to="/other-core-capabilities">Explore More</Link></li>
               
             </ul>
@@ -81,7 +81,7 @@ const Footer = () => {
               <li><i className="bi bi-chevron-right"></i> <Link to="/ai-and-data-platform">Data and AI Solutions</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/rpa-services">Automation & RPA</Link></li>
               <li><i className="bi bi-chevron-right"></i> <Link to="/digital-marketing">Digital Marketing</Link></li>
-              <li><i className="bi bi-chevron-right"></i> <Link to="/microsoft-solutions">Microsoft Solutions</Link></li>
+              {/* <li><i className="bi bi-chevron-right"></i> <Link to="/microsoft-solutions">Microsoft Solutions</Link></li> */}
               <li><i className="bi bi-chevron-right"></i> <Link to="/cyber-security-services">Cyber Security Services</Link></li>
             </ul>
           </div>
